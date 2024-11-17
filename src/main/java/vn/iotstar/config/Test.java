@@ -5,13 +5,11 @@ import jakarta.persistence.EntityTransaction;
 
 public class Test {
 	public static void main(String[] args) {
-		EntityManager enma = JPAconfig.getEntityManager();
+		EntityManager enma = JPAConfig.getEntityManager();
 		EntityTransaction trans = enma.getTransaction();
 		
 		try {
-			trans.begin();
-			
-			
+			trans.begin();	
 			trans.commit();
 		}
 		catch (Exception e) {
