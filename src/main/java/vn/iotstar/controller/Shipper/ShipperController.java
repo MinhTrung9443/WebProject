@@ -1,4 +1,4 @@
-package vn.iotstar.controller.Shipper;
+package vn.iotstar.controller.shipper;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
