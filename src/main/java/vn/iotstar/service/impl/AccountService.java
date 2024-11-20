@@ -2,7 +2,7 @@ package vn.iotstar.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import vn.iotstar.entity.Account;
 import vn.iotstar.repository.IAccountRepository;
 import vn.iotstar.service.IAccountService;
@@ -16,7 +16,7 @@ public class AccountService implements IAccountService {
     @Override
     public Account login(String username, String password) {
         // Tìm account theo username và password
-        Account account = accountRepository.findByUsername(username);;
+        Account account = accountRepository.findByUsername(username);
         if (account != null) {
             return account; // Đăng nhập thành công
         }
