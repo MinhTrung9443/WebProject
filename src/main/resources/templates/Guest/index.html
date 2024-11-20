@@ -1,1172 +1,1471 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
 
+
+<!-- molla/index-1.html  22 Nov 2019 09:55:06 GMT -->
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Danh sách sản phẩm</title><!-- Font roboto -->
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link
-		href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
-		rel="stylesheet"><!-- Icon fontanwesome -->
-	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-		integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
-	<!-- Reset css & grid sytem -->
-	<link rel="stylesheet" href="/assets/css/library.css">
-	<link href="/assets/owlCarousel/assets/owl.carousel.min.css" rel="stylesheet"><!-- Layout -->
-	<link rel="stylesheet" href="/assets/css/common.css"><!-- index -->
-	<link href="/assets/css/home.css" rel="stylesheet">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><!-- Owl caroucel Js-->
-	<script src="/assets/owlCarousel/owl.carousel.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Molla - Bootstrap eCommerce Template</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.html">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/skins/skin-demo-2.css">
+    <link rel="stylesheet" href="assets/css/demos/demo-2.css">
 </head>
 
 <body>
-	<header th:replace="~{Guest/fragments/header::header}"></header>
-	<div class="main">
-		<!-- Slider -->
-		<div class="main__slice">
-			<div class="slider">
-				<div class="slide active" style="background-image:url(/assets/img/slider/slide-10.jpg)">
-					<div class="container">
-						<div class="caption">
+    <div class="page-wrapper">
+        <header th:replace="~{Guest/fragments/header::header}"></header>
 
-							<p></p><a href="listProduct.html" class="btn btn--default">Xem ngay</a>
-						</div>
-					</div>
-				</div>
+        <main class="main">
+            <div class="intro-slider-container">
+                <div class="owl-carousel owl-simple owl-light owl-nav-inside" data-toggle="owl" data-owl-options='{"nav": false}'>
+                    <div class="intro-slide" style="background-image: url(assets/images/demos/demo-2/slider/slide-1.jpg);">
+                        <div class="container intro-content">
+                            <h3 class="intro-subtitle">Bedroom Furniture</h3><!-- End .h3 intro-subtitle -->
+                            <h1 class="intro-title">Find Comfort <br>That Suits You.</h1><!-- End .intro-title -->
 
-			</div><!-- controls  -->
-			<div class="controls">
-				<div class="prev">
-					<i class="fas fa-chevron-left"></i>
-				</div>
-				<div class="next">
-					<i class="fas fa-chevron-right"></i>
-				</div>
-			</div><!-- indicators -->
-			<div class="indicator">
-			</div>
-		</div><!--Product Category -->
-		<div class="main__tabnine">
-			<div class="grid wide">
-				<!-- Tab items -->
-				<div class="tabs">
-					<div class="tab-item active">
-						Bán Chạy
-					</div>
-					<div class="tab-item">
-						Giá tốt
-					</div>
-					<div class="tab-item">
-						Mới Nhập
-					</div>
-					<div class="line"></div>
-				</div><!-- Tab content -->
-				<div class="tab-content">
-					<div class="tab-pane active">
-						<div class="row">
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product1.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product5.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product2.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product3.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product6.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product4.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product1.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product2.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product4.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product3.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product6.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product5.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="tab-pane">
-						<div class="row">
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product4.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product5.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product2.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product3.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product6.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product4.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product1.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product2.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product4.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product3.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product6.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product5.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="tab-pane">
-						<div class="row">
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product2.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product5.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product2.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product3.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product6.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product4.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product1.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product2.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product4.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product3.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product6.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-							<div class="col l-2 m-4 s-6">
-								<div class="product">
-									<div class="product__avt"
-										style="background-image: url(/assets/img/product/product5.jpg);">
-									</div>
-									<div class="product__info">
-										<h3 class="product__name">Kem dưỡng da NestPlae</h3>
-										<div class="product__price">
-											<div class="price__old">
-												300.000 đ
-											</div>
-											<div class="price__new">
-												200.000 <span class="price__unit">đ</span>
-											</div>
-										</div>
-										<div class="product__sale">
-											<span class="product__sale-percent">24%%</span> <span
-												class="product__sale-text">Giảm</span>
-										</div>
-									</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-										class="addToCart">Thêm vào giỏ</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!-- HightLight  -->
-		<div class="main__frame">
-			<div class="grid wide">
-				<h3 class="category__title">Beauty Mona Cometics</h3>
-				<h3 class="category__heading">SẢN PHẨM NỔI BẬT</h3>
-				<div class="owl-carousel hight owl-theme">
-					<div class="product">
-						<div class="product__avt" style="background-image: url(/assets/img/product/product1.jpg);">
-						</div>
-						<div class="product__info">
-							<h3 class="product__name">Son môi cao cấp</h3>
-							<div class="product__price">
-								<div class="price__old">
-									100.000 đ
-								</div>
-								<div class="price__new">
-									70.000<span class="price__unit">đ</span>
-								</div>
-							</div>
-							<div class="product__sale">
-								<span class="product__sale-percent">23</span> <span
-									class="product__sale-text">Giảm</span>
-							</div>
-						</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-							class="addToCart">Thêm vào giỏ</a>
-					</div>
-					<div class="product">
-						<div class="product__avt" style="background-image: url(/assets/img/product/product1.jpg);">
-						</div>
-						<div class="product__info">
-							<h3 class="product__name">Son môi cao cấp</h3>
-							<div class="product__price">
-								<div class="price__old">
-									100.000 đ
-								</div>
-								<div class="price__new">
-									70.000<span class="price__unit">đ</span>
-								</div>
-							</div>
-							<div class="product__sale">
-								<span class="product__sale-percent">23</span> <span
-									class="product__sale-text">Giảm</span>
-							</div>
-						</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-							class="addToCart">Thêm vào giỏ</a>
-					</div>
-					<div class="product">
-						<div class="product__avt" style="background-image: url(/assets/img/product/product1.jpg);">
-						</div>
-						<div class="product__info">
-							<h3 class="product__name">Son môi cao cấp</h3>
-							<div class="product__price">
-								<div class="price__old">
-									100.000 đ
-								</div>
-								<div class="price__new">
-									70.000<span class="price__unit">đ</span>
-								</div>
-							</div>
-							<div class="product__sale">
-								<span class="product__sale-percent">23</span> <span
-									class="product__sale-text">Giảm</span>
-							</div>
-						</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-							class="addToCart">Thêm vào giỏ</a>
-					</div>
-					<div class="product">
-						<div class="product__avt" style="background-image: url(/assets/img/product/product1.jpg);">
-						</div>
-						<div class="product__info">
-							<h3 class="product__name">Son môi cao cấp</h3>
-							<div class="product__price">
-								<div class="price__old">
-									100.000 đ
-								</div>
-								<div class="price__new">
-									70.000<span class="price__unit">đ</span>
-								</div>
-							</div>
-							<div class="product__sale">
-								<span class="product__sale-percent">23</span> <span
-									class="product__sale-text">Giảm</span>
-							</div>
-						</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-							class="addToCart">Thêm vào giỏ</a>
-					</div>
-					<div class="product">
-						<div class="product__avt" style="background-image: url(/assets/img/product/product1.jpg);">
-						</div>
-						<div class="product__info">
-							<h3 class="product__name">Son môi cao cấp</h3>
-							<div class="product__price">
-								<div class="price__old">
-									100.000 đ
-								</div>
-								<div class="price__new">
-									70.000<span class="price__unit">đ</span>
-								</div>
-							</div>
-							<div class="product__sale">
-								<span class="product__sale-percent">23</span> <span
-									class="product__sale-text">Giảm</span>
-							</div>
-						</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-							class="addToCart">Thêm vào giỏ</a>
-					</div>
-					<div class="product">
-						<div class="product__avt" style="background-image: url(/assets/img/product/product1.jpg);">
-						</div>
-						<div class="product__info">
-							<h3 class="product__name">Son môi cao cấp</h3>
-							<div class="product__price">
-								<div class="price__old">
-									100.000 đ
-								</div>
-								<div class="price__new">
-									70.000<span class="price__unit">đ</span>
-								</div>
-							</div>
-							<div class="product__sale">
-								<span class="product__sale-percent">23</span> <span
-									class="product__sale-text">Giảm</span>
-							</div>
-						</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-							class="addToCart">Thêm vào giỏ</a>
-					</div>
-					<div class="product">
-						<div class="product__avt" style="background-image: url(/assets/img/product/product1.jpg);">
-						</div>
-						<div class="product__info">
-							<h3 class="product__name">Son môi cao cấp</h3>
-							<div class="product__price">
-								<div class="price__old">
-									100.000 đ
-								</div>
-								<div class="price__new">
-									70.000<span class="price__unit">đ</span>
-								</div>
-							</div>
-							<div class="product__sale">
-								<span class="product__sale-percent">23</span> <span
-									class="product__sale-text">Giảm</span>
-							</div>
-						</div><a href="product.html" class="viewDetail">Xem chi tiết</a> <a href="cart.html"
-							class="addToCart">Thêm vào giỏ</a>
-					</div>
-				</div>
-			</div>
-		</div><!-- Sales Policy -->
-		<div class="main__policy">
-			<div class="row">
-				<div class="col l-3 m-6">
-					<div class="policy bg-1">
-						<img src="/assets/img/policy/policy1.png" class="policy__img">
-						<div class="policy__info">
-							<h3 class="policy__title">GIAO HÀNG MIỄN PHÍ</h3>
-							<p class="policy__description">Cho đơn hàng từ 300K</p>
-						</div>
-					</div>
-				</div>
-				<div class="col l-3 m-6">
-					<div class="policy bg-2">
-						<img src="/assets/img/policy/policy2.png" class="policy__img">
-						<div class="policy__info">
-							<h3 class="policy__title">ĐỔI TRẢ HÀNG</h3>
-							<p class="policy__description">Trong 3 ngày đầu tiên</p>
-						</div>
-					</div>
-				</div>
-				<div class="col l-3 m-6">
-					<div class="policy bg-1">
-						<img src="/assets/img/policy/policy3.png" class="policy__img">
-						<div class="policy__info">
-							<h3 class="policy__title">HÀNG CHÍNH HÃNG</h3>
-							<p class="policy__description">Cam kết chất lượng</p>
-						</div>
-					</div>
-				</div>
-				<div class="col l-3 m-6">
-					<div class="policy bg-2">
-						<img src="/assets/img/policy/policy4.png" class="policy__img">
-						<div class="policy__info">
-							<h3 class="policy__title">TƯ VẤN 24/24</h3>
-							<p class="policy__description">Giải đáp mọi thắc mắc</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!-- News -->
-		<div class="main__frame bg-3">
-			<div class="grid wide">
-				<h3 class="category__title">Beauty Mona Cometics</h3>
-				<h3 class="category__heading">Tin Tức</h3>
-				<div class="owl-carousel news owl-theme">
-					<a href="news.html" class="news">
-						<div class="news__img">
-							<img src="/assets/img/news/news1.jpg" alt="">
-						</div>
-						<div class="news__body">
-							<h3 class="news__body-title">Trang điểm đúng cách</h3>
-							<div class="new__body-date">
-								13/6/2021
-							</div>
-							<p class="news__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. In sit
-								molestiae aperiam modi cum deserunt, maxime blanditiis voluptate officiis accusantium
-								minima pariatur harum tenetur quo iste iusto commodi. Modi, culpa?</p>
-						</div>
-					</a> <a href="news.html" class="news">
-						<div class="news__img">
-							<img src="/assets/img/news/news1.jpg" alt="">
-						</div>
-						<div class="news__body">
-							<h3 class="news__body-title">Trang điểm đúng cách</h3>
-							<div class="new__body-date">
-								13/6/2021
-							</div>
-							<p class="news__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. In sit
-								molestiae aperiam modi cum deserunt, maxime blanditiis voluptate officiis accusantium
-								minima pariatur harum tenetur quo iste iusto commodi. Modi, culpa?</p>
-						</div>
-					</a> <a href="news.html" class="news">
-						<div class="news__img">
-							<img src="/assets/img/news/news1.jpg" alt="">
-						</div>
-						<div class="news__body">
-							<h3 class="news__body-title">Trang điểm đúng cách</h3>
-							<div class="new__body-date">
-								13/6/2021
-							</div>
-							<p class="news__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. In sit
-								molestiae aperiam modi cum deserunt, maxime blanditiis voluptate officiis accusantium
-								minima pariatur harum tenetur quo iste iusto commodi. Modi, culpa?</p>
-						</div>
-					</a>
-				</div>
-			</div>
-		</div>
-		<div class="main__bands">
-			<div class="grid wide">
-				<div class="owl-carousel bands">
-					<a href="listProduct.html" class="band__item"
-						style="background-image: url(/assets/img/band/band1.png)"></a> <a href="listProduct.html"
-						class="band__item" style="background-image: url(/assets/img/band/band2.png)"></a> <a
-						href="listProduct.html" class="band__item"
-						style="background-image: url(/assets/img/band/band3.png)"></a> <a href="listProduct.html"
-						class="band__item" style="background-image: url(/assets/img/band/band4.png)"></a> <a
-						href="listProduct.html" class="band__item"
-						style="background-image: url(/assets/img/band/band5.png)"></a> <a href="listProduct.html"
-						class="band__item" style="background-image: url(/assets/img/band/band6.png)"></a> <a
-						href="listProduct.html" class="band__item"
-						style="background-image: url(/assets/img/band/band7.png)"></a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<footer th:replace="~{Guest/fragments/footer :: footer}"></footer>
-	
-		
-		</script><!-- Script common -->
-		<script src="/assets/js/homeScript.js"></script>
-		<script src="/assets/js/commonscript.js"></script>
+                            <a href="category.html" class="btn btn-primary">
+                                <span>Shop Now</span>
+                                <i class="icon-long-arrow-right"></i>
+                            </a>
+                        </div><!-- End .container intro-content -->
+                    </div><!-- End .intro-slide -->
+
+                    <div class="intro-slide" style="background-image: url(assets/images/demos/demo-2/slider/slide-2.jpg);">
+                        <div class="container intro-content">
+                            <h3 class="intro-subtitle">Deals and Promotions</h3><!-- End .h3 intro-subtitle -->
+                            <h1 class="intro-title">Ypperlig <br>Coffee Table <br><span class="text-primary"><sup>$</sup>49,99</span></h1><!-- End .intro-title -->
+
+                            <a href="category.html" class="btn btn-primary">
+                                <span>Shop Now</span>
+                                <i class="icon-long-arrow-right"></i>
+                            </a>
+                        </div><!-- End .container intro-content -->
+                    </div><!-- End .intro-slide -->
+
+                    <div class="intro-slide" style="background-image: url(assets/images/demos/demo-2/slider/slide-3.jpg);">
+                        <div class="container intro-content">
+                            <h3 class="intro-subtitle">Living Room</h3><!-- End .h3 intro-subtitle -->
+                            <h1 class="intro-title">
+                                Make Your Living Room <br>Work For You.<br>
+                                <span class="text-primary">
+                                    <sup class="text-white font-weight-light">from</sup><sup>$</sup>9,99
+                                </span>
+                            </h1><!-- End .intro-title -->
+
+                            <a href="category.html" class="btn btn-primary">
+                                <span>Shop Now</span>
+                                <i class="icon-long-arrow-right"></i>
+                            </a>
+                        </div><!-- End .container intro-content -->
+                    </div><!-- End .intro-slide -->
+                </div><!-- End .owl-carousel owl-simple -->
+
+                <span class="slider-loader text-white"></span><!-- End .slider-loader -->
+            </div><!-- End .intro-slider-container -->
+
+            <div class="brands-border owl-carousel owl-simple" data-toggle="owl" 
+                data-owl-options='{
+                    "nav": false, 
+                    "dots": false,
+                    "margin": 0,
+                    "loop": false,
+                    "responsive": {
+                        "0": {
+                            "items":2
+                        },
+                        "420": {
+                            "items":3
+                        },
+                        "600": {
+                            "items":4
+                        },
+                        "900": {
+                            "items":5
+                        },
+                        "1024": {
+                            "items":6
+                        },
+                        "1360": {
+                            "items":7
+                        }
+                    }
+                }'>
+                <a href="#" class="brand">
+                    <img src="assets/images/brands/1.png" alt="Brand Name">
+                </a>
+
+                <a href="#" class="brand">
+                    <img src="assets/images/brands/2.png" alt="Brand Name">
+                </a>
+
+                <a href="#" class="brand">
+                    <img src="assets/images/brands/3.png" alt="Brand Name">
+                </a>
+
+                <a href="#" class="brand">
+                    <img src="assets/images/brands/4.png" alt="Brand Name">
+                </a>
+
+                <a href="#" class="brand">
+                    <img src="assets/images/brands/5.png" alt="Brand Name">
+                </a>
+
+                <a href="#" class="brand">
+                    <img src="assets/images/brands/6.png" alt="Brand Name">
+                </a>
+
+                <a href="#" class="brand">
+                    <img src="assets/images/brands/7.png" alt="Brand Name">
+                </a>
+            </div><!-- End .owl-carousel -->
+
+            <div class="mb-3 mb-lg-5"></div><!-- End .mb-3 mb-lg-5 -->
+
+            <div class="banner-group">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-5">
+                            <div class="banner banner-large banner-overlay banner-overlay-light">
+                                <a href="#">
+                                    <img src="assets/images/demos/demo-2/banners/banner-1.jpg" alt="Banner">
+                                </a>
+
+                                <div class="banner-content banner-content-top">
+                                    <h4 class="banner-subtitle">Clearence</h4><!-- End .banner-subtitle -->
+                                    <h3 class="banner-title">Coffee Tables</h3><!-- End .banner-title -->
+                                    <div class="banner-text">from $19.99</div><!-- End .banner-text -->
+                                    <a href="#" class="btn btn-outline-gray banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .banner-content -->
+                            </div><!-- End .banner -->
+                        </div><!-- End .col-lg-5 -->
+
+                        <div class="col-md-6 col-lg-3">
+                            <div class="banner banner-overlay">
+                                <a href="#">
+                                    <img src="assets/images/demos/demo-2/banners/banner-2.jpg" alt="Banner">
+                                </a>
+
+                                <div class="banner-content banner-content-bottom">
+                                    <h4 class="banner-subtitle text-grey">On Sale</h4><!-- End .banner-subtitle -->
+                                    <h3 class="banner-title text-white">Amazing <br>Armchairs</h3><!-- End .banner-title -->
+                                    <div class="banner-text text-white">from $39.99</div><!-- End .banner-text -->
+                                    <a href="#" class="btn btn-outline-white banner-link">Discover Now<i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .banner-content -->
+                            </div><!-- End .banner -->
+                        </div><!-- End .col-lg-3 -->
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="banner banner-overlay">
+                                <a href="#">
+                                    <img src="assets/images/demos/demo-2/banners/banner-3.jpg" alt="Banner">
+                                </a>
+
+                                <div class="banner-content banner-content-top">
+                                    <h4 class="banner-subtitle text-grey">New Arrivals</h4><!-- End .banner-subtitle -->
+                                    <h3 class="banner-title text-white">Storage <br>Boxes & Baskets</h3><!-- End .banner-title -->
+                                    <a href="#" class="btn btn-outline-white banner-link">Discover Now<i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .banner-content -->
+                            </div><!-- End .banner -->
+
+                            <div class="banner banner-overlay banner-overlay-light">
+                                <a href="#">
+                                    <img src="assets/images/demos/demo-2/banners/banner-4.jpg" alt="Banner">
+                                </a>
+
+                                <div class="banner-content banner-content-top">
+                                    <h4 class="banner-subtitle">On Sale</h4><!-- End .banner-subtitle -->
+                                    <h3 class="banner-title">Lamps Offer</h3><!-- End .banner-title -->
+                                    <div class="banner-text">up to 30% off</div><!-- End .banner-text -->
+                                    <a href="#" class="btn btn-outline-gray banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .banner-content -->
+                            </div><!-- End .banner -->
+                        </div><!-- End .col-lg-4 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .banner-group -->
+
+            <div class="mb-3"></div><!-- End .mb-6 -->
+
+            <div class="container">
+                <ul class="nav nav-pills nav-border-anim nav-big justify-content-center mb-3" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="products-featured-link" data-toggle="tab" href="#products-featured-tab" role="tab" aria-controls="products-featured-tab" aria-selected="true">Featured</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="products-sale-link" data-toggle="tab" href="#products-sale-tab" role="tab" aria-controls="products-sale-tab" aria-selected="false">On Sale</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="products-top-link" data-toggle="tab" href="#products-top-tab" role="tab" aria-controls="products-top-tab" aria-selected="false">Top Rated</a>
+                    </li>
+                </ul>
+            </div><!-- End .container -->
+
+            <div class="container-fluid">
+                <div class="tab-content tab-content-carousel">
+                    <div class="tab-pane p-0 fade show active" id="products-featured-tab" role="tabpanel" aria-labelledby="products-featured-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":5
+                                    },
+                                    "1600": {
+                                        "items":6,
+                                        "nav": true
+                                    }
+                                }
+                            }'>
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-1-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-1-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $251,00
+                                    </div><!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-2-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-2-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Octo 4240</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $746,00
+                                    </div><!-- End .product-price -->
+
+                                    <div class="product-nav product-nav-dots">
+                                        <a href="#" class="active" style="background: #1f1e18;"><span class="sr-only">Color name</span></a>
+                                        <a href="#" style="background: #e8e8e8;"><span class="sr-only">Color name</span></a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <span class="product-label label-circle label-new">New</span>
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-3-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-3-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Flow Slim Armchair</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $970,00
+                                    </div><!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <span class="product-label label-circle label-sale">Sale</span>
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-4-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-4-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Roots Sofa Bed</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        <span class="new-price">$337,00</span>
+                                        <span class="old-price">Was $449,00</span>
+                                    </div><!-- End .product-price -->
+
+                                    <div class="product-nav product-nav-dots">
+                                        <a href="#" class="active" style="background: #878883;"><span class="sr-only">Color name</span></a>
+                                        <a href="#" style="background: #dfd5c2;"><span class="sr-only">Color name</span></a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-5-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-5-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Petite Table Lamp</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $675,00
+                                    </div><!-- End .product-price -->
+
+                                    <div class="product-nav product-nav-dots">
+                                        <a href="#" class="active" style="background: #74543e;"><span class="sr-only">Color name</span></a>
+                                        <a href="#" style="background: #e8e8e8;"><span class="sr-only">Color name</span></a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-6-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-6-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Elephant Armchair</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $457,00
+                                    </div><!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-1-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-1-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $251,00
+                                    </div><!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane p-0 fade" id="products-sale-tab" role="tabpanel" aria-labelledby="products-sale-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":5
+                                    },
+                                    "1600": {
+                                        "items":6,
+                                        "nav": true
+                                    }
+                                }
+                            }'>
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-5-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-5-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Petite Table Lamp</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $675,00
+                                    </div><!-- End .product-price -->
+
+                                    <div class="product-nav product-nav-dots">
+                                        <a href="#" class="active" style="background: #74543e;"><span class="sr-only">Color name</span></a>
+                                        <a href="#" style="background: #e8e8e8;"><span class="sr-only">Color name</span></a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-6-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-6-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Elephant Armchair</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $457,00
+                                    </div><!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-1-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-1-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $251,00
+                                    </div><!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane p-0 fade" id="products-top-tab" role="tabpanel" aria-labelledby="products-top-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":5
+                                    },
+                                    "1600": {
+                                        "items":6,
+                                        "nav": true
+                                    }
+                                }
+                            }'>
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-2-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-2-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Octo 4240</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $746,00
+                                    </div><!-- End .product-price -->
+
+                                    <div class="product-nav product-nav-dots">
+                                        <a href="#" class="active" style="background: #1f1e18;"><span class="sr-only">Color name</span></a>
+                                        <a href="#" style="background: #e8e8e8;"><span class="sr-only">Color name</span></a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <span class="product-label label-circle label-new">New</span>
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-3-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-3-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Flow Slim Armchair</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        $970,00
+                                    </div><!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    <span class="product-label label-circle label-sale">Sale</span>
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/products/product-4-1.jpg" alt="Product image" class="product-image">
+                                        <img src="assets/images/demos/demo-2/products/product-4-2.jpg" alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">Roots Sofa Bed</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        <span class="new-price">$337,00</span>
+                                        <span class="old-price">Was $449,00</span>
+                                    </div><!-- End .product-price -->
+
+                                    <div class="product-nav product-nav-dots">
+                                        <a href="#" class="active" style="background: #878883;"><span class="sr-only">Color name</span></a>
+                                        <a href="#" style="background: #dfd5c2;"><span class="sr-only">Color name</span></a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                </div><!-- End .tab-content -->
+            </div><!-- End .container-fluid -->
+
+            <div class="mb-5"></div><!-- End .mb-5 -->
+
+            <div class="bg-light deal-container pt-5 pb-3 mb-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="deal">
+                                <div class="deal-content">
+                                    <h4>Limited Quantities</h4>
+                                    <h2>Deal of the Day</h2>
+
+                                    <h3 class="product-title"><a href="product.html">POÄNG</a></h3><!-- End .product-title -->
+
+                                    <div class="product-price">
+                                        <span class="new-price">$149.00</span>
+                                        <span class="old-price">Was $240.00</span>
+                                    </div><!-- End .product-price -->
+
+                                    <div class="deal-countdown" data-until="+10h"></div><!-- End .deal-countdown -->
+
+                                    <a href="product.html" class="btn btn-primary">
+                                        <span>Shop Now</span><i class="icon-long-arrow-right"></i>
+                                    </a>
+                                </div><!-- End .deal-content -->
+                                <div class="deal-image">
+                                    <a href="product.html">
+                                        <img src="assets/images/demos/demo-2/deal/product-1.jpg" alt="image">
+                                    </a>
+                                </div><!-- End .deal-image -->
+                            </div><!-- End .deal -->
+                        </div><!-- End .col-lg-9 -->
+
+                        <div class="col-lg-3">
+                            <div class="banner banner-overlay banner-overlay-light text-center d-none d-lg-block">
+                                <a href="#">
+                                    <img src="assets/images/demos/demo-2/banners/banner-5.jpg" alt="Banner">
+                                </a>
+
+                                <div class="banner-content banner-content-top banner-content-center">
+                                    <h4 class="banner-subtitle">The Best Choice</h4><!-- End .banner-subtitle -->
+                                    <h3 class="banner-title">AGEN</h3><!-- End .banner-title -->
+                                    <div class="banner-text text-primary">$49.99</div><!-- End .banner-text -->
+                                    <a href="#" class="btn btn-outline-gray banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .banner-content -->
+                            </div><!-- End .banner -->
+                        </div><!-- End .col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .bg-light -->
+
+            <div class="mb-6"></div><!-- End .mb-6 -->
+
+            <div class="container">
+                <div class="heading heading-center mb-3">
+                    <h2 class="title">Top Selling Products</h2><!-- End .title -->
+
+                    <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="top-all-link" data-toggle="tab" href="#top-all-tab" role="tab" aria-controls="top-all-tab" aria-selected="true">All</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="top-fur-link" data-toggle="tab" href="#top-fur-tab" role="tab" aria-controls="top-fur-tab" aria-selected="false">Furniture</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="top-decor-link" data-toggle="tab" href="#top-decor-tab" role="tab" aria-controls="top-decor-tab" aria-selected="false">Decoration</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="top-light-link" data-toggle="tab" href="#top-light-tab" role="tab" aria-controls="top-light-tab" aria-selected="false">Lighting</a>
+                        </li>
+                    </ul>
+                </div><!-- End .heading -->
+
+                <div class="tab-content">
+                    <div class="tab-pane p-0 fade show active" id="top-all-tab" role="tabpanel" aria-labelledby="top-all-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-7-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-7-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Lighting</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Petite Table Lamp</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $401,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-8-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-8-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Decor</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Madra Log Holder</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $401,00
+                                            </div><!-- End .product-price -->
+
+                                            <div class="product-nav product-nav-dots">
+                                                <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                                                <a href="#" style="background: #927764;"><span class="sr-only">Color name</span></a>
+                                            </div><!-- End .product-nav -->
+
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <span class="product-label label-circle label-sale">Sale</span>
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-9-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-9-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Furniture</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Garden Armchair</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                <span class="new-price">$94,00</span>
+                                                <span class="old-price">Was $94,00</span>
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-10-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-10-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Lighting</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Carronade Large Suspension Lamp</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $401,00
+                                            </div><!-- End .product-price -->
+
+                                            <div class="product-nav product-nav-dots">
+                                                <a href="#" class="active" style="background: #e8e8e8;"><span class="sr-only">Color name</span></a>
+                                                <a href="#" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                                            </div><!-- End .product-nav -->
+
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-11-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-11-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Decor</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Original Outdoor Beanbag</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $259,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <span class="product-label label-circle label-new">New</span>
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-12-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-12-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Furniture</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">2-Seater</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $3.107,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-13-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-13-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Furniture</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Wingback Chair</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $2.486,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-14-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-14-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Decor</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Cushion Set 3 Pieces</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $199,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-15-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-15-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Decor</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Cushion Set 3 Pieces</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $199,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-16-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-16-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Lighting</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Carronade Table Lamp</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $499,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane p-0 fade" id="top-fur-tab" role="tabpanel" aria-labelledby="top-fur-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <span class="product-label label-circle label-sale">Sale</span>
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-9-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-9-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Furniture</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Garden Armchair</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                <span class="new-price">$94,00</span>
+                                                <span class="old-price">Was $94,00</span>
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <span class="product-label label-circle label-new">New</span>
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-12-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-12-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Furniture</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">2-Seater</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $3.107,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-13-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-13-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Furniture</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Wingback Chair</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $2.486,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane p-0 fade" id="top-decor-tab" role="tabpanel" aria-labelledby="top-decor-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-8-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-8-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Decor</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Madra Log Holder</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $401,00
+                                            </div><!-- End .product-price -->
+
+                                            <div class="product-nav product-nav-dots">
+                                                <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                                                <a href="#" style="background: #927764;"><span class="sr-only">Color name</span></a>
+                                            </div><!-- End .product-nav -->
+
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-11-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-11-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Decor</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Original Outdoor Beanbag</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $259,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-14-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-14-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Decor</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Cushion Set 3 Pieces</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $199,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-15-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-15-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Decor</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Cushion Set 3 Pieces</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $199,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane p-0 fade" id="top-light-tab" role="tabpanel" aria-labelledby="top-light-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-7-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-7-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Lighting</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Petite Table Lamp</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $401,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-10-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-10-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Lighting</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Carronade Large Suspension Lamp</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $401,00
+                                            </div><!-- End .product-price -->
+
+                                            <div class="product-nav product-nav-dots">
+                                                <a href="#" class="active" style="background: #e8e8e8;"><span class="sr-only">Color name</span></a>
+                                                <a href="#" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                                            </div><!-- End .product-nav -->
+
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                            <a href="product.html">
+                                                <img src="assets/images/demos/demo-2/products/product-16-1.jpg" alt="Product image" class="product-image">
+                                                <img src="assets/images/demos/demo-2/products/product-16-2.jpg" alt="Product image" class="product-image-hover">
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <div class="product-cat">
+                                                <a href="#">Lighting</a>
+                                            </div><!-- End .product-cat -->
+                                            <h3 class="product-title"><a href="product.html">Carronade Table Lamp</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                $499,00
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                </div><!-- End .tab-content -->
+            </div><!-- End .container -->
+
+            <div class="container">
+                <hr class="mt-1 mb-6">
+            </div><!-- End .container -->
+            
+            <div class="blog-posts">
+                <div class="container">
+                    <h2 class="title text-center">From Our Blog</h2><!-- End .title-lg text-center -->
+
+                    <div class="owl-carousel owl-simple carousel-with-shadow" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": true,
+                            "items": 3,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":1
+                                },
+                                "600": {
+                                    "items":2
+                                },
+                                "992": {
+                                    "items":3
+                                }
+                            }
+                        }'>
+                        <article class="entry entry-display">
+                            <figure class="entry-media">
+                                <a href="single.html">
+                                    <img src="assets/images/demos/demo-2/blog/post-1.jpg" alt="image desc">
+                                </a>
+                            </figure><!-- End .entry-media -->
+
+                            <div class="entry-body text-center">
+                                <div class="entry-meta">
+                                    <a href="#">Nov 22, 2018</a>, 0 Comments
+                                </div><!-- End .entry-meta -->
+
+                                <h3 class="entry-title">
+                                    <a href="single.html">Sed adipiscing ornare.</a>
+                                </h3><!-- End .entry-title -->
+
+                                <div class="entry-content">
+                                    <a href="single.html" class="read-more">Continue Reading</a>
+                                </div><!-- End .entry-content -->
+                            </div><!-- End .entry-body -->
+                        </article><!-- End .entry -->
+                    
+                        <article class="entry entry-display">
+                            <figure class="entry-media">
+                                <a href="single.html">
+                                    <img src="assets/images/demos/demo-2/blog/post-2.jpg" alt="image desc">
+                                </a>
+                            </figure><!-- End .entry-media -->
+
+                            <div class="entry-body text-center">
+                                <div class="entry-meta">
+                                    <a href="#">Dec 12, 2018</a>, 0 Comments
+                                </div><!-- End .entry-meta -->
+
+                                <h3 class="entry-title">
+                                    <a href="single.html">Fusce lacinia arcuet nulla.</a>
+                                </h3><!-- End .entry-title -->
+
+                                <div class="entry-content">
+                                    <a href="single.html" class="read-more">Continue Reading</a>
+                                </div><!-- End .entry-content -->
+                            </div><!-- End .entry-body -->
+                        </article><!-- End .entry -->
+
+                        <article class="entry entry-display">
+                            <figure class="entry-media">
+                                <a href="single.html">
+                                    <img src="assets/images/demos/demo-2/blog/post-3.jpg" alt="image desc">
+                                </a>
+                            </figure><!-- End .entry-media -->
+
+                            <div class="entry-body text-center">
+                                <div class="entry-meta">
+                                    <a href="#">Dec 19, 2018</a>, 2 Comments
+                                </div><!-- End .entry-meta -->
+
+                                <h3 class="entry-title">
+                                    <a href="single.html">Quisque volutpat mattis eros.</a>
+                                </h3><!-- End .entry-title -->
+
+                                <div class="entry-content">
+                                    <a href="single.html" class="read-more">Continue Reading</a>
+                                </div><!-- End .entry-content -->
+                            </div><!-- End .entry-body -->
+                        </article><!-- End .entry -->
+                    </div><!-- End .owl-carousel -->
+
+                    <div class="more-container text-center mt-2">
+                        <a href="blog.html" class="btn btn-outline-darker btn-more"><span>View more articles</span><i class="icon-long-arrow-right"></i></a>
+                    </div><!-- End .more-container -->
+                </div><!-- End .container -->
+            </div><!-- End .blog-posts -->
+        </main><!-- End .main -->
+		<footer th:replace="~{Guest/fragments/footer::footer}"></footer>
+    <!-- Plugins JS File -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/jquery.plugin.min.js"></script>
+    <script src="assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/jquery.countdown.min.js"></script>
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/demos/demo-2.js"></script>
 </body>
 
+
+<!-- molla/index-1.html  22 Nov 2019 09:55:32 GMT -->
 </html>
