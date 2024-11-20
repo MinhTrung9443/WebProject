@@ -10,7 +10,7 @@
             <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=WebProject;encrypt=true;trustServerCertificate=true;" />
             <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
             <property name="jakarta.persistence.jdbc.user" value="sa" />
-            <property name="jakarta.persistence.jdbc.password" value="123456" />
+            <property name="jakarta.persistence.jdbc.password" value="1234567890" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.hbm2ddl.auto" value="update" />
