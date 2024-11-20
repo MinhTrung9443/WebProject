@@ -1,7 +1,9 @@
 package vn.iotstar.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.Account;
@@ -10,7 +12,7 @@ import vn.iotstar.entity.Account;
 public class WaitingController {
 
     @GetMapping("/waiting")
-    public String waiting(HttpSession session, RedirectAttributes redirectAttributes) {
+    public ModelAndView waiting(ModelMap model,HttpSession session, RedirectAttributes redirectAttributes) {
         if (session != null && session.getAttribute("account") != null) {
             Account account = (Account) session.getAttribute("account");
 
@@ -19,19 +21,21 @@ public class WaitingController {
 
             // Điều hướng người dùng theo roleId
             if (roleId == 1) {
-                return "Admin/index";  // Điều hướng đến trang Admin
+            	return new ModelAndView("redirect:/Admin",model);
+                // Điều hướng đến trang Admin
             } else if (roleId == 2) {
-                return "User/index";  // Điều hướng đến trang User
+            	return new ModelAndView("redirect:/User",model);
+                // Điều hướng đến trang User
             } else if (roleId == 3) {
-                return "Vendor/index"; // Điều hướng đến trang Vendor
+            	return new ModelAndView("redirect:/Vendor",model); // Điều hướng đến trang Vendor
             } else if (roleId == 4) {
-                return "Shipper/index"; // Điều hướng đến trang Shipper
+            	return new ModelAndView("redirect:/Shipper",model); // Điều hướng đến trang Shipper
             } else {
-                return "Guest/index";  // Điều hướng đến trang Guest
+            	return new ModelAndView("redirect:/",model);  // Điều hướng đến trang Guest
             }
         } else {
             // Nếu không có session hoặc không tìm thấy tài khoản, điều hướng về trang login
-            return "redirect:/login";
+        	return new ModelAndView("redirect:/login",model);
         }
     }
 }

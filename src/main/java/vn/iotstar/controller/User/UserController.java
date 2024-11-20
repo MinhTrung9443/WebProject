@@ -11,4 +11,5 @@ public class UserController {
 	    public String home() {
 	        return "User/index";
 	    }
+
 }
