@@ -26,7 +26,6 @@ public class Account implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")  // Đảm bảo tên cột trong cơ sở dữ liệu
     private int accountId;
 
     @Column(name = "username", columnDefinition = "NVARCHAR(255)")

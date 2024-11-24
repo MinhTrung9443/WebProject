@@ -23,7 +23,7 @@ public class Shipper extends Person implements Serializable {
 	@JsonBackReference 
 	private Delivery delivery;
 	
-	
+
 	@OneToMany(mappedBy = "shipper")
 	@JsonManagedReference
 	private List<OrderAssignment> orderAss;

@@ -1,12 +1,23 @@
 package vn.iotstar.entity;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
-import lombok.*;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,7 +43,9 @@ public class Product implements Serializable{
 	private String volumeOrWeight;
 	private String origin;
 	private String brandOrigin;
-	
+	private String images;
+	private Date warehouseDateFirst;
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JsonBackReference
 	@JoinColumn(name = "categoryId")
@@ -57,4 +70,8 @@ public class Product implements Serializable{
 	@OneToOne(mappedBy = "product")
 	@JsonBackReference
 	private OrderLine orderline;
+	
+	@OneToMany(mappedBy= "product")
+	@JsonManagedReference
+	private List<Favourite> favourite;
 }
