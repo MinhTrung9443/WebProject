@@ -26,7 +26,7 @@ public class Account implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")  // Đảm bảo tên cột trong cơ sở dữ liệu
+   
     private int accountId;
 
     @Column(name = "username", columnDefinition = "NVARCHAR(255)")
@@ -35,6 +35,6 @@ public class Account implements Serializable {
     private String password;
 
     @OneToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "roleId")
     private Role role;
 }

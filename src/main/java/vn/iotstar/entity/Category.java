@@ -12,6 +12,7 @@ import lombok.*;
 @Table(name = "Category")
 public class Category {
 	@Id
+	
 	private int categoryId;
 	private String categoryName;
 	

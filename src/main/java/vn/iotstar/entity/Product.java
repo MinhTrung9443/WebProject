@@ -20,18 +20,19 @@ public class Product implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
+
 	private int productId;
 	private String productName;
 	private int price;
 	private String description;
 	private String brand;
-	private Date expirationdate;
+	private Date expirationDate;
 	private Date manufactureDate;
 	private String ingredient;
 	private String instruction;
 	private String volumeOrWeight;
-	private String origin;
 	private String brandOrigin;
+	private String image;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JsonBackReference
@@ -57,4 +58,5 @@ public class Product implements Serializable{
 	@OneToOne(mappedBy = "product")
 	@JsonBackReference
 	private OrderLine orderline;
+	
 }
