@@ -12,6 +12,7 @@ import lombok.*;
 @Data
 @Entity
 @Table(name = "[User]")
+@PrimaryKeyJoinColumn(name = "id")
 public class User extends Person implements Serializable{/**
 	 * 
 	 */
@@ -27,4 +28,8 @@ public class User extends Person implements Serializable{/**
 	@JsonManagedReference
 	private List<Address> address;
 	
+
+	@OneToMany(mappedBy= "user")
+	@JsonManagedReference
+	private List<Favourite> favourite;
 }
