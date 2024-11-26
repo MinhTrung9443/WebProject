@@ -14,6 +14,7 @@ import lombok.*;
 public class Delivery implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private int deliveryId;
 	private String deliveryName;
 	private int price;

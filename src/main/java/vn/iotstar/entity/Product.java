@@ -43,15 +43,15 @@ public class Product implements Serializable{
 	@Column(columnDefinition = "nvarchar(max)")
 	private String description;
 	private String brand;
-	private Date expirationdate;
+	private Date expirationDate;
 	private Date manufactureDate;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String ingredient;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String instruction;
 	private String volumeOrWeight;
-	private String origin;
 	private String brandOrigin;
+
 	private String images;
 	private LocalDate warehouseDateFirst = LocalDate.now();
 	private int isUsed = 0;
@@ -80,7 +80,9 @@ public class Product implements Serializable{
 	@JsonBackReference
 	private OrderLine orderline;
 	
+
 	@OneToMany(mappedBy= "product")
 	@JsonManagedReference
 	private List<Favourite> favourite;
+
 }
