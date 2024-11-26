@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,15 +17,19 @@ public class UserController {
 	@Autowired
 	private IProductService productService;
 	  @GetMapping("")
-	    public String home() {
-////		  danh sách sản phẩm mới
-//		  List<Product> productNew = productService.findTop20ByOrderByWarehouseDateFirstDesc();
+	    public String home(ModelMap model) {
+//		  danh sách sản phẩm mới
+		  List<Product> productNew = productService.findTop20ByOrderByWarehouseDateFirstDesc();
 ////		  danh sách bán chạy
 //		  List<Product> productSale = productService.findTop20BySalesQuantity();
 ////		  danh sách đánh giá cao
 //		  List<Product> productRate = productService.findTop20ByAverageRating();
 ////		  danh sách yêu thích
 //		  List<Product> productFavou = productService.findTop20ByFavouriteCount();
+		  model.addAttribute("productNew",productNew);
+//		  model.addAttribute("productSale",productSale);
+//		  model.addAttribute("productRate",productRate);
+//		  model.addAttribute("productFavou",productFavou);
 	        return "User/index";
 	    }
 	  @GetMapping("/Search")
