@@ -1,4 +1,4 @@
-package vn.iotstar.controller.User;
+package vn.iotstar.controller.user;
 
 import java.util.List;
 
