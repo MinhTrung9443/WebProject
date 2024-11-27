@@ -24,12 +24,12 @@ public class User extends Person implements Serializable{/**
 	@JsonManagedReference
 	private ShoppingCart cart;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Address> address;
 	
 
-	@OneToMany(mappedBy= "user")
+	@OneToMany(mappedBy= "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Favourite> favourite;
 }

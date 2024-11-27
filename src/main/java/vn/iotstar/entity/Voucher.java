@@ -31,13 +31,14 @@ public class Voucher implements Serializable{/**
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	private int voucherId;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String voucherType;
 	private int voucherValue;
 	private Date startDate;
 	private Date endDate;
 	private int active;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "orderId")
 	@JsonBackReference
 	private Order order;

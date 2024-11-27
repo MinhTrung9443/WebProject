@@ -15,16 +15,17 @@ import lombok.*;
 @Table(name = "Shipper")
 public class Shipper extends Person implements Serializable {
 	private String address;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String deliveryArea;
 	
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "deliveryId")
 	@JsonBackReference 
 	private Delivery delivery;
 	
 
-	@OneToMany(mappedBy = "shipper")
+	@OneToMany(mappedBy = "shipper",cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<OrderAssignment> orderAss;
 }

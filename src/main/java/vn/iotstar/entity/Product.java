@@ -38,6 +38,7 @@ public class Product implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int productId;
 	private String productCode;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String productName;
 	private int price;
 	@Column(columnDefinition = "nvarchar(max)")
@@ -54,13 +55,13 @@ public class Product implements Serializable{
 
 	private String images;
 	private LocalDate warehouseDateFirst = LocalDate.now();
-	private int isUsed = 0;
-	@ManyToOne(cascade = CascadeType.ALL)
+
+	@ManyToOne()
 	@JsonBackReference
 	@JoinColumn(name = "categoryId")
 	private Category category;
 
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<ProductFeedback> feedbacks;
 	public void addFeedbacks(ProductFeedback feedback)
@@ -81,7 +82,7 @@ public class Product implements Serializable{
 	private OrderLine orderline;
 	
 
-	@OneToMany(mappedBy= "product")
+	@OneToMany(mappedBy= "product",cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Favourite> favourite;
 

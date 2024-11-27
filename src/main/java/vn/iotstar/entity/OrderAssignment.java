@@ -21,7 +21,7 @@ public class OrderAssignment implements Serializable {
 	@JoinColumn(name = "orderId")
 	private Order order;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "id")
 	private Shipper shipper;
 	

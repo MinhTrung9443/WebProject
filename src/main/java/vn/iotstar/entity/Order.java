@@ -35,14 +35,16 @@ public class Order implements Serializable{/**
 
 	private int orderId;
 	private Date orderDate;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String shippingAddress;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String orderStatus;
 	
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<OrderLine> lines;
 	
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Voucher> vouchers;
 
