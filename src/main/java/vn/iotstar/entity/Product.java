@@ -37,7 +37,6 @@ public class Product implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int productId;
-	private String productCode;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String productName;
 	private int price;
@@ -52,7 +51,7 @@ public class Product implements Serializable{
 	private String instruction;
 	private String volumeOrWeight;
 	private String brandOrigin;
-
+	private long stock;
 	private String images;
 	private LocalDate warehouseDateFirst = LocalDate.now();
 
