@@ -18,6 +18,8 @@ public class User extends Person implements Serializable{/**
 	 */
 	private static final long serialVersionUID = 1L;
 	private Date birthday;
+	
+	private int active;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "shoppingCartId")
