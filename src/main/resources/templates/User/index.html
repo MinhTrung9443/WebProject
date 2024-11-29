@@ -189,7 +189,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
+                                        <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
                                     </div><!-- End .product-action-vertical -->
                                 </figure><!-- End .product-media -->
 
@@ -469,7 +469,31 @@
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
     <script src="assets/js/demos/demo-2.js"></script>
+    
+<script >
+//Hàm lưu thay đổi cho một địa chỉ
+function addlove(productId) {
+
+
+    // Gửi dữ liệu đến server thông qua AJAX
+    $.ajax({
+        url: '/User/addlove',
+        type: 'POST',
+        data: {
+        	productId: productId,
+        },
+        success: function (response) {
+            alert(response);
+        },
+        error: function () {
+            alert('Có lỗi xảy ra!');
+        }
+    });
+}
+</script>
+    
 </body>
+
 
 
 <!-- molla/index-1.html  22 Nov 2019 09:55:32 GMT -->
