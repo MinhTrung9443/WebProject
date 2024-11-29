@@ -37,4 +37,6 @@ public class Account implements Serializable {
     @OneToOne
     @JoinColumn(name = "roleId")
     private Role role;
+    @Column(name = "token", columnDefinition = "NVARCHAR(MAX)")
+    private String token;
 }
