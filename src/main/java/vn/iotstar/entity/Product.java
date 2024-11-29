@@ -85,4 +85,5 @@ public class Product implements Serializable{
 	@JsonManagedReference
 	private List<Favourite> favourite;
 
+
 }

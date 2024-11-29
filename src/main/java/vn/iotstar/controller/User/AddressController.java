@@ -58,4 +58,16 @@ public class AddressController {
 		addressService.save(address);
 		return ResponseEntity.ok("Thêm thành công");
 	}
+	@PostMapping("/delete")
+	public ResponseEntity<String> deleteAddress(ModelMap model, HttpSession session, @RequestParam int addressId)
+	{
+		
+		Optional<Address> address = addressService.findById(addressId);
+		if (address.isPresent()) {
+			Address delAdd = address.get();
+			addressService.deleteById(delAdd.getAddressId());
+			return ResponseEntity.ok("Xóa thành công");
+		}
+		return ResponseEntity.badRequest().body("Xóa thành công");
+	}
 }

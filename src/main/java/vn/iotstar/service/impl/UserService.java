@@ -1,5 +1,7 @@
 package vn.iotstar.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,11 @@ public class UserService implements IUserService{
 	@Override
 	public <S extends User> S save(S entity) {
 		return userrepo.save(entity);
+	}
+
+	@Override
+	public Optional<User> findById(Integer id) {
+		return userrepo.findById(id);
 	}
 	
 	

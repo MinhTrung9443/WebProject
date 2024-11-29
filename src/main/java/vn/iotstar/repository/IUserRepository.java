@@ -11,4 +11,5 @@ import vn.iotstar.entity.User;
 public interface IUserRepository extends JpaRepository<User, Integer>{
 	@Query("SELECT u FROM User u WHERE u.account.username = :username")
     User findByAccountUsername(@Param("username") String username);
+	
 }

@@ -90,32 +90,45 @@
 								    	<p>Địa chỉ dưới đây được sử dụng khi mua hàng.</p>
 
 										<div class="row">
+											<!-- Trong phần hiển thị danh sách địa chỉ -->
 											<div class="col-lg-6"
-												th:if="${user.address != null and user.address.size() > 0}"
-												th:each="add : ${user.address}">
-												<div class="card card-dashboard">
-												    <div class="card-body">
-												    	<input id="addressId" type="text" hidden="hidden" th:value="${add.addressId}">
-												    	<label>Loại địa chỉ (Nhà/trọ/cơ quan)</label> <br>
-												        <input id="addressType" type="text" class="card-title" th:value="${add.addressType}" disabled="disabled" />
-												        <!-- End .card-title -->
-														<label>Địa chỉ chi tiết:</label> <br>
-												        <input id="addressDetail" type="text" th:value="${add.addressDetail}" disabled="disabled" />
-												        
-												        <a href="#" id="editLink" >Edit <i class="icon-edit"></i></a>
-												
-												        <!-- Nút OK ẩn mặc định -->
-												        <button id="okButton" style="display: none;" onclick="saveChanges()">OK</button>
-												        <!-- End .card-body -->
-												    </div>
-												</div>
-												<!-- End .card-dashboard -->
+											     th:if="${user.address != null and user.address.size() > 0}"
+											     th:each="add : ${user.address}">
+											    <div class="card card-dashboard">
+											        <div class="card-body">
+											            <input type="text" th:id="'addressId-' + ${add.addressId}" hidden="hidden" th:value="${add.addressId}">
+											            
+											            <label>Loại địa chỉ (Nhà/trọ/cơ quan)</label>
+											            <br>
+											            <input type="text" th:id="'addressType-' + ${add.addressId}" class="card-title" th:value="${add.addressType}" disabled="disabled" />
+											            
+											            <label>Địa chỉ chi tiết:</label>
+											            <br>
+											            <input type="text" th:id="'addressDetail-' + ${add.addressId}" th:value="${add.addressDetail}" disabled="disabled" />
+											            
+											           <a href="#" 
+													   th:id="'editLink-' + ${add.addressId}" 
+													   th:onclick="'enableEdit(' + ${add.addressId} + ')'">Sửa <i class="icon-edit"></i></a>
+													   
+													   <a href="#" 
+													   th:id="'deleteLink' + ${add.addressId}" 
+													   th:onclick="'deleteLink(' + ${add.addressId} + ')'">Xóa <i class="icon-edit"></i></a>
+											            <!-- Nút OK, chỉ hiển thị khi chỉnh sửa -->
+											            <button 
+														    th:id="'okButton-' + ${add.addressId}" 
+														    th:style="'display: none;'" 
+														    th:onclick="'saveChanges(' + ${add.addressId} + ')'" >
+														    OK
+														</button>
+											        </div>
+											    </div>
 											</div>
+
 											<!-- End .col-lg-6 -->
 											<div id="newAddressForm" style="display: none;"  class="col-lg-6">
 												<div class="card card-dashboard">
 												    <div class="card-body">
-												    <label>Thêm địa chỉ mới</label>
+												    <label>Thêm địa chỉ mới</label> <br>
 												    	<input type="text" id="newAddressType" placeholder="Nhập loại địa chỉ" />
 													    <input type="text" id="newAddressDetail" placeholder="Nhập chi tiết địa chỉ" />
 													    <button id="saveButton" th:onclick="AddNewAddress()">OK</button>
@@ -134,7 +147,9 @@
 									</div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-								    	<form action="#" th:object="${user}">
+								    	<form action="/User/editProfile" th:object="${user}" method="post">
+								    	<label th:if="${ErrUpdateProfile}" th:text="${ErrUpdateProfile}" style="color: red"></label>
+								    	<input type="text" class="form-control" name="id" th:field="*{id}" hidden="hidden" required>
 			                				<label>Họ tên *</label>
 		            						<input type="text" class="form-control" name="fullname" th:field="*{fullname}" required>
 
@@ -149,16 +164,6 @@
 		            					
 		                					<label>Email *</label>
 		        							<input type="email" class="form-control" th:field="*{email}" required>
-
-		            						<label>Mật khẩu hiện tại</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>Mật khẩu mới</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>Xác nhận mật khẩu mới</label>
-		            						<input type="password" class="form-control mb-2">
-
 		                					<button type="submit" class="btn btn-outline-primary-2">
 			                					<span>Lưu</span>
 			            						<i class="icon-long-arrow-right"></i>
@@ -178,58 +183,70 @@
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
 <script>
-    // Lắng nghe sự kiện click vào liên kết Edit
-    document.getElementById('editLink').addEventListener('click', function(e) {
-        e.preventDefault(); // Ngừng chuyển hướng mặc định của liên kết
+//Hàm bật chế độ chỉnh sửa cho một địa chỉ
+function enableEdit(addressId) {
+    // Bật chỉnh sửa cho các trường input
+    document.getElementById('addressType-' + addressId).disabled = false;
+    document.getElementById('addressDetail-' + addressId).disabled = false;
 
-        // Bật chỉnh sửa cho các trường input
-        document.getElementById('addressType').disabled = false;
-        document.getElementById('addressDetail').disabled = false;
+    // Hiển thị nút OK
+    document.getElementById('okButton-' + addressId).style.display = 'inline-block';
 
-        // Hiển thị nút OK
-        document.getElementById('okButton').style.display = 'inline-block';
-
-        // Ẩn liên kết Edit sau khi chỉnh sửa
-        document.getElementById('editLink').style.display = 'none';
+    // Ẩn liên kết Edit
+    document.getElementById('editLink-' + addressId).style.display = 'none';
+}
+//Hàm xóa địa chỉ
+function deleteLink(addressId) {
+	// Gửi dữ liệu đến server thông qua AJAX
+    $.ajax({
+        url: '/User/Address/delete',
+        type: 'POST',
+        data: {
+            addressId: addressId,
+        },
+        success: function (response) {
+            alert('Xóa thành công thành công!');
+            window.location.href = '/User/dashboard';
+        },
+        error: function () {
+            alert('Có lỗi xảy ra!');
+        }
     });
+}
+// Hàm lưu thay đổi cho một địa chỉ
+function saveChanges(addressId) {
+    // Lấy giá trị từ các trường input
+    var addressType = document.getElementById('addressType-' + addressId).value;
+    var addressDetail = document.getElementById('addressDetail-' + addressId).value;
 
-    // Hàm lưu thay đổi khi người dùng nhấn OK
-    function saveChanges() {
-        // Lấy giá trị từ các trường input
-        var addressId = document.getElementById('addressId').value;
-        var addressType = document.getElementById('addressType').value;
-        var addressDetail = document.getElementById('addressDetail').value;
+    // Gửi dữ liệu đến server thông qua AJAX
+    $.ajax({
+        url: '/User/Address/edit',
+        type: 'POST',
+        data: {
+            addressId: addressId,
+            addressType: addressType,
+            addressDetail: addressDetail
+        },
+        success: function (response) {
+            alert('Cập nhật thành công!');
+            // Disable các trường input sau khi cập nhật
+            document.getElementById('addressType-' + addressId).disabled = true;
+            document.getElementById('addressDetail-' + addressId).disabled = true;
 
-        // Thực hiện lưu dữ liệu (ví dụ: gửi dữ liệu đến server thông qua AJAX)
-        var formData = new FormData();
-        formData.append("addressId", addressId);
-        formData.append("addressType", addressType);
-        formData.append("addressDetail", addressDetail);
-		
-        
-        
-     // Update địa chỉ
-        $.ajax({
-            url: '/User/Address/edit', // URL to handle the update request
-            type: 'POST',
-            data: {addressId: addressId, addressType: addressType, addressDetail: addressDetail} ,
-            success: function (response) {
-                alert(response); // Show success message
-             // Disable các trường input sau khi cập nhật
-                $('#addressType').prop('disabled', true);
-                $('#addressDetail').prop('disabled', true);
+            // Ẩn nút OK
+            document.getElementById('okButton-' + addressId).style.display = 'none';
 
-                // Ẩn nút OK
-                $('#okButton').hide();
+            // Hiển thị lại liên kết Edit
+            document.getElementById('editLink-' + addressId).style.display = 'inline-block';
+            window.location.href = '/User/dashboard';
+        },
+        error: function () {
+            alert('Có lỗi xảy ra!');
+        }
+    });
+}
 
-                // Hiển thị lại liên kết Edit
-                $('#editLink').show();
-            },
-            error: function () {
-                alert("Có lỗi xảy ra!");
-            }
-        });
-    }
     
  // Lắng nghe sự kiện click vào addButton
     document.getElementById('addButton').addEventListener('click', function(e) {
@@ -275,12 +292,15 @@
 
                 // Ẩn form thêm địa chỉ
                 $('#newAddressForm').hide();
+                window.location.href = '/User/dashboard';
             },
             error: function () {
                 alert('Có lỗi xảy ra, mời đăng nhập lại.');
             }
         });
     });
+    
+    
 
 </script>
 

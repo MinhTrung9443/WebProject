@@ -32,4 +32,8 @@ public class User extends Person implements Serializable{/**
 	@OneToMany(mappedBy= "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Favourite> favourite;
+	
+	@OneToMany(mappedBy= "user", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<ViewHistory> viewHistory;
 }
