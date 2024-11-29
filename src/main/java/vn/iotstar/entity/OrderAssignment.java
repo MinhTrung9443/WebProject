@@ -14,6 +14,7 @@ import lombok.*;
 public class OrderAssignment implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
 	private int orderAssignmentId;
 	
 	@OneToOne
