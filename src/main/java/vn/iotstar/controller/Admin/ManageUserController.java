@@ -1,4 +1,4 @@
-package vn.iotstar.controller.Admin;
+package vn.iotstar.controller.admin;
 
 import java.util.List;
 import java.util.Optional;
