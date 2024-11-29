@@ -74,4 +74,6 @@ public class Product implements Serializable{
 	@OneToMany(mappedBy= "product")
 	@JsonManagedReference
 	private List<Favourite> favourite;
+
+
 }

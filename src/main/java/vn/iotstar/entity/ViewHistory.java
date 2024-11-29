@@ -1,8 +1,5 @@
 package vn.iotstar.entity;
 
-
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
@@ -19,17 +16,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Favourite implements  Serializable{
-    @Id
+public class ViewHistory {
+	
+	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long favouriteId;
+    private Long viewHistoryId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name="userId", referencedColumnName="id")
     @JsonBackReference
     private User user;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name="productId")
     @JsonBackReference
     private Product product;

@@ -207,9 +207,8 @@
 
                             <div class="product product-11 text-center">
                                 <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="assets/images/demos/demo-2/products/product-2-1.jpg" alt="Product image" class="product-image">
-                                        <img src="assets/images/demos/demo-2/products/product-2-2.jpg" alt="Product image" class="product-image-hover">
+                                    <a th:href="'/User/productDetail/' + ${product.productId}">
+                                        <img th:src="${product.images}" alt="Product image" class="product-image">
                                     </a>
 
                                     <div class="product-action-vertical">
