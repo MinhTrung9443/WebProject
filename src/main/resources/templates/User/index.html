@@ -257,8 +257,11 @@
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
                                 <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
-                                </div><!-- End .product-action -->
+                                    <form th:action="@{/User/add-to-cart}" method="post">
+										<input type="hidden" name="productId" th:value="${product.productId}" />
+										<input type="hidden" name="quantity" th:value="1" />
+										<button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
+									</form>                                </div><!-- End .product-action -->
                             </div><!-- End .product -->
 
 
@@ -380,7 +383,11 @@
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
                                 <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                    <form th:action="@{/User/add-to-cart}" method="post">
+										<input type="hidden" name="productId" th:value="${product.productId}" />
+										<input type="hidden" name="quantity" th:value="1" />
+										<button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
+									</form>
                                 </div><!-- End .product-action -->
                             </div><!-- End .product -->
 
@@ -433,7 +440,11 @@
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
                                 <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                   <form th:action="@{/User/add-to-cart}" method="post">
+										<input type="hidden" name="productId" th:value="${product.productId}" />
+										<input type="hidden" name="quantity" th:value="1" />
+										<button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
+									</form>
                                 </div><!-- End .product-action -->
                             </div><!-- End .product -->
 

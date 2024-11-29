@@ -128,9 +128,12 @@
                     <!-- End .details-filter-row -->
 
                     <div class="details-filter-row details-row-size">
-                      <label for="qty">Qty:</label>
+                    <form th:action="@{/User/add-to-cart}" method="post">
+					<input type="hidden" name="productId" th:value="${product.productId}" />						
+									
+                      <label for="qty">Số lượng:</label> 
                       <div class="product-details-quantity">
-                        <input
+                        <input name="quantity"
                           type="number"
                           id="qty"
                           class="form-control"
@@ -145,9 +148,8 @@
                       <!-- End .product-details-quantity -->
                     </div>
                     <!-- End .details-filter-row -->
-
-                    <div class="product-details-action">
-                      <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+						 <div class="product-details-action">
+                     <button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
 
                       <div class="details-action-wrapper">
                         <a href="#" class="btn-product btn-wishlist" title="Wishlist"
@@ -157,6 +159,8 @@
                       </div>
                       <!-- End .details-action-wrapper -->
                     </div>
+						 </form>
+                    
                     <!-- End .product-details-action -->
 
                     <div class="product-details-footer">
