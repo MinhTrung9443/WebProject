@@ -14,6 +14,6 @@ import vn.iotstar.entity.Category;
 public class AdminController {
     @GetMapping("")
     public String home() {
-        return "Admin/index";
+        return "Admin/home";
     }
 }
