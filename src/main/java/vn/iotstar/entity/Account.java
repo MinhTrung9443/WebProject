@@ -34,6 +34,8 @@ public class Account implements Serializable {
     private String username;
 
     private String password;
+    
+	private int active;
 
     @ManyToOne
     @JoinColumn(name = "roleId")

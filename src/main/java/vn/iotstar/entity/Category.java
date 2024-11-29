@@ -15,6 +15,7 @@ public class Category {
 	
 	private int categoryId;
 	private String categoryName;
+	private String images;
 	
 	@OneToMany(mappedBy = "category")
 	@JsonManagedReference
