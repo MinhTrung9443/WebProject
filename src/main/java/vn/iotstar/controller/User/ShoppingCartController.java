@@ -1,10 +1,7 @@
 package vn.iotstar.controller.user;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +16,7 @@ import vn.iotstar.entity.Product;
 import vn.iotstar.entity.ShoppingCart;
 import vn.iotstar.entity.User;
 import vn.iotstar.repository.ICartItemRepository;
+import vn.iotstar.service.ICartItemService;
 import vn.iotstar.service.ICartService;
 import vn.iotstar.service.IProductService;
 import vn.iotstar.service.IUserService;
@@ -29,9 +27,11 @@ public class ShoppingCartController {
 	@Autowired
 	private IProductService productService;
 	@Autowired
-	private ICartItemRepository cartItemService;
+	private ICartItemService cartItemService;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private ICartService cartService;
 	@PostMapping("/add-to-cart")
 	public String returnCartView(ModelMap model, HttpSession session, @RequestParam int productId, @RequestParam int quantity)
 	{
@@ -41,30 +41,37 @@ public class ShoppingCartController {
 		{
 			return "redirect:/login";
 		}
-		ShoppingCart cart = user.getCart();
-		if (cart == null)
+		Optional<ShoppingCart> shopcart = cartService.findByUserId(user.getId());
+		ShoppingCart cart;
+		if (!shopcart.isPresent())
 		{
-			System.out.println("hello");
 			cart = new ShoppingCart();
-			List<CartItem> lcart = new ArrayList<>();
-			cart.setItems(lcart);
-			CartItem cartitem = new CartItem();
-			cartitem.setProduct(product);
-			cartitem.setQuantity(quantity);
-			cartitem.setCart(cart);
-			cart.getItems().add(cartitem);
 			cart.setUser(user);
-			user.setCart(cart);
-			userService.save(user);
-			
+			cart.setItems(new ArrayList<>());
+			cartService.save(cart);
 		}
 		else {
-			CartItem cartitem = new CartItem();
-			cartitem.setProduct(product);
-			cartitem.setQuantity(quantity);
-			cartitem.setCart(cart);
-			cartItemService.save(cartitem);
+			cart = shopcart.get();
 		}
+		
+		Optional<CartItem> existingCartItem = cart.getItems().stream()
+                .filter(item -> item.getProduct().getProductId()==productId)
+                .findFirst();
+
+        if (existingCartItem.isPresent()) {
+            CartItem cartItem = existingCartItem.get();
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+        } else {
+            CartItem cartItem = new CartItem();
+            cartItem.setProduct(product);
+            cartItem.setCart(cart);
+            cartItem.setQuantity(quantity);
+            cart.getItems().add(cartItem);
+        }
+
+        cartService.save(cart);
+
+		//cartService.save(cart);
 
 		return "redirect:/User/cart";
 	}

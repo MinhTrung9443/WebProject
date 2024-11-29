@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,7 +17,7 @@ import vn.iotstar.entity.CartItem;
 import vn.iotstar.entity.Product;
 import vn.iotstar.entity.ShoppingCart;
 import vn.iotstar.entity.User;
-import vn.iotstar.service.IAccountService;
+import vn.iotstar.service.ICartService;
 import vn.iotstar.service.IProductService;
 import vn.iotstar.service.IUserService;
 
@@ -29,6 +28,8 @@ public class UserController {
 	private IProductService productService;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private ICartService cartService;
 	  @GetMapping("")
 	    public String home(HttpSession session,ModelMap model) {
 		  Account account = (Account) session.getAttribute("account");
@@ -63,7 +64,7 @@ public class UserController {
 			Account account = (Account) session.getAttribute("account");
 			User user = userService.findByAccountUsername(account.getUsername());
 			session.setAttribute("user", user);
-			ShoppingCart cart = user.getCart();
+			ShoppingCart cart = cartService.findByUserId(user.getId()).get();
 			if (cart == null)
 			{
 				cart = new ShoppingCart();

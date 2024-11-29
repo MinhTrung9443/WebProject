@@ -22,10 +22,6 @@ public class User extends Person implements Serializable{/**
 
 	private int active = 1;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "shoppingCartId")
-	@JsonManagedReference
-	private ShoppingCart cart;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonManagedReference

@@ -21,8 +21,8 @@ public class ShoppingCart implements Serializable{/**
 
 	private int shoppingCartId;
 	
-	@OneToOne(mappedBy = "cart")
-	@JsonBackReference
+	@OneToOne()
+	@JoinColumn(name = "id")
 	private User user;
 	
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
