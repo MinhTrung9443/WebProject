@@ -1,6 +1,7 @@
 // package vn.iotstar.test;
 //
 //
+//import vn.iotstar.entity.Category;
 //import vn.iotstar.entity.Product;
 // import vn.iotstar.repository.IProductRepository;
 // import com.google.gson.*;
@@ -45,26 +46,22 @@
 //         for (JsonElement arrayElement : array) {
 //             JsonObject product = arrayElement.getAsJsonObject();
 //             Product product1 = new Product();
-//             product1.setProductCode(product.get("productCode").getAsString());
 //             product1.setProductName(product.get("name").getAsString());
 //             product1.setPrice(product.get("cost").getAsInt());
 //             product1.setDescription(product.get("description").getAsString());
 //             product1.setBrand(product.get("brand").getAsString());
 //             product1.setIngredient(product.get("ingredient").getAsString());
 //             product1.setVolumeOrWeight(product.get("volume").getAsString());
-//             product1.setOrigin(product.get("origin").getAsString());
 //             product1.setImages(product.get("image").getAsString());
+//             product1.setStock(100);
 //             products.add(product1);
 //         }
 //         List<Product> lst = new ArrayList<>();
 //
 //         products.forEach(product -> {
-//            for (int i = 0; i < 30; i++) {
-//                Product product1 = new Product();
-//                BeanUtils.copyProperties(product, product1);
-//                productRepository.save(product1);
-//
-//            }
+//        	 Product product1 = new Product();
+//             BeanUtils.copyProperties(product, product1);
+//             productRepository.save(product1);
 //         });
 //     }
 // }

@@ -40,7 +40,7 @@ public class CartItem implements Serializable{
 	@JsonBackReference
 	private ShoppingCart cart;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "productId")
 	private Product product;
 }

@@ -199,8 +199,12 @@
                                         <p th:text="${product.price}"></p>
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
-                                <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                <div class="product-action" style="display: flex; justify-content: center">
+                                    <form th:action="@{/User/add-to-cart}" method="post">
+										<input type="hidden" name="productId" th:value="${product.productId}" />
+										<input type="hidden" name="quantity" th:value="1" />
+										<button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
+									</form>
                                 </div><!-- End .product-action -->
                             </div><!-- End .product -->
 

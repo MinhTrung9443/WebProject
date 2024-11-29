@@ -1,5 +1,6 @@
 package vn.iotstar.controller.user;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.Account;
+import vn.iotstar.entity.CartItem;
 import vn.iotstar.entity.Product;
+import vn.iotstar.entity.ShoppingCart;
 import vn.iotstar.entity.User;
 import vn.iotstar.service.IAccountService;
 import vn.iotstar.service.IProductService;
@@ -27,7 +30,10 @@ public class UserController {
 	@Autowired
 	private IUserService userService;
 	  @GetMapping("")
-	    public String home(ModelMap model) {
+	    public String home(HttpSession session,ModelMap model) {
+		  Account account = (Account) session.getAttribute("account");
+			User user = userService.findByAccountUsername(account.getUsername());
+			session.setAttribute("user", user);
 //		  danh sách sản phẩm mới
 		  List<Product> productNew = productService.findTop20ByOrderByWarehouseDateFirstDesc();
 ////		  danh sách bán chạy
@@ -52,8 +58,19 @@ public class UserController {
 			return "User/product";
 		}
 		@GetMapping("/cart")
-		public String cart()
+		public String cart(HttpSession session,ModelMap model)
 		{
+			Account account = (Account) session.getAttribute("account");
+			User user = userService.findByAccountUsername(account.getUsername());
+			session.setAttribute("user", user);
+			ShoppingCart cart = user.getCart();
+			if (cart == null)
+			{
+				cart = new ShoppingCart();
+				List<CartItem> cartItems = new ArrayList<>();
+				cart.setItems(cartItems);
+			}
+			model.addAttribute("listCart", cart.getItems());
 			return "User/cart";
 		}
 		@GetMapping("/wishlist")
@@ -64,7 +81,7 @@ public class UserController {
 		@GetMapping("/dashboard")
 		public String dashboard(HttpSession session,ModelMap model)
 		{
-			Account account =(Account) session.getAttribute("account");
+			Account account = (Account) session.getAttribute("account");
 			User user = userService.findByAccountUsername(account.getUsername());
 			session.setAttribute("user", user);
 			model.addAttribute("user", user);

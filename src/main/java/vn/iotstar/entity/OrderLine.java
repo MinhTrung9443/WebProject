@@ -39,8 +39,7 @@ public class OrderLine implements Serializable{/**
 	@JsonBackReference
 	private Order order;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "productId")
-	@JsonManagedReference
 	private Product product;
 }

@@ -28,6 +28,7 @@ public class ShoppingCart implements Serializable{/**
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<CartItem> items;
+	
 	public void addCartItems(CartItem item)
 	{
 		getItems().add(item);

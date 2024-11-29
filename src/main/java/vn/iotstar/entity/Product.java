@@ -73,12 +73,13 @@ public class Product implements Serializable{
 		getFeedbacks().remove(feedback);
 		feedback.setProduct(null);
 	}
-	@OneToOne(mappedBy = "product")
+	@OneToMany(mappedBy= "product",cascade = CascadeType.ALL)
 	@JsonBackReference
-	private CartItem cartitem;
-	@OneToOne(mappedBy = "product")
+	private List<CartItem> cartitem;
+	
+	@OneToMany(mappedBy= "product",cascade = CascadeType.ALL)
 	@JsonBackReference
-	private OrderLine orderline;
+	private List<OrderLine> orderlines;
 	
 
 	@OneToMany(mappedBy= "product",cascade = CascadeType.ALL)
