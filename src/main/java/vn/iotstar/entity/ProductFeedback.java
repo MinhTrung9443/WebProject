@@ -31,11 +31,12 @@ public class ProductFeedback implements Serializable{/**
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
 	private int feedbackId;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String comment;
 	private Date reviewDate;
 	private int rating;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "productId")
 	@JsonManagedReference
 	private Product product;

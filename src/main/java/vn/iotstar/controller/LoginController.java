@@ -29,7 +29,7 @@ public class LoginController {
                                 HttpServletRequest request) {
         Account account = accountSer.login(username, password);
         System.out.println(username + " " + password);  // In ra để kiểm tra
-        if (account != null && account.getPassword().equals(password)) {
+        if (account != null) {
             HttpSession session = request.getSession();
             session.setAttribute("account", account);
             return "redirect:/waiting";

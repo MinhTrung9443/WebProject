@@ -18,18 +18,21 @@ public class User extends Person implements Serializable{/**
 	 */
 	private static final long serialVersionUID = 1L;
 	private Date birthday;
+	
+
+	private int active = 1;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "shoppingCartId")
 	@JsonManagedReference
 	private ShoppingCart cart;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Address> address;
 	
 
-	@OneToMany(mappedBy= "user")
+	@OneToMany(mappedBy= "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Favourite> favourite;
 	

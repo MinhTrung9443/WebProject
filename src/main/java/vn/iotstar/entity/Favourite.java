@@ -24,12 +24,12 @@ public class Favourite implements  Serializable{
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long favouriteId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name="userId", referencedColumnName="id")
     @JsonBackReference
     private User user;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name="productId")
     @JsonBackReference
     private Product product;

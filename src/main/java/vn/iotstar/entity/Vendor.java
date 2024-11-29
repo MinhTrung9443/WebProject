@@ -18,6 +18,7 @@ public class Vendor extends Person implements Serializable{/**
 	private static final long serialVersionUID = 1L;
 	private int salary;
 	private Date startDate;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String address;
 
 }

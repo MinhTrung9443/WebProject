@@ -41,9 +41,9 @@
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
                 <div class="container">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                        <li class="breadcrumb-item"><a href="/User">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="#">Cửa hàng</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tài khoản của tôi</li>
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
@@ -55,22 +55,20 @@
 	                		<aside class="col-md-4 col-lg-3">
 	                			<ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
 								    <li class="nav-item">
-								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Dashboard</a>
+								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Điều hướng</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Đơn hàng</a>
+								    </li>
+								   
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Địa chỉ</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
+								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Thông tin tài khoản</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
-								    </li>
-								    <li class="nav-item">
-								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
-								    </li>
-								    <li class="nav-item">
-								        <a class="nav-link" href="#">Sign Out</a>
+								        <a class="nav-link" href="#">Đăng xuất</a>
 								    </li>
 								</ul>
 	                		</aside><!-- End .col-lg-3 -->
@@ -78,23 +76,18 @@
 	                		<div class="col-md-8 col-lg-9">
 	                			<div class="tab-content">
 								    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
-								    	<p>Hello <span class="font-weight-normal text-dark">User</span> (not <span class="font-weight-normal text-dark">User</span>? <a href="#">Log out</a>) 
+								    	<p>Xin chào <span class="font-weight-normal text-dark" th:text="${user.fullname}"></span> (not <span class="font-weight-normal text-dark" th:text="${user.fullname}">User</span>? <a href="#">Đăng xuất</a>) 
 								    	<br>
-								    	From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
+								    	Tại thanh điều hướng này, bạn có thể xem <a href="#tab-orders" class="tab-trigger-link link-underline">các đơn hàng</a>, Quản lý <a href="#tab-address" class="tab-trigger-link">Địa chỉ cá nhân</a>, and <a href="#tab-account" class="tab-trigger-link">Thay đổi mật khẩu và các thông tin cá nhân khác</a>.</p>
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-								    	<p>No order has been made yet.</p>
-								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
-								    </div><!-- .End .tab-pane -->
-
-								    <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
-								    	<p>No downloads available yet.</p>
-								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+								    	<p>Chưa có đơn hàng nào</p>
+								    	<a href="category.html" class="btn btn-outline-primary-2"><span>Mua ngay</span><i class="icon-long-arrow-right"></i></a>
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
-								    	<p>The following addresses will be used on the checkout page by default.</p>
+								    	<p>Địa chỉ dưới đây được sử dụng khi mua hàng.</p>
 
 										<div class="row">
 											<!-- Trong phần hiển thị danh sách địa chỉ -->
@@ -172,7 +165,7 @@
 		                					<label>Email *</label>
 		        							<input type="email" class="form-control" th:field="*{email}" required>
 		                					<button type="submit" class="btn btn-outline-primary-2">
-			                					<span>SAVE CHANGES</span>
+			                					<span>Lưu</span>
 			            						<i class="icon-long-arrow-right"></i>
 			                				</button>
 			                			</form>
@@ -185,81 +178,7 @@
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 <footer th:replace="~{User/fragments/footer::footer}"></footer>
-        <footer class="footer">
-        	<div class="footer-middle">
-	            <div class="container">
-	            	<div class="row">
-	            		<div class="col-sm-6 col-lg-3">
-	            			<div class="widget widget-about">
-	            				<img src="/assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
-	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
 
-	            				<div class="social-icons">
-	            					<a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-	            					<a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-	            					<a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-	            					<a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-	            					<a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
-	            				</div><!-- End .soial-icons -->
-	            			</div><!-- End .widget about-widget -->
-	            		</div><!-- End .col-sm-6 col-lg-3 -->
-
-	            		<div class="col-sm-6 col-lg-3">
-	            			<div class="widget">
-	            				<h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
-
-	            				<ul class="widget-list">
-	            					<li><a href="about.html">About Molla</a></li>
-	            					<li><a href="#">How to shop on Molla</a></li>
-	            					<li><a href="#">FAQ</a></li>
-	            					<li><a href="contact.html">Contact us</a></li>
-	            					<li><a href="login.html">Log in</a></li>
-	            				</ul><!-- End .widget-list -->
-	            			</div><!-- End .widget -->
-	            		</div><!-- End .col-sm-6 col-lg-3 -->
-
-	            		<div class="col-sm-6 col-lg-3">
-	            			<div class="widget">
-	            				<h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
-
-	            				<ul class="widget-list">
-	            					<li><a href="#">Payment Methods</a></li>
-	            					<li><a href="#">Money-back guarantee!</a></li>
-	            					<li><a href="#">Returns</a></li>
-	            					<li><a href="#">Shipping</a></li>
-	            					<li><a href="#">Terms and conditions</a></li>
-	            					<li><a href="#">Privacy Policy</a></li>
-	            				</ul><!-- End .widget-list -->
-	            			</div><!-- End .widget -->
-	            		</div><!-- End .col-sm-6 col-lg-3 -->
-
-	            		<div class="col-sm-6 col-lg-3">
-	            			<div class="widget">
-	            				<h4 class="widget-title">My Account</h4><!-- End .widget-title -->
-
-	            				<ul class="widget-list">
-	            					<li><a href="#">Sign In</a></li>
-	            					<li><a href="cart.html">View Cart</a></li>
-	            					<li><a href="#">My Wishlist</a></li>
-	            					<li><a href="#">Track My Order</a></li>
-	            					<li><a href="#">Help</a></li>
-	            				</ul><!-- End .widget-list -->
-	            			</div><!-- End .widget -->
-	            		</div><!-- End .col-sm-6 col-lg-3 -->
-	            	</div><!-- End .row -->
-	            </div><!-- End .container -->
-	        </div><!-- End .footer-middle -->
-
-	        <div class="footer-bottom">
-	        	<div class="container">
-	        		<p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p><!-- End .footer-copyright -->
-	        		<figure class="footer-payments">
-	        			<img src="/assets/images/payments.png" alt="Payment methods" width="272" height="20">
-	        		</figure><!-- End .footer-payments -->
-	        	</div><!-- End .container -->
-	        </div><!-- End .footer-bottom -->
-        </footer><!-- End .footer -->
-    
     </div><!-- End .page-wrapper -->
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 

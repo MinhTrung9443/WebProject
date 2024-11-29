@@ -35,7 +35,7 @@ public class CartItem implements Serializable{
 	
 	private int cartItemId;
 	private int quantity;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "shoppingCartId")
 	@JsonBackReference
 	private ShoppingCart cart;

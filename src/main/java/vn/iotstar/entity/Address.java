@@ -2,6 +2,8 @@ package vn.iotstar.entity;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.builder.ToStringExclude;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
@@ -16,11 +18,14 @@ public class Address implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int addressId;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String addressDetail;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String addressType;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "id")
 	@JsonBackReference
+	@ToStringExclude
 	private User user;
 }

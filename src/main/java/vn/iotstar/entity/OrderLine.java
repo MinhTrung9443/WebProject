@@ -34,7 +34,7 @@ public class OrderLine implements Serializable{/**
 	private int orderLineId;
 	private int quantity;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "orderId")
 	@JsonBackReference
 	private Order order;
