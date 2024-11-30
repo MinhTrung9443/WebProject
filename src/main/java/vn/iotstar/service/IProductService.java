@@ -3,6 +3,7 @@ package vn.iotstar.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import vn.iotstar.entity.Product;
@@ -15,7 +16,7 @@ public interface IProductService {
 
 	List<Product> findTop20ByFavouriteCount();
 
-	List<Product> findTop20ByAverageRating();
+	Page<Product> findTop20ByAverageRating();
 
 	List<Product> findTop20ByOrderByWarehouseDateFirstDesc();
 

@@ -70,12 +70,12 @@
 												<div class="product">
 													<figure class="product-media">
 														<a th:href="'/User/productDetail/' + ${cartItem.product.productId}">
-															<img th:src="${cartItem.product.images}" alt="Product image">
+															<img th:src="${cartItem.product.images[0].imageUrl}" alt="Product image">
 														</a>
 													</figure>
 
 													<h3 class="product-title">
-														<a href="#" th:text="${cartItem.product.productName}">Beige knitted elastic runner shoes</a>
+														<a th:href="'/User/productDetail/' + ${cartItem.product.productId}" th:text="${cartItem.product.productName}">Beige knitted elastic runner shoes</a>
 													</h3><!-- End .product-title -->
 												</div><!-- End .product -->
 											</td>

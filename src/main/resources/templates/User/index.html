@@ -9,27 +9,27 @@
     <meta name="description" content="Molla - Bootstrap eCommerce Template">
     <meta name="author" content="p-themes">
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
-    <link rel="manifest" href="assets/images/icons/site.html">
-    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="/assets/images/icons/site.html">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
     <meta name="apple-mobile-web-app-title" content="Molla">
     <meta name="application-name" content="Molla">
     <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
+    <link rel="stylesheet" href="/assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
     <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="/assets/css/plugins/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/plugins/jquery.countdown.css">
     <!-- Main CSS File -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/skins/skin-demo-2.css">
-    <link rel="stylesheet" href="assets/css/demos/demo-2.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/skins/skin-demo-2.css">
+    <link rel="stylesheet" href="/assets/css/demos/demo-2.css">
 </head>
 
 <body>
@@ -182,10 +182,10 @@
                                     }
                                 }
                             }'>
-                            <div class="product product-11 text-center" th:each="product :${productNew}">
+                            <div class="product product-11 text-center" th:each="product :${productSale}">
                                 <figure class="product-media">
                                      <a th:href="'/User/productDetail/' + ${product.productId}">
-                                        <img th:src="${product.images}" alt="Product image" class="product-image">
+                                        <img th:src="${product.images[0].imageUrl}" alt="Product image" class="product-image">
                                     </a>
 
                                     <div class="product-action-vertical">
@@ -194,7 +194,7 @@
                                 </figure><!-- End .product-media -->
 
                                 <div class="product-body">
-                                    <h3 class="product-title"><a th:text="${product.productName}" href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
+                                    <h3 class="product-title"><a th:href="'/User/productDetail/' + ${product.productId}" th:text="${product.productName}" href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
                                     <div class="product-price" >
                                         <p th:text="${product.price}"></p>
                                     </div><!-- End .product-price -->
@@ -239,19 +239,19 @@
                                     }
                                 }
                             }'>
-                           <div class="product product-11 text-center" th:each="product :${productNew}">
+                           <div class="product product-11 text-center" th:each="product :${productRate}">
                                 <figure class="product-media">
                                      <a th:href="'/User/productDetail/' + ${product.productId}">
-                                        <img th:src="${product.images}" alt="Product image" class="product-image">
+                                        <img th:src="${product.images[0].imageUrl}" alt="Product image" class="product-image">
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
+                                        <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
                                     </div><!-- End .product-action-vertical -->
                                 </figure><!-- End .product-media -->
 
                                 <div class="product-body">
-                                    <h3 class="product-title"><a th:text="${product.productName}" href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
+                                    <h3 class="product-title"><a th:href="'/User/productDetail/' + ${product.productId}" th:text="${product.productName}" href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
                                     <div class="product-price" >
                                         <p th:text="${product.price}"></p>
                                     </div><!-- End .product-price -->
@@ -368,16 +368,16 @@
                             <div class="product product-11 text-center" th:each="product :${productNew}">
                                 <figure class="product-media">
                                      <a th:href="'/User/productDetail/' + ${product.productId}">
-                                        <img th:src="${product.images}" alt="Product image" class="product-image">
+                                        <img th:src="${product.images[0].imageUrl}" alt="Product image" class="product-image">
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
+                                        <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
                                     </div><!-- End .product-action-vertical -->
                                 </figure><!-- End .product-media -->
 
                                 <div class="product-body">
-                                    <h3 class="product-title"><a th:text="${product.productName}" href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
+                                    <h3 class="product-title"><a th:href="'/User/productDetail/' + ${product.productId}" th:text="${product.productName}" href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
                                     <div class="product-price" >
                                         <p th:text="${product.price}"></p>
                                     </div><!-- End .product-price -->
@@ -422,10 +422,10 @@
                                     }
                                 }
                             }'>
-                           <div class="product product-11 text-center" th:each="product :${productNew}">
+                           <div class="product product-11 text-center" th:each="product :${productFavou}">
                                 <figure class="product-media">
                                     <a th:href="'/User/productDetail/' + ${product.productId}">
-                                        <img th:src="${product.images}" alt="Product image" class="product-image">
+                                        <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
                                     </a>
 
                                     <div class="product-action-vertical">
@@ -434,7 +434,7 @@
                                 </figure><!-- End .product-media -->
 
                                 <div class="product-body">
-                                    <h3 class="product-title"><a th:text="${product.productName}" href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
+                                    <h3 class="product-title"><a th:href="'/User/productDetail/' + ${product.productId}" th:text="${product.productName}" href="product.html">Butler Stool Ladder</a></h3><!-- End .product-title -->
                                     <div class="product-price" >
                                         <p th:text="${product.price}"></p>
                                     </div><!-- End .product-price -->

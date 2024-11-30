@@ -35,7 +35,7 @@
         <main class="main">
         	<div class="page-header text-center" style="background-image: url('/assets/images/page-header-bg.jpg')">
         		<div class="container">
-        			<h1 class="page-title">Sản phẩm yêu thích</h1>
+        			<h1 class="page-title">Sản phẩm đã xem</h1>
         		</div><!-- End .container -->
         	</div><!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav">
@@ -43,7 +43,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
                         <li class="breadcrumb-item"><a href="#">Cửa hàng</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Yêu thích</li>
+                        <li class="breadcrumb-item active" aria-current="page">Sản phẩm đã xem</li>
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
@@ -57,40 +57,40 @@
 								<th>Giá</th>
 								<th>Tình trạng</th>
 								<th></th>
-								<th></th>
 							</tr>
 						</thead>
 
 						<tbody>
-							<tr th:if="${listProduct}" th:each="favou : ${listProduct}">
+							<tr th:if="${listProduct}" th:each="view : ${listProduct}">
 								<td class="product-col">
 									<div class="product">
 										<figure class="product-media">
-											<a th:href="'/User/productDetail/' + ${favou.product.productId}">
-												<img th:src="${favou.product.images[0].imageUrl}" alt="Product image">
+											<a th:href="'/User/productDetail/' + ${view.product.productId}">
+												<img th:src="${view.product.images[0].imageUrl}" alt="Product image">
 											</a>
 										</figure>
 
 										<h3 class="product-title">
-											<a th:href="'/User/productDetail/' + ${favou.product.productId}" th:text="${favou.product.productName}">Blue utility pinafore denim dress</a>
+											<a th:href="'/User/productDetail/' + ${view.product.productId}" th:text="${view.product.productName}">Blue utility pinafore denim dress</a>
 										</h3><!-- End .product-title -->
 									</div><!-- End .product -->
 								</td>
-								<td class="price-col" th:text="${favou.product.price} + 'đ'">$76.00</td>
-								<td class="stock-col" th:text="${favou.product.stock > 0 ? 'Còn hàng' : 'Hết hàng'}"><span class="in-stock">In stock</span></td>
+								<td class="price-col" th:text="${view.product.price} + 'đ'">$76.00</td>
+								<td class="stock-col" th:text="${view.product.stock > 0 ? 'Còn hàng' : 'Hết hàng'}"><span class="in-stock">In stock</span></td>
 								<td class="action-col">
 								<form th:action="@{/User/add-to-cart}" method="post">
-										<input type="hidden" name="productId" th:value="${favou.product.productId}" />
+										<input type="hidden" name="productId" th:value="${view.product.productId}" />
 										<input type="hidden" name="quantity" th:value="1" />
 										<button type="submit" class="btn btn-block btn-outline-primary-2">Thêm vào giỏ hàng</button>
 									</form>
 									
 								</td>
-								<td class="remove-col"><button th:onclick="'removeLove(' + ${favou.product.productId} + ')'" class="btn-remove"><i class="icon-close"></i></button></td>
+								
 							</tr>
 						
 						</tbody>
 					</table><!-- End .table table-wishlist -->
+					
 					<nav class="custom-pagination" aria-label="Page navigation example"
 						style="display: flex; justify-content: center; margin-top: 20px;"
 						th:if="${currentPage}">
@@ -136,10 +136,8 @@
 							</li>
 						</ul>
 					</nav>
-
-
-
-					<div class="wishlist-share">
+					
+	            	<div class="wishlist-share">
 	            		<div class="social-icons social-icons-sm mb-2">
 	            			<label class="social-label">Share on:</label>
 	    					<a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
@@ -167,31 +165,5 @@
     <!-- Main JS File -->
     <script src="/assets/js/main.js"></script>
     
-   <script >
-//Hàm lưu thay đổi cho một địa chỉ
-function removeLove(productId) {
-
-
-    // Gửi dữ liệu đến server thông qua AJAX
-    $.ajax({
-        url: '/User/addlove',
-        type: 'POST',
-        data: {
-        	productId: productId,
-        },
-        success: function (response) {
-            alert(response);
-            window.location.href = '/User/wishlist'; 
-        },
-        error: function () {
-            alert('Có lỗi xảy ra!');
-        }
-    });
-}
-</script> 
     
 </body>
-
-
-<!-- molla/wishlist.html  22 Nov 2019 09:55:06 GMT -->
-</html>

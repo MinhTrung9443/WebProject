@@ -3,6 +3,9 @@ package vn.iotstar.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import vn.iotstar.entity.Favourite;
 
 public interface IFavouriteService {
@@ -13,6 +16,10 @@ public interface IFavouriteService {
 
 	Optional<Favourite> findByUserId(int userId, int productId);
 
-	List<Favourite> findAllByUserId(int Id);
+	Page<Favourite> findAllByUserId(int Id, Pageable page);
+
+	int countAllByUserId(int id);
+
+
 
 }

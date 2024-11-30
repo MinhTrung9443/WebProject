@@ -79,11 +79,15 @@
                     <div class="row">
                       <figure class="product-main-image">
                         <img
-                          th:src="${product.images}"
+                          th:src="${product.images[0].imageUrl}"
                           alt="product image"
                         />
                       </figure>
-
+					<div id="product-zoom-gallery" class="product-image-gallery">
+                        <a class="product-gallery-item active" th:each="image, iterStat : ${product.images.subList(1, product.images.size())}">
+                            <img th:src="${image.imageUrl}" alt="product side">
+                        </a>
+                    </div><!-- End .product-image-gallery -->
                     </div>
                     <!-- End .row -->
                   </div>
@@ -152,7 +156,7 @@
                      <button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
 
                       <div class="details-action-wrapper">
-                        <a href="#" class="btn-product btn-wishlist" title="Wishlist"
+                        <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product btn-wishlist" title="Wishlist"
                           ><span>Yêu thích</span></a
                         >
 
@@ -1068,6 +1072,27 @@
     <script src="/assets/js/jquery.magnific-popup.min.js"></script>
     <!-- Main JS File -->
     <script src="/assets/js/main.js"></script>
+    <script >
+//Hàm lưu thay đổi cho một địa chỉ
+function addlove(productId) {
+
+
+    // Gửi dữ liệu đến server thông qua AJAX
+    $.ajax({
+        url: '/User/addlove',
+        type: 'POST',
+        data: {
+        	productId: productId,
+        },
+        success: function (response) {
+            alert(response);
+        },
+        error: function () {
+            alert('Có lỗi xảy ra!');
+        }
+    });
+}
+</script>
   </body>
 
   <!-- molla/product.html  22 Nov 2019 09:55:05 GMT -->

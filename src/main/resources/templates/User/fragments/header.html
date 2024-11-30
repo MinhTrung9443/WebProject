@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Trang chủ</title>
+
 </head>
 <body th:fragment="header">
 <header class="header header-2 header-intro-clearance">
@@ -45,26 +46,23 @@
                         </div><!-- End .compare-dropdown -->
 
                         <div class="wishlist">
-                            <a href="User/wishlist" title="Wishlist">
+                            <a href="/User/wishlist" title="Wishlist">
                                 <div class="icon">
                                     <i class="icon-heart-o"></i>
                                 </div>
                                 <p>Yêu thích</p>
                             </a>
                         </div><!-- End .compare-dropdown -->
-
                         <div class="dropdown cart-dropdown">
-                            <a href="/User/cart" >
+                            <a href="/User/cart" class="dropdown-toggle" role="button" >
                          
                                 <div class="icon">
                                     <i class="icon-shopping-cart"></i>
                                 </div>
                                 <p>Giỏ hàng</p>
                             </a>
-
-
-                        
                         </div><!-- End .cart-dropdown -->
+                        
                     </div><!-- End .header-right -->
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
@@ -120,14 +118,18 @@
                                         </div><!-- End .row -->
                                     </div><!-- End .megamenu megamenu-sm -->
                                 </li>
-
+								<li>
+                                    <a href="/User/ViewHistory">Sản phẩm đã xem</a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
 
                     <div class="header-right">
-                        <a href="logout" class="la la-lightbulb-o"><p>Đăng xuất</p></a>
+                        <a href="logout"><p>Đăng xuất</p></a>
+                        
                     </div>
+                    
                 </div><!-- End .container -->
             </div><!-- End .header-bottom -->
         </header><!-- End .header -->

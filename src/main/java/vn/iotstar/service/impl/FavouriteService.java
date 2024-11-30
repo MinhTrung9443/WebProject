@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vn.iotstar.entity.Favourite;
@@ -31,9 +33,15 @@ public class FavouriteService implements IFavouriteService{
 		favourepo.deleteById(id);
 	}
 
+
 	@Override
-	public List<Favourite> findAllByUserId(int Id) {
-		return favourepo.findAllByUserId(Id);
+	public Page<Favourite> findAllByUserId(int Id, Pageable page) {
+		return favourepo.findAllByUserId(Id, page);
+	}
+
+	@Override
+	public int countAllByUserId(int id) {
+		return favourepo.countAllByUserId(id);
 	}
 	
 	

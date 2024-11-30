@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vn.iotstar.entity.Product;
@@ -22,8 +25,9 @@ public class ProductService implements IProductService{
 	}
 
 	@Override
-	public List<Product> findTop20ByAverageRating() {
-		return productrepo.findTop20ByAverageRating();
+	public Page<Product> findTop20ByAverageRating() {
+		Pageable page = PageRequest.of(0, 20);
+		return productrepo.findTopProductsByAverageRating(page);
 	}
 
 	@Override
