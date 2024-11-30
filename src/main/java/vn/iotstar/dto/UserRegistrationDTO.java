@@ -16,4 +16,5 @@ public class UserRegistrationDTO {
     private String gender;
     private String phone;
     private String birthday;
+    private String code;
 }
