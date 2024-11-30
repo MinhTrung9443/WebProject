@@ -16,6 +16,7 @@ public class Category {
 	private int categoryId;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String categoryName;
+	private String images;
 	
 	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
 	@JsonManagedReference
