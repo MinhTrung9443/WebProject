@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -44,13 +45,17 @@ public class Order implements Serializable{/**
 	@JsonManagedReference
 	private List<OrderLine> lines;
 	
-	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<Voucher> vouchers;
+	private Voucher vouchers;
 
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "paymentId")
 	@JsonManagedReference
 	private Payment payment;
+	
+	@ManyToOne
+	@JoinColumn(name = "deliveryId")
+	private Delivery delivery;
 }
