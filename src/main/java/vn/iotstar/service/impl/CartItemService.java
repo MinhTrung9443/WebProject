@@ -20,9 +20,16 @@ public class CartItemService implements ICartItemService{
 	}
 
 	@Override
-	public Optional<CartItem> findByCart_CartIdAndProduct_ProductId(int cartId, int productId) {
-		return cartRepository.findByCart_ShoppingCartIdAndProduct_ProductId(cartId, productId);
+	public Optional<CartItem> findById(Integer id) {
+		return cartRepository.findById(id);
 	}
+
+	@Override
+	public void deleteById(Integer id) {
+		cartRepository.deleteById(id);
+	}
+
+	
 	
 	
 }	

@@ -12,7 +12,9 @@ public interface ICartItemService {
 
 	<S extends CartItem> S save(S entity);
 
-	Optional<CartItem> findByCart_CartIdAndProduct_ProductId(int cartId, int productId);
+	void deleteById(Integer id);
 
+	Optional<CartItem> findById(Integer id);
 
+	
 }

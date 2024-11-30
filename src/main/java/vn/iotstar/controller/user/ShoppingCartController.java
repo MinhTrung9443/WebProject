@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,6 @@ import vn.iotstar.entity.CartItem;
 import vn.iotstar.entity.Product;
 import vn.iotstar.entity.ShoppingCart;
 import vn.iotstar.entity.User;
-import vn.iotstar.repository.ICartItemRepository;
 import vn.iotstar.service.ICartItemService;
 import vn.iotstar.service.ICartService;
 import vn.iotstar.service.IProductService;
@@ -71,8 +71,31 @@ public class ShoppingCartController {
 
         cartService.save(cart);
 
-		//cartService.save(cart);
-
 		return "redirect:/User/cart";
 	}
+	@PostMapping("/remove-item")
+    public ResponseEntity<String> removeItemFromCart(@RequestParam int cartItemId) {
+        Optional<CartItem> cartItemOptional = cartItemService.findById(cartItemId);
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+            cartItemService.deleteById(cartItem.getCartItemId());
+            return ResponseEntity.ok("Xoá thành công");
+        } else {
+            return ResponseEntity.badRequest().body("K tìm thấy");
+        }
+    }
+	@PostMapping("/update-quantity")
+    public ResponseEntity<String> updateQuantity(@RequestParam int cartItemId, @RequestParam int quantity) {
+        Optional<CartItem> cartItemOptional = cartItemService.findById(cartItemId);
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+            cartItem.setQuantity(quantity);
+            cartItemService.save(cartItem);
+            for (int i = 0;i<10;i++)
+            	System.out.println(quantity);
+            return ResponseEntity.ok("Cập nhật thành công");
+        } else {
+            return ResponseEntity.badRequest().body("K tìm thấy");
+        }
+    }
 }

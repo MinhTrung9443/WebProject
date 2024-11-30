@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.Account;
 import vn.iotstar.entity.CartItem;
+import vn.iotstar.entity.Favourite;
 import vn.iotstar.entity.Product;
 import vn.iotstar.entity.ShoppingCart;
 import vn.iotstar.entity.User;
 import vn.iotstar.service.ICartService;
+import vn.iotstar.service.IFavouriteService;
 import vn.iotstar.service.IProductService;
 import vn.iotstar.service.IUserService;
 
@@ -30,6 +32,8 @@ public class UserController {
 	private IUserService userService;
 	@Autowired
 	private ICartService cartService;
+	@Autowired
+	private IFavouriteService favouriteService;
 	  @GetMapping("")
 	    public String home(HttpSession session,ModelMap model) {
 		  Account account = (Account) session.getAttribute("account");
@@ -75,8 +79,14 @@ public class UserController {
 			return "User/cart";
 		}
 		@GetMapping("/wishlist")
-		public String wishlist()
+		public String wishlist(HttpSession session,ModelMap model)
 		{
+			User user = (User) session.getAttribute("user");
+			
+			List<Favourite> listfavou = favouriteService.findAllByUserId(user.getId());
+
+			model.addAttribute("listProduct", listfavou);
+			
 			return "User/wishlist";
 		}
 		@GetMapping("/dashboard")
