@@ -8,16 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -52,7 +43,6 @@ public class Product implements Serializable{
 	private String volumeOrWeight;
 	private String brandOrigin;
 	private long stock;
-	private String images;
 	private LocalDate warehouseDateFirst = LocalDate.now();
 
 	@ManyToOne()
@@ -86,5 +76,8 @@ public class Product implements Serializable{
 	@JsonManagedReference
 	private List<Favourite> favourite;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<ProductImage> images;
 
 }
