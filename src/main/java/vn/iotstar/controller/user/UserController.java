@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.*;
+import vn.iotstar.enums.OrderStatus;
+import vn.iotstar.repository.IOrderRepository;
 import vn.iotstar.service.*;
 
 @Controller
@@ -27,6 +29,8 @@ public class UserController {
 	private IFavouriteService favouriteService;
 	@Autowired
 	private IViewHistoryService viewService;
+	@Autowired
+	private IOrderService orderService;
 
 	@GetMapping("")
 	public String home(HttpSession session, ModelMap model) {
@@ -114,7 +118,8 @@ public class UserController {
 	    model.addAttribute("totalPages", (int) Math.ceil((double) viewService.countAllByUserId(user.getId()) / pageSize));
 		return "User/ViewHistory";
 	}
-	
+	@Autowired
+	IOrderRepository repo;
 	
 	@GetMapping("/dashboard")
 	public String dashboard(HttpSession session, ModelMap model) {

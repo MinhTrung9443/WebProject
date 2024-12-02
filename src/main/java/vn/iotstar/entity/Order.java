@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,6 +23,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vn.iotstar.enums.OrderStatus;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,8 +41,8 @@ public class Order implements Serializable{/**
 	private Date orderDate;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String shippingAddress;
-	@Column(columnDefinition = "nvarchar(max)")
-	private String orderStatus;
+    @Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;
 	
 	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
 	@JsonManagedReference
@@ -58,4 +61,8 @@ public class Order implements Serializable{/**
 	@ManyToOne
 	@JoinColumn(name = "deliveryId")
 	private Delivery delivery;
+	
+	@ManyToOne
+	@JoinColumn(name="id")
+	private User user;
 }

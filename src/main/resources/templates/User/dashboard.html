@@ -31,9 +31,9 @@
 
 <body>
     <div class="page-wrapper">
-<header th:replace="~{User/fragments/header::header}"></header>
-        <main class="main">
-        	<div class="page-header text-center" style="background-image: url('/assets/images/page-header-bg.jpg')">
+	<header th:replace="~{User/fragments/header::header}"></header>
+        <main class="main"> 
+        <div class="page-header text-center" style="background-image: url('/assets/images/page-header-bg.jpg')">
         		<div class="container">
         			<h1 class="page-title">My Account<span>Shop</span></h1>
         		</div><!-- End .container -->
@@ -58,7 +58,7 @@
 								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Điều hướng</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Đơn hàng</a>
+								        <a href="/User/Order" class="nav-link" id="tab-orders-link" aria-selected="true">Đơn hàng</a>
 								    </li>
 								   
 								    <li class="nav-item">
@@ -80,12 +80,7 @@
 								    	<br>
 								    	Tại thanh điều hướng này, bạn có thể xem <a href="#tab-orders" class="tab-trigger-link link-underline">các đơn hàng</a>, Quản lý <a href="#tab-address" class="tab-trigger-link">Địa chỉ cá nhân</a>, and <a href="#tab-account" class="tab-trigger-link">Thay đổi mật khẩu và các thông tin cá nhân khác</a>.</p>
 								    </div><!-- .End .tab-pane -->
-
-								    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-								    	<p>Chưa có đơn hàng nào</p>
-								    	<a href="category.html" class="btn btn-outline-primary-2"><span>Mua ngay</span><i class="icon-long-arrow-right"></i></a>
-								    </div><!-- .End .tab-pane -->
-
+		
 								    <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
 								    	<p>Địa chỉ dưới đây được sử dụng khi mua hàng.</p>
 
@@ -157,7 +152,7 @@
 		            						<input type="text" class="form-control" name="phone" th:field="*{phone}" required>
 
 		            						<label>Giới tính *</label>
-		            						<select type="text" class="form-control" name="gender" th:field="*{gender}" required> 
+		            						<select class="form-control" name="gender" th:field="*{gender}" required> 
 		            							<option value="1">Nam</option>
 		            							<option value="0">Nữ</option>
 		            						</select>
@@ -176,10 +171,13 @@
 	                </div><!-- End .container -->
                 </div><!-- End .dashboard -->
             </div><!-- End .page-content -->
-        </main><!-- End .main -->
-<footer th:replace="~{User/fragments/footer::footer}"></footer>
 
-    </div><!-- End .page-wrapper -->
+        </main>
+        	
+
+	<footer th:replace="~{User/fragments/footer::footer}"></footer>
+	</div>
+
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
 <script>
