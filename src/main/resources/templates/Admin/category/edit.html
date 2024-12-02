@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>Chi tiết người dùng</title>
+	<title>Chỉnh sửa danh mục</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -39,7 +39,7 @@
 
 	<!-- BEGIN PAGE HEADER-->
 	<h3 class="page-title">
-		Quản lý người dùng <small>Chi tiết người dùng</small>
+		Quản Lý Danh Mục
 	</h3>
 	<div class="page-bar">
 		<ul class="page-breadcrumb">
@@ -49,11 +49,11 @@
 				<i class="fa fa-angle-right"></i>
 			</li>
 			<li>
-				<a href="/Admin/user">Quản lý người dùng</a>
+				<a href="/Admin/category">Quản lý danh mục</a>
 				<i class="fa fa-angle-right"></i>
 			</li>
 			<li>
-				<a href="#">Chi tiết người dùng</a>
+				<a href="#">Chỉnh sửa danh mục</a>
 			</li>
 		</ul>
 	</div>
@@ -67,124 +67,72 @@
 					<div class="portlet box blue ">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-gift"></i>CHI TIẾT NGƯỜI DÙNG
+								<i class="fa fa-gift"></i>CHỈNH SỬA DANH MỤC
 							</div>
 						</div>
 
 						<div class="portlet-body form">
 							<!-- BEGIN FORM-->
-							<!--	<form action= "#"  class="form-horizontal form-bordered" >-->
-							<form action="/Admin/user/save" method="post" th:object=${user}
+							<form action="/Admin/category/save" method="post" th:object=${cate}
 								class="form-horizontal form-bordered">
-
 								<div class="form-body">
 									<div class="form-group">
-										<label for="id" class="control-label col-md-3">ID</label>
+										<label class="control-label col-md-3">ID</label>
 										<div class="col-md-9">
-											<input type="text" id="id" name="id" th:value="${user.id}"
-												class="form-control" readonly />
-
+											<input type="text" id="categoryId" name="categoryId"
+												th:value="${cate.categoryId}" class="form-control" readonly>
 										</div>
 									</div>
 
-									<div class="form-group">
-										<label class="control-label col-md-3">Tên người dùng</label>
-										<div class="col-md-9">
-											<input type="text" id="username" name="username"
-												th:value="${user != null && user.account != null ? user.account.username : ''}"
-												class="form-control" readonly
-												style="background-color: #f7f7f7; border: 2px solid #4CAF50; font-weight: bold; color: #333;" />
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="control-label col-md-3">Mật khẩu</label>
-										<div class="col-md-9">
-											<input type="text" id="password" name="password"
-												th:value="${user != null && user.account != null ? user.account.password : ''}"
-												class="form-control" readonly
-												style="background-color: #f7f7f7; border: 2px solid #4CAF50; font-weight: bold; color: #333;" />
-										</div>
-									</div>
-
-
-									<div class="form-group">
-										<label class="control-label col-md-3">Họ và tên</label>
-										<div class="col-md-9">
-											<input type="text" id="fullname" name="fullname" th:value="${user.fullname}"
-												class="form-control" readonly />
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="control-label col-md-3">Giới tính</label>
-										<div class="col-md-9">
-											<select class="form-control" disabled>
-												<option value="1" th:selected="${user.gender == 1}">Nam</option>
-												<option value="0" th:selected="${user.gender == 0}">Nữ</option>
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="control-label col-md-3">Số điện thoại</label>
-										<div class="col-md-9">
-											<input type="text" id="phone" name="phone" th:value="${user.phone}"
-												class="form-control" readonly />
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="control-label col-md-3">Email</label>
-										<div class="col-md-9">
-											<input type="text" id="email" name="email" th:value="${user.email}"
-												class="form-control" readonly />
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="control-label col-md-3">Ngày sinh</label>
-										<div class="col-md-9">
-											<input type="text" id="birthday" name="birthday"
-												th:value="${#dates.format(user.birthday, 'dd/MM/yyyy')}"
-												class="form-control" placeholder="dd/mm/yyyy" readonly>
-										</div>
-
-									</div>
-
-									<div class="form-group">
-										<label class="control-label col-md-3">Trạng thái</label>
-										<div class="col-md-9">
-											<div class="radio-list">
-												<label>
-													<input type="radio" id="active" name="active" th:value="1"
-														th:checked="${user.account.active == 1}" />
-													Mở Khoá
-												</label>
-												<label>
-													<input type="radio" id="inactive" name="active" th:value="0"
-														th:checked="${user.account.active == 0}" />
-													Khoá
-												</label>
+									<div class="form-body">
+										<div class="form-group">
+											<label class="control-label col-md-3">Tên danh mục</label>
+											<div class="col-md-9">
+												<input type="text" id="categoryName" name="categoryName"
+													th:value="${cate.categoryName}" class="form-control">
 											</div>
 										</div>
-									</div>
+										<div class="form-group">
+											<label class="control-label col-md-3">Link hình ảnh</label>
+											<div class="col-md-9">
+												<input type="text" id="images" name="images" th:value="${cate.images}"
+													class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label col-md-3">Trạng thái</label>
+											<div class="col-md-9">
+												<div class="radio-list">
+													<label>
+														<input type="radio" id="active" name="active" th:value="1"
+															th:checked="${cate.active == 1}" />
+														Mở Khoá
+													</label>
+													<label>
+														<input type="radio" id="inactive" name="active" th:value="0"
+															th:checked="${cate.active == 0}" />
+														Khoá
+													</label>
+												</div>
+											</div>
+										</div>
 
-								</div>
-								<div class="form-actions">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="row">
-												<div class="col-md-offset-3 col-md-9">
-													<button type="submit" class="btn green"><i class="fa fa-check"></i>
-														Submit</button>
-													<button type="button" class="btn default"
-														onclick="window.history.back()">Cancel</button>
+									</div>
+									<div class="form-actions">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" class="btn green"><i
+																class="fa fa-check"></i>
+															Submit</button>
+														<button type="button" class="btn default"
+															onclick="window.history.back()">Cancel</button>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
 							</form>
 							<!-- END FORM-->
 						</div>

@@ -59,7 +59,7 @@
 
 	<!-- BEGIN PAGE HEADER-->
 	<h3 class="page-title">
-		Quản Lý Người Dùng
+		Quản Lý Khách Hàng
 	</h3>
 	<div class="page-bar">
 		<ul class="page-breadcrumb">
@@ -69,7 +69,7 @@
 				<i class="fa fa-angle-right"></i>
 			</li>
 			<li>
-				<a href="/Admin/user">Quản lý người dùng</a>
+				<a href="/Admin/user">Quản lý khách hàng</a>
 				<i class="fa fa-angle-right"></i>
 			</li>
 		</ul>
@@ -81,7 +81,7 @@
 				<div class="portlet box blue-hoki">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-globe"></i>DANH SÁCH NGƯỜI DÙNG
+							<i class="fa fa-globe"></i>DANH SÁCH KHÁCH HÀNG
 						</div>
 
 						<div class="tools">
@@ -119,9 +119,9 @@
 
 
 									<td th:text="${user.phone}"></td>
-									
+
 									<td th:text="${user.email}"></td>
-									
+
 									<td th:text="${#dates.format(user.birthday, 'dd/MM/yyyy')}"></td>
 									<div th:if="${user.account != null}">
 										<td th:switch="${user.account.active}">

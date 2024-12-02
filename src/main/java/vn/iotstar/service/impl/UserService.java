@@ -21,24 +21,31 @@ public class UserService implements IUserService{
     public UserService(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }	
+	@Override
 	public List<User> findAll() {
 		return userRepository.findAll();
 	}
+	@Override
 	public <S extends User> S save(S entity) {
 		return userRepository.save(entity);
 	}
+	@Override
 	public Page<User> findAll(Pageable pageable) {
 		return userRepository.findAll(pageable);
 	}
+	@Override
 	public Optional<User> findById(Integer id) {
 		return userRepository.findById(id);
 	}
+	@Override
 	public long count() {
 		return userRepository.count();
 	}
+	@Override
 	public void deleteById(Integer id) {
 		userRepository.deleteById(id);
 	}
+	@Override
 	public void delete(User entity) {
 		userRepository.delete(entity);
 	}
