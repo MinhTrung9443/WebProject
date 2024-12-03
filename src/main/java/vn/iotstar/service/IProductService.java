@@ -20,5 +20,7 @@ public interface IProductService {
 	List<Product> findTop20ByOrderByWarehouseDateFirstDesc();
 
 	Optional<Product> findById(Integer id);
+ 
+
 
 }

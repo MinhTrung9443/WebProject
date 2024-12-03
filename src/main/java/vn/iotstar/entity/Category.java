@@ -17,7 +17,8 @@ public class Category {
 	@Column(columnDefinition = "nvarchar(max)")
 	private String categoryName;
 	private String images;
-	
+	@Column(name = "active")
+	private Integer active;
 	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Product> product;

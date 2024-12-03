@@ -2,7 +2,6 @@ package vn.iotstar.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -34,8 +33,8 @@ public class Product implements Serializable{
 	@Column(columnDefinition = "nvarchar(max)")
 	private String description;
 	private String brand;
-	private Date expirationDate;
-	private Date manufactureDate;
+	private LocalDate expirationDate;
+	private LocalDate manufactureDate;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String ingredient;
 	@Column(columnDefinition = "nvarchar(max)")
@@ -76,7 +75,7 @@ public class Product implements Serializable{
 	@JsonManagedReference
 	private List<Favourite> favourite;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<ProductImage> images;
 
