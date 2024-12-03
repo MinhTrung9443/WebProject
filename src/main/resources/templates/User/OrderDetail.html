@@ -27,6 +27,47 @@
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+    .rating {
+        display: inline-flex;
+        gap: 10px;
+    }
+
+    .rating input[type="radio"] {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background-color: #ddd;
+        border-radius: 50%;
+        border: 2px solid #aaa;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .rating input[type="radio"]:checked {
+        background-color: #f39c12;
+        border-color: #f39c12;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    .submit-btn {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background-color: #2980b9;
+    }
+</style>
+
 </head>
 
 <body>
@@ -53,6 +94,11 @@
 	                <div class="container">
 	                	<div class="row">
 	                		<div class="col-lg-9">
+	                			<div>
+	                				<p><strong>Họ tên:</strong> <span th:text="${order.user.fullname}"></span></p>
+	                				<p><strong>Địa chỉ giao hàng:</strong> <span th:text="${order.shippingAddress}"></span></p>
+	                				<p><strong>Điện thoại khách hàng:</strong> <span th:text="${order.user.phone}"></span></p>
+	                			</div>
 	                			<table class="table table-cart table-mobile">
 									<thead>
 										<tr>
@@ -132,6 +178,13 @@
 	                						</tr><!-- End .summary-subtotal -->
    	                					</tbody>
 	                				</table><!-- End .table table-summary -->
+	                				<div style="display: flex;">
+										<div class="col-6 col-lg-4 col-xl-2" th:if="${order.orderStatus.name() == 'COMPLETED' }" >
+									   		<div class="btn-wrap">
+									    		<a th:href="'/User/Return/' + ${order.orderId}" class="btn btn-outline-primary btn-rounded">Trả đơn hàng</a>
+									    	</div><!-- End .btn-wrap -->
+									    </div><!-- End .col-md-4 col-lg-2 -->
+									</div>
 	                			</div><!-- End .summary -->
 	                		</aside><!-- End .col-lg-3 -->
 	                	</div><!-- End .row -->
@@ -139,6 +192,65 @@
                 </div><!-- End .cart -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->
+        
+                
+      <div th:if="${order.orderStatus.name() == 'COMPLETED'}" class="container mt-4">
+    <h3 class="text-center">Đánh giá.</h3>
+    <form action="/User/review" method="post" class="shadow p-4 rounded bg-light" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <input type="hidden" name="orderId" th:value="${order.orderId}">
+        
+        <!-- Sản phẩm đánh giá -->
+        <div class="mb-3">
+            <label for="productId" class="form-label">Sản phẩm đánh giá:</label>
+            <select id="productId" name="productId" class="form-select">
+                <option th:each="orderLine : ${order.lines}"
+                    th:value="${orderLine.product.productId}"
+                    th:text="${orderLine.product.productName}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Đánh giá bằng sao -->
+        <div class="mb-3">
+            <label class="form-label">Đánh giá bằng sao:</label>
+            <div class="rating d-flex align-items-center">
+                <input type="radio" name="rating" id="star1" value="1">
+                <input type="radio" name="rating" id="star2" value="2">
+                <input type="radio" name="rating" id="star3" value="3">
+                <input type="radio" name="rating" id="star4" value="4">
+                <input type="radio" name="rating" id="star5" value="5">
+            </div>
+        </div>
+
+        <!-- Lời đánh giá -->
+        <div class="mb-3">
+            <label for="comment" class="form-label">Lời đánh giá:</label>
+            <textarea id="comment" name="comment" class="form-control" rows="4" placeholder="Nhập lời đánh giá của bạn..."></textarea>
+        </div>
+        
+        <div >
+		    <label for="imageInput" class="form-label">Tải hình ảnh lên:</label>
+		    <div>
+		        <input type="file" id="image" name="image">
+		    </div>
+		</div>
+
+        <!-- Nút gửi đánh giá -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4">Gửi đánh giá</button>
+        </div>
+    </form>
+</div>
+
+	<div style="display: flex; justify-content: center">
+		<div class="col-6 col-lg-4 col-xl-2" th:if="${order.orderStatus.name() == 'PENDING' || order.orderStatus.name() == 'CONFIRMED'}" >
+	   		<div class="btn-wrap">
+	    		<a th:href="'/User/Cancel/' + ${order.orderId}" class="btn btn-outline-primary btn-rounded">Hủy đơn hàng</a>
+	    	</div><!-- End .btn-wrap -->
+	    </div><!-- End .col-md-4 col-lg-2 -->
+	</div>
+	
+	
 <footer th:replace="~{User/fragments/footer::footer}"></footer>
 
     </div><!-- End .page-wrapper -->
@@ -154,6 +266,31 @@
     <script src="/assets/js/bootstrap-input-spinner.js"></script>
     <!-- Main JS File -->
     <script src="/assets/js/main.js"></script>
+    
+    
+<script >
+
+document.getElementById('reviewForm').addEventListener('submit', function(event) {
+    const comment = document.getElementById('comment').value.trim();
+    const errorElement = document.getElementById('commentError');
+
+    if (comment.length < 50) {
+        event.preventDefault(); // Ngăn không cho form submit
+        errorElement.classList.remove('d-none'); // Hiển thị lỗi
+    } else {
+        errorElement.classList.add('d-none'); // Ẩn lỗi nếu hợp lệ
+    }
+});
+function validateForm() {
+    var comment = document.getElementById('comment').value;
+    if (comment.length < 50) {
+        alert("Lời đánh giá phải có ít nhất 50 ký tự.");
+        return false;  // Ngừng gửi form nếu điều kiện không thỏa mãn
+    }
+    return true;  // Gửi form nếu điều kiện thỏa mãn
+}
+</script>
+
 </body>
 
 

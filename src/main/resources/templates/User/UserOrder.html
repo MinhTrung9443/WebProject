@@ -36,7 +36,7 @@
      		<div>
   			<ul class="nav nav-pills" id="tabs-5" role="tablist" style="display: flex;justify-content: center">
 		    <li class="nav-item">
-		        <a class="nav-link" id="tab-17-tab" data-toggle="tab" href="?tab=don-cho-xac-nhan" role="tab" aria-controls="tab-17" aria-selected="true">Chờ xác nhận</a>
+		        <a class="nav-link" id="tab-17-tab" data-toggle="tab" href="?tab=don-cho-xac-nhan" role="tab" aria-controls="tab-17" aria-selected="true">Đơn hàng mới</a>
 		    </li>
 		    <li class="nav-item">
 		        <a class="nav-link" id="tab-18-tab" data-toggle="tab" href="?tab=don-da-xac-nhan" role="tab" aria-controls="tab-18" aria-selected="false">Đã xác nhận</a>
@@ -66,7 +66,7 @@
 		                </div>
 		                <div class="card-body" style="display: flex; justify-content: space-between">
 		                	<div>
-			                	<p><strong>Ngày đặt hàng:</strong> <span th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy')}"></span></p>
+			                	<p><strong>Ngày đặt hàng:</strong> <span th:text="${order.orderDate}"></span></p>
 			                    <p><strong>Địa chỉ giao hàng:</strong> <span th:text="${order.shippingAddress}"></span></p>
 		                	</div>
 		                    <div th:if="${order.payment != null}">

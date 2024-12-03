@@ -1,7 +1,10 @@
 package vn.iotstar.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -25,11 +28,17 @@ public class ProductFeedback implements Serializable{/**
 	private int feedbackId;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String comment;
-	private Date reviewDate;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+	private LocalDateTime reviewDate;
 	private int rating;
+	private String image;
 	
 	@ManyToOne()
 	@JoinColumn(name = "productId")
 	@JsonManagedReference
 	private Product product;
+	
+	@ManyToOne()
+	@JoinColumn(name = "id")
+	private User user;
 }

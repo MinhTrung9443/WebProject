@@ -134,7 +134,8 @@ public class UserController {
 	public String checkout() {
 		return "User/checkout";
 	}
-
+	@Autowired
+	private IProductFeedbackService feedbackService;
 	@GetMapping("/productDetail/{productId}")
 	public String productDetail(HttpSession session, ModelMap model, @PathVariable("productId") int productId) {
 		User user = (User) session.getAttribute("user");
@@ -142,7 +143,9 @@ public class UserController {
 
 		if (opProduct.isPresent()) {
 			Product product = opProduct.get();
+			List<ProductFeedback> feedback = feedbackService.findByProduct_ProductId(productId);
 			model.addAttribute("product", product);
+			model.addAttribute("feedback", feedback);
 			if (user != null) {
 				ViewHistory newView = viewService.findByUserIdAndProduct_ProductId(user.getId(), productId);
 				if (newView == null)
