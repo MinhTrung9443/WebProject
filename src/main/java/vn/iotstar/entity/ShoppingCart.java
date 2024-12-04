@@ -23,7 +23,7 @@ public class ShoppingCart implements Serializable{/**
 	
 	@OneToOne()
 	@JoinColumn(name = "id")
-	private User user;
+	private Person user;
 	
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
 	@JsonManagedReference

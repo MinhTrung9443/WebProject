@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.Address;
-import vn.iotstar.entity.User;
+import vn.iotstar.entity.Person;
 import vn.iotstar.service.IAddressService;
 import vn.iotstar.service.IUserService;
 
@@ -44,17 +44,13 @@ public class AddressController {
 	public ResponseEntity<String> addAdress(ModelMap model, HttpSession session, @RequestParam String newAddressType, @RequestParam String newAddressDetail)
 	{
 		
-		User user = (User) session.getAttribute("user");
+		Person user = (Person) session.getAttribute("user");
 		
 		Address address = new Address();
 		address.setAddressType(newAddressType);
 		address.setAddressDetail(newAddressDetail);
 		address.setUser(user);
-		user.getAddress().add(address);
-		for (Address add : user.getAddress())
-		{
-			System.out.println(add.getAddressDetail()+ "+++++++++++++++++++++  " + user.getId());
-		}
+
 		addressService.save(address);
 		return ResponseEntity.ok("Thêm thành công");
 	}

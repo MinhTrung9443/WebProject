@@ -25,7 +25,7 @@ public class ViewHistory {
     @ManyToOne()
     @JoinColumn(name="userId", referencedColumnName="id")
     @JsonBackReference
-    private User user;
+    private Person user;
     
     @ManyToOne()
     @JoinColumn(name="productId")

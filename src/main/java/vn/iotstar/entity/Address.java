@@ -27,5 +27,5 @@ public class Address implements Serializable{
 	@JoinColumn(name = "id")
 	@JsonBackReference
 	@ToStringExclude
-	private User user;
+	private Person user;
 }

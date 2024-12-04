@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.Favourite;
+import vn.iotstar.entity.Person;
 import vn.iotstar.entity.User;
+import vn.iotstar.entity.Vendor;
 import vn.iotstar.service.IFavouriteService;
 import vn.iotstar.service.IProductService;
 import vn.iotstar.service.IUserService;
@@ -32,14 +34,35 @@ public class FavouriteController {
 	@PostMapping("/addlove")
 	public ResponseEntity<String> addlove(ModelMap model, HttpSession session, @RequestParam int productId)
 	{
-		User user = (User) session.getAttribute("user");
-		List<Favourite> listfavou = user.getFavourite();
-		if (listfavou == null)
-		{
-			listfavou = new ArrayList<>();
-			user.setFavourite(listfavou);
-			userService.save(user);
-		}
+		Person user = (Person) session.getAttribute("user");
+        
+        int customerId=0;
+        List<Favourite> listfavou = new ArrayList<>();
+        if (user.getAccount().getRole().getRoleId() == 2)
+        {
+        	User u = (User) user;
+        	listfavou = u.getFavourite();
+        	if (listfavou == null)
+    		{
+    			listfavou = new ArrayList<>();
+    			u.setFavourite(listfavou);
+    			userService.save(u);
+    		}
+        }
+        else if (user.getAccount().getRole().getRoleId() == 3) {
+        	Vendor u = (Vendor) user;
+        	listfavou = u.getFavourite();
+        	if (listfavou == null)
+    		{
+    			listfavou = new ArrayList<>();
+    			u.setFavourite(listfavou);
+    			userService.save(u);
+    		}
+        }
+        
+        
+
+		
 		
 		Optional<Favourite> favourite = favouriteService.findByUserId(user.getId(),productId);
 		

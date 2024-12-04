@@ -4,15 +4,16 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import vn.iotstar.entity.User;
+import vn.iotstar.entity.Person;
+
 
 @Service
 public interface IUserService {
 
-	User findByAccountUsername(String username);
+	Person findByAccountUsername(String username);
 
-	<S extends User> S save(S entity);
+	<S extends Person> S save(S entity);
 
-	Optional<User> findById(Integer id);
+	Optional<Person> findById(Integer id);
 
 }

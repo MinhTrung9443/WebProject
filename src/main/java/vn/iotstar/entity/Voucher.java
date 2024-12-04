@@ -31,6 +31,7 @@ public class Voucher implements Serializable{/**
 
 	private int voucherId;
 	@Column(columnDefinition = "nvarchar(max)")
+	private String voucherCode;
 	private String voucherType;
 	private int voucherValue;
 	private Date startDate;

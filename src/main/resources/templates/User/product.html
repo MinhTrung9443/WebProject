@@ -313,7 +313,7 @@
 				    <h3>Đánh giá</h3>
 				
 				    <!-- Hiển thị 3-4 đánh giá đầu tiên -->
-				    <div th:each="feed : ${feedback}">
+				    <div th:if="${feedback != null}" th:each="feed : ${feedback}">
 				        <div class="review" >
 				            <div class="row no-gutters">
 				                <div class="col-auto">

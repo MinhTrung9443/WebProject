@@ -40,5 +40,5 @@ public class ProductFeedback implements Serializable{/**
 	
 	@ManyToOne()
 	@JoinColumn(name = "id")
-	private User user;
+	private Person user;
 }

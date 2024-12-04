@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.validation.Valid;
 import vn.iotstar.entity.Account;
+import vn.iotstar.entity.Person;
 import vn.iotstar.entity.User;
 import vn.iotstar.service.impl.UserService;
 
@@ -71,10 +72,10 @@ public class ManageUserController {
 			model.addAttribute("user", user);
 			return new ModelAndView("Admin/user/detail", model);
 		}
-		Optional<User> optUser = userService.findById(user.getId());
+		Optional<Person> optUser = userService.findById(user.getId());
 		
 		if (optUser.isPresent()) {
-			User existUser = optUser.get();
+			User existUser = (User) optUser.get();
 			Account existAccount = existUser.getAccount();
 			
 			if (account != null) {
@@ -89,9 +90,9 @@ public class ManageUserController {
 
 	@GetMapping("/detail/{id}")
 	public String viewUserDetail(@PathVariable("id") int id, Model model) {
-		Optional<User> optUser = userService.findById(id);
+		Optional<Person> optUser = userService.findById(id);
 		if (optUser.isPresent()) {
-			User user = optUser.get();
+			User user = (User) optUser.get();
 			model.addAttribute("user", user);
 			return "Admin/user/detail";
 		} 

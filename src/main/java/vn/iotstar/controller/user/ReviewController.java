@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.dto.ReviewDTO;
+import vn.iotstar.entity.Person;
 import vn.iotstar.entity.Product;
 import vn.iotstar.entity.ProductFeedback;
 import vn.iotstar.entity.User;
@@ -45,7 +46,7 @@ public class ReviewController {
 	public String review(ModelMap model, HttpSession session, @ModelAttribute ReviewDTO review
 			,@RequestParam("productId") int productId,@RequestParam("orderId") int orderId) {
 
-		User user = (User) session.getAttribute("user");
+		Person user = (Person) session.getAttribute("user");
 
 		// save image file
 		MultipartFile image = review.getImage();

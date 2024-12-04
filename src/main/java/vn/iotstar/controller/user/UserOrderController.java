@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.Order;
+import vn.iotstar.entity.Person;
 import vn.iotstar.entity.User;
+import vn.iotstar.entity.Vendor;
 import vn.iotstar.enums.OrderStatus;
 import vn.iotstar.service.IOrderService;
 
@@ -33,12 +35,23 @@ public class UserOrderController {
             @RequestParam(value = "tab", defaultValue = "don-cho-xac-nhan") String tab,
             Model model, HttpSession session) {
 
-        User user = (User) session.getAttribute("user");
+        Person user = (Person) session.getAttribute("user");
         if (user == null) {
             return "redirect:user/signin";
         }
+        
+        int customerId=0;
+        if (user.getAccount().getRole().getRoleId() == 2)
+        {
+        	User u = (User) user;
+        	 customerId = u.getId();
+        }
+        else if (user.getAccount().getRole().getRoleId() == 3) {
+        	Vendor u = (Vendor) user;
+        	 customerId = u.getId();
+        }
 
-        int customerId = user.getId();
+        
         Page<Order> orders;
         int pageSize = 10;
         Pageable page = PageRequest.of(pageNo-1, pageSize);

@@ -64,5 +64,5 @@ public class Order implements Serializable{/**
 	
 	@ManyToOne
 	@JoinColumn(name="id")
-	private User user;
+	private Person user;
 }

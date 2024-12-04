@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.CartItem;
+import vn.iotstar.entity.Person;
 import vn.iotstar.entity.Product;
 import vn.iotstar.entity.ShoppingCart;
 import vn.iotstar.entity.User;
@@ -36,7 +37,7 @@ public class ShoppingCartController {
 	public String returnCartView(ModelMap model, HttpSession session, @RequestParam int productId, @RequestParam int quantity)
 	{
 		Product product = productService.findById(productId).get();
-		User user = (User) session.getAttribute("user");
+		Person user = (Person) session.getAttribute("user");
 		if (user == null)
 		{
 			return "redirect:/login";

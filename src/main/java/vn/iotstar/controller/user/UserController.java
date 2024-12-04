@@ -35,8 +35,14 @@ public class UserController {
 	@GetMapping("")
 	public String home(HttpSession session, ModelMap model) {
 		Account account = (Account) session.getAttribute("account");
-		User user = userService.findByAccountUsername(account.getUsername());
-		session.setAttribute("user", user);
+		int roleid = account.getRole().getRoleId();
+		if (roleid == 2) {
+			User customer = (User) userService.findByAccountUsername(account.getUsername());
+			session.setAttribute("user", customer);
+		} else if (roleid == 3) {
+			Vendor employee = (Vendor) userService.findByAccountUsername(account.getUsername());
+			session.setAttribute("user", employee);
+		}
 //		  danh sách sản phẩm mới
 		List<Product> productNew = productService.findTop20ByOrderByWarehouseDateFirstDesc();
 //		  danh sách bán chạy
@@ -65,9 +71,19 @@ public class UserController {
 	@GetMapping("/cart")
 	public String cart(HttpSession session, ModelMap model) {
 		Account account = (Account) session.getAttribute("account");
-		User user = userService.findByAccountUsername(account.getUsername());
-		session.setAttribute("user", user);
-		ShoppingCart cart = cartService.findByUserId(user.getId()).get();
+		int roleid = account.getRole().getRoleId();
+		int id=0;
+		if (roleid == 2) {
+			User customer = (User) userService.findByAccountUsername(account.getUsername());
+			id = customer.getId();
+			session.setAttribute("user", customer);
+		} else if (roleid == 3) {
+			Vendor employee = (Vendor) userService.findByAccountUsername(account.getUsername());
+			id = employee.getId();
+			session.setAttribute("user", employee);
+		}
+		
+		ShoppingCart cart = cartService.findByUserId(id).get();
 		if (cart == null) {
 			cart = new ShoppingCart();
 			List<CartItem> cartItems = new ArrayList<>();
@@ -86,15 +102,26 @@ public class UserController {
 		}
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 
-		User user = (User) session.getAttribute("user");
+		Person person = (Person) session.getAttribute("user");
+        
+        int Id=0;
+        if (person.getAccount().getRole().getRoleId() == 2)
+        {
+        	User u = (User) person;
+        	Id = u.getId();
+        }
+        else if (person.getAccount().getRole().getRoleId() == 3) {
+        	Vendor u = (Vendor) person;
+        	Id = u.getId();
+        }
 
-		Page<Favourite> listfavou = favouriteService.findAllByUserId(user.getId(),pageable);
+		Page<Favourite> listfavou = favouriteService.findAllByUserId(Id,pageable);
 
 		model.addAttribute("listProduct", listfavou);
 		model.addAttribute("currentPage", pageNo);
 	    model.addAttribute("pageSize", pageSize);
-	    model.addAttribute("totalItems", favouriteService.countAllByUserId(user.getId()));
-	    model.addAttribute("totalPages", (int) Math.ceil((double) favouriteService.countAllByUserId(user.getId()) / pageSize));
+	    model.addAttribute("totalItems", favouriteService.countAllByUserId(Id));
+	    model.addAttribute("totalPages", (int) Math.ceil((double) favouriteService.countAllByUserId(Id) / pageSize));
 		return "User/wishlist";
 	}
 	
@@ -107,15 +134,26 @@ public class UserController {
 		}
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 
-		User user = (User) session.getAttribute("user");
+		Person person = (Person) session.getAttribute("user");
+        
+        int Id=0;
+        if (person.getAccount().getRole().getRoleId() == 2)
+        {
+        	User u = (User) person;
+        	Id = u.getId();
+        }
+        else if (person.getAccount().getRole().getRoleId() == 3) {
+        	Vendor u = (Vendor) person;
+        	Id = u.getId();
+        }
 
-		Page<ViewHistory> listView = viewService.findAllByUserId(user.getId(),pageable);
+		Page<ViewHistory> listView = viewService.findAllByUserId(Id,pageable);
 
 		model.addAttribute("listProduct", listView);
 		model.addAttribute("currentPage", pageNo);
 	    model.addAttribute("pageSize", pageSize);
-	    model.addAttribute("totalItems", viewService.countAllByUserId(user.getId()));
-	    model.addAttribute("totalPages", (int) Math.ceil((double) viewService.countAllByUserId(user.getId()) / pageSize));
+	    model.addAttribute("totalItems", viewService.countAllByUserId(Id));
+	    model.addAttribute("totalPages", (int) Math.ceil((double) viewService.countAllByUserId(Id) / pageSize));
 		return "User/ViewHistory";
 	}
 	@Autowired
@@ -124,21 +162,36 @@ public class UserController {
 	@GetMapping("/dashboard")
 	public String dashboard(HttpSession session, ModelMap model) {
 		Account account = (Account) session.getAttribute("account");
-		User user = userService.findByAccountUsername(account.getUsername());
-		session.setAttribute("user", user);
-		model.addAttribute("user", user);
+		int roleid = account.getRole().getRoleId();
+		if (roleid == 2) {
+			User customer = (User) userService.findByAccountUsername(account.getUsername());
+			session.setAttribute("user", customer);
+			model.addAttribute("user", customer);
+		} else if (roleid == 3) {
+			Vendor employee = (Vendor) userService.findByAccountUsername(account.getUsername());
+			session.setAttribute("user", employee);
+			model.addAttribute("user", employee);
+		}
+		
 		return "User/dashboard";
 	}
 
-	@GetMapping("/checkout")
-	public String checkout() {
-		return "User/checkout";
-	}
 	@Autowired
 	private IProductFeedbackService feedbackService;
 	@GetMapping("/productDetail/{productId}")
 	public String productDetail(HttpSession session, ModelMap model, @PathVariable("productId") int productId) {
-		User user = (User) session.getAttribute("user");
+		Person person = (Person) session.getAttribute("user");
+        
+        int Id=0;
+        if (person.getAccount().getRole().getRoleId() == 2)
+        {
+        	User u = (User) person;
+        	Id = u.getId();
+        }
+        else if (person.getAccount().getRole().getRoleId() == 3) {
+        	Vendor u = (Vendor) person;
+        	Id = u.getId();
+        }
 		Optional<Product> opProduct = productService.findById(productId);
 
 		if (opProduct.isPresent()) {
@@ -146,16 +199,17 @@ public class UserController {
 			List<ProductFeedback> feedback = feedbackService.findByProduct_ProductId(productId);
 			model.addAttribute("product", product);
 			model.addAttribute("feedback", feedback);
-			if (user != null) {
-				ViewHistory newView = viewService.findByUserIdAndProduct_ProductId(user.getId(), productId);
-				if (newView == null)
-				{
-					newView = new ViewHistory();
-					newView.setProduct(product);
-					newView.setUser(user);
-					viewService.save(newView);
-				}
+
+
+			ViewHistory newView = viewService.findByUserIdAndProduct_ProductId(Id, productId);
+			if (newView == null)
+			{
+				newView = new ViewHistory();
+				newView.setProduct(product);
+				newView.setUser(person);
+				viewService.save(newView);
 			}
+			
 			return "/User/product";
 		}
 		return "redirect/User";

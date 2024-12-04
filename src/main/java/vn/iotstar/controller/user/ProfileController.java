@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
+import vn.iotstar.entity.Person;
 import vn.iotstar.entity.User;
 import vn.iotstar.service.IUserService;
 
@@ -21,11 +22,11 @@ public class ProfileController {
 	@PostMapping("/editProfile")
 	public String editProfile(ModelMap model, HttpSession session, @ModelAttribute("user") User user ) {
 		
-		Optional<User> opUser = userService.findById(user.getId());
+		Optional<Person> opUser = userService.findById(user.getId());
 		
 		if (opUser.isPresent())
 		{
-			User updateuser = opUser.get();
+			Person updateuser = opUser.get();
 			updateuser.setFullname(user.getFullname());
 			updateuser.setEmail(user.getEmail());
 			updateuser.setPhone(user.getPhone());
