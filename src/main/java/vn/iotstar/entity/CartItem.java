@@ -32,7 +32,6 @@ public class CartItem implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	private int cartItemId;
 	private int quantity;
 	@ManyToOne(cascade = CascadeType.ALL)

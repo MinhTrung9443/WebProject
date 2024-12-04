@@ -2,7 +2,6 @@ package vn.iotstar.service;
 
 import org.springframework.stereotype.Service;
 
-
 import vn.iotstar.entity.Account;
 
 @Service
@@ -14,8 +13,9 @@ public interface IAccountService {
 	// Method to find an account by email
 	Account findByUsername(String email);
 
-	
-	 boolean resetPassword(String token, String newPassword);  // Thêm phương thức reset password
+	Account findById(int i);
+
+	boolean resetPassword(String token, String newPassword); // Thêm phương thức reset password
 
 	// Method to save the account (after resetting password or other updates)
 	void save(Account account);
@@ -27,8 +27,7 @@ public interface IAccountService {
 	String generateResetToken(String email);
 
 	Account findByToken(String resetToken);
+
 	void update(Account account);
-
-
 
 }

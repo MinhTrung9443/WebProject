@@ -16,7 +16,7 @@ public class EmailServiceImpl  implements IEmailService {
 	    public void sendOtp(String email, String otp) {
 	        SimpleMailMessage message = new SimpleMailMessage();
 	        message.setTo(email);
-	        message.setSubject("Your OTP Code");
+	        message.setSubject("Lấy lại mật khẩu của website bán mỹ phẩm MOLLA");
 	        message.setText("Your OTP code is: " + otp);
 	        
 	        // Gửi email

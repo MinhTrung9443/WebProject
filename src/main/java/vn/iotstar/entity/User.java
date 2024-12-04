@@ -1,6 +1,7 @@
 package vn.iotstar.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -16,15 +17,16 @@ public class User extends Person implements Serializable{/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Date birthday;
+	private LocalDate birthday;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "shoppingCartId")
+	@JoinColumn(name = "shoppingCartId", nullable = true)
 	@JsonManagedReference
 	private ShoppingCart cart;
 	
 	@OneToMany(mappedBy = "user")
 	@JsonManagedReference
 	private List<Address> address;
+
 	
 }

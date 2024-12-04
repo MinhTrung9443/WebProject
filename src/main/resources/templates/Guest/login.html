@@ -121,6 +121,33 @@
 		.forgot-password-form {
 			display: none;
 		}
+
+		.form-group.remember-me {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			/* Khoảng cách giữa checkbox và nhãn */
+		}
+
+		.remember-me input[type="checkbox"] {
+			width: 16px;
+			height: 16px;
+			margin: 0;
+			/* Loại bỏ margin mặc định */
+		}
+
+		.remember-me label {
+			font-size: 14px;
+			color: #333;
+			/* Màu chữ */
+		}
+
+		.remember-me input[type="checkbox"] {
+			accent-color: #6c63ff;
+			/* Màu tùy chỉnh cho checkbox (hỗ trợ trên trình duyệt hiện đại) */
+			margin-right: 8px;
+			/* Khoảng cách giữa checkbox và chữ */
+		}
 	</style>
 </head>
 
@@ -128,18 +155,27 @@
 	<header th:replace="~{Guest/fragments/header::header}"></header>
 	<div class="login-form">
 		<h3>Đăng Nhập</h3>
-		<div th:if="${error}" style="color: red;">
-			<p th:text="${error}"></p> <!-- Hiển thị thông báo lỗi -->
+		<div th:if="${success != null}" class="success-message" style="color: green;">
+			<p th:text="${success}"></p>
 		</div>
+		<div th:if="${error != null}" class="error-message" style="color: red;">
+			<p th:text="${error}"></p>
+		</div>
+
 		<form th:action="@{/process-login}" method="post">
 			<div class="form-group">
 				<label for="username">Tên đăng nhập:</label>
-				<input type="text" id="username" name="username" placeholder="Nhập email của bạn" required>
+				<input type="text" id="username" name="username" placeholder="Nhập username của bạn" required>
 			</div>
 			<div class="form-group">
 				<label for="password">Mật khẩu:</label>
 				<input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
 			</div>
+			<div class="form-group remember-me">
+				<input type="checkbox" id="remember-me" name="remember-me">
+				<label for="remember-me">Nhớ tôi</label>
+			</div>
+
 			<button type="submit">Đăng Nhập</button>
 		</form>
 		<div class="footer-text">

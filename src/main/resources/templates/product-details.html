@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Molla - Bootstrap eCommerce Template</title>
+	<meta name="keywords" content="HTML5 Template">
+	<meta name="description" content="Molla - Bootstrap eCommerce Template">
+	<meta name="author" content="p-themes">
+	<!-- Favicon -->
+	<link rel="apple-touch-icon" sizes="180x180" th:href="@{/assets/images/icons/apple-touch-icon.png}">
+	<link rel="icon" type="image/png" sizes="32x32" th:href="@{/assets/images/icons/favicon-32x32.png}">
+	<link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/icons/favicon-16x16.png}">
+	<link rel="manifest" th:href="@{/assets/images/icons/site.html}">
+	<link rel="mask-icon" th:href="@{/assets/images/icons/safari-pinned-tab.svg}" color="#666666">
+	<link rel="shortcut icon" th:href="@{/assets/images/icons/favicon.ico}">
+	<meta name="apple-mobile-web-app-title" content="Molla">
+	<meta name="application-name" content="Molla">
+	<meta name="msapplication-TileColor" content="#cc9966">
+	<meta name="msapplication-config" th:href="@{/assets/images/icons/browserconfig.xml}">
+	<meta name="theme-color" content="#ffffff">
+	<link rel="stylesheet" th:href="@{/assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css}">
+	<!-- Plugins CSS File -->
+	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/plugins/owl-carousel/owl.carousel.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/plugins/magnific-popup/magnific-popup.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/plugins/jquery.countdown.css}">
+	<!-- Main CSS File -->
+	<link rel="stylesheet" th:href="@{/assets/css/style.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/skins/skin-demo-2.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/demos/demo-2.css}">
+
+</head>
+
+<body>
+	<style>
+		body {
+			font-family: 'Montserrat', sans-serif;
+			background-color: #f4f4f4;
+		}
+
+		/* General product detail styles */
+		.product-detail-container {
+			display: flex;
+			margin: 20px auto;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			max-width: 1200px;
+			font-family: 'Montserrat', sans-serif;
+		}
+
+		.product-image {
+			width: 40%;
+			padding-right: 20px;
+		}
+
+		.product-image img {
+			width: 100%;
+			border-radius: 8px;
+		}
+
+		.product-info {
+			width: 60%;
+			font-size: 2rem;
+		}
+
+		.product-title {
+			font-size: 3rem;
+			font-weight: bold;
+			margin-bottom: 15px;
+		}
+
+		.price {
+			font-size: 2rem;
+			color: #d9534f;
+			margin-bottom: 20px;
+		}
+
+		.product-description {
+			font-size: 2rem;
+			color: #555;
+			margin-bottom: 20px;
+			font-family: 'Montserrat', sans-serif;
+		}
+
+		.product-details p {
+			margin: 8px 0;
+			font-size: 1rem;
+			color: #555;
+			font-size: 2rem;
+			font-family: 'Montserrat', sans-serif;
+		}
+
+		.product-action {
+			display: flex;
+			gap: 15px;
+			margin-top: 20px;
+		}
+
+		.btn-product {
+			display: inline-block;
+			padding: 10px 20px;
+			font-size: 2rem;
+			font-weight: bold;
+			text-align: center;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.btn-cart {
+			background-color: #28a745;
+			color: white;
+			text-transform: uppercase;
+		}
+
+		.btn-buy {
+			background-color: #d9534f;
+			color: white;
+			text-transform: uppercase;
+		}
+
+		.btn-product:hover {
+			opacity: 0.9;
+		}
+
+		/* Feedback Section Styles */
+		.feedback-section {
+			margin-top: 50px;
+			background-color: #f8f9fa;
+			padding: 30px;
+			border-radius: 8px;
+		}
+
+		.feedback-item {
+			display: flex;
+			margin-bottom: 20px;
+			padding: 15px;
+			background-color: #fff;
+			border-radius: 8px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		}
+
+		.feedback-avatar {
+			margin-right: 15px;
+		}
+
+		.feedback-avatar .avatar {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+		}
+
+		.feedback-details {
+			flex-grow: 1;
+		}
+
+		.feedback-details p {
+			font-size: 2rem;
+			color: #555;
+		}
+
+		.feedback-details strong {
+			font-weight: bold;
+		}
+	</style>
+
+	<div class="page-wrapper">
+		<header th:replace="~{Guest/fragments/header::header}"></header>
+		<main class="main">
+			<!-- Thông tin chi tiết sản phẩm -->
+			<div class="product-detail-container">
+				<div class="product-image">
+					<img th:src="@{${product.images}}" alt="Image of ${product.productName}" class="img-fluid" />
+				</div>
+
+				<div class="product-info">
+					<h1 th:text="${product.productName}" class="product-title"></h1>
+					<p class="price">
+						<strong>Giá:</strong> <span th:text="${product.price}">Giá</span> VND
+					</p>
+					<p class="product-description" th:text="${product.description}">Mô tả sản phẩm</p>
+
+					<div class="product-details">
+						<p><strong>Thương hiệu:</strong> <span th:text="${product.brand}">Thương hiệu</span></p>
+						<p><strong>Ngày sản xuất:</strong> <span th:text="${product.manufactureDate}">Ngày sản
+								xuất</span></p>
+						<p><strong>Ngày hết hạn:</strong> <span th:text="${product.expirationDate}">Ngày hết
+								hạn</span></p>
+						<p><strong>Thành phần:</strong> <span th:text="${product.ingredient}">Thành phần</span></p>
+						<p><strong>Hướng dẫn sử dụng:</strong> <span th:text="${product.instruction}">Hướng dẫn sử
+								dụng</span></p>
+						<p><strong>Khối lượng/Thể tích:</strong> <span th:text="${product.volumeOrWeight}">Khối
+								lượng</span></p>
+						<p><strong>Xuất xứ thương hiệu:</strong> <span th:text="${product.brandOrigin}">Xuất
+								xứ</span></p>
+						<a href="#" class="btn-product btn-cart">Thêm vào giỏ hàng</a>
+						<a href="#" class="btn-product btn-buy">Mua ngay</a>
+					</div>
+
+
+				</div>
+			</div>
+
+			<div class="feedback-section">
+				<h2>Phản hồi của khách hàng</h2>
+				<div th:each="feedback : ${product.feedbacks}" class="feedback-item">
+					<div class="feedback-avatar">
+						<!-- Hiển thị ảnh đại diện người dùng nếu có (Sửa lại nếu bạn có avatar trong ProductFeedback) -->
+						<img src="https://tse3.mm.bing.net/th?id=OIP.QKKp6xTXzmoACxxG5oft1QHaEr&pid=Api&P=0&h=220" alt="User Avatar" class="avatar" />
+					</div>
+
+					<div class="feedback-details">
+						<!-- Hiển thị nội dung phản hồi -->
+						<p><strong>Người dùng:</strong> <span>Người dùng ẩn danh</span></p>
+						<!-- Hoặc bạn có thể thay bằng username nếu có trường này trong ProductFeedback -->
+
+						<!-- Hiển thị nội dung phản hồi -->
+						<p th:text="${feedback.comment}">Nội dung phản hồi</p>
+
+						<!-- Hiển thị đánh giá -->
+						<p><strong>Đánh giá:</strong> <span th:text="${feedback.rating}">Đánh giá</span></p>
+
+						<!-- Hiển thị ngày đánh giá -->
+						<p><strong>Ngày đánh giá:</strong> <span
+								th:text="${#dates.format(feedback.reviewDate, 'dd/MM/yyyy')}">Ngày đánh giá</span></p>
+					</div>
+				</div>
+			</div>
+
+
+
+		</main><!-- End .main -->
+	</div>
+	<footer th:replace="~{Guest/fragments/footer::footer}"></footer>
+	<!-- Plugins JS File -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/js/jquery.hoverIntent.min.js"></script>
+	<script src="assets/js/jquery.waypoints.min.js"></script>
+	<script src="assets/js/superfish.min.js"></script>
+	<script src="assets/js/owl.carousel.min.js"></script>
+	<script src="assets/js/jquery.plugin.min.js"></script>
+	<script src="assets/js/jquery.magnific-popup.min.js"></script>
+	<script src="assets/js/jquery.countdown.min.js"></script>
+	<!-- Main JS File -->
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/demos/demo-2.js"></script>
+</body>
+
+</html>

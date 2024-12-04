@@ -26,4 +26,6 @@ public abstract class Person implements Serializable{
 	@JoinColumn(name = "accountId")
 	@JsonManagedReference
 	protected Account account;
+
+
 }

@@ -7,7 +7,7 @@ import vn.iotstar.repository.IAccountRepository;
 import vn.iotstar.service.IAccountService;
 
 @Service
-public class AccountService implements IAccountService {
+public class AccountServiceImpl implements IAccountService {
 
     @Autowired
     private IAccountRepository accountRepository;
@@ -21,6 +21,11 @@ public class AccountService implements IAccountService {
         }
         throw new RuntimeException("Invalid username or password"); // Sai thông tin
     }
+    @Override
+    public Account findById(int id) {
+        return accountRepository.findById(id).orElse(null); // Dùng repository để tìm account
+    }
+
 
     // Tìm tài khoản bằng email
     @Override

@@ -22,6 +22,7 @@ public class Product implements Serializable{
 	@Id
 
 	private int productId;
+	@Column(name = "productName", columnDefinition = "NVARCHAR(255)")
 	private String productName;
 	private int price;
 	private String description;
@@ -31,8 +32,9 @@ public class Product implements Serializable{
 	private String ingredient;
 	private String instruction;
 	private String volumeOrWeight;
+	@Column(name = "brand_origin")
 	private String brandOrigin;
-	private String image;
+	private String images;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JsonBackReference
