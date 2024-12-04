@@ -1,8 +1,13 @@
 package vn.iotstar.repository;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface IVoucherRepository {
+import vn.iotstar.entity.Voucher;
 
+@Repository
+public interface IVoucherRepository  extends JpaRepository<Voucher, Integer>{
+	List<Voucher> findByVoucherType(String voucherType);
 }

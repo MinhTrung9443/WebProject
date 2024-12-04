@@ -5,8 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import vn.iotstar.entity.User;
 
-
 @Repository
-public interface IUserRepository extends JpaRepository<User, Integer>{
+public interface IUserRepository extends JpaRepository<User, Integer> {
 
 }
