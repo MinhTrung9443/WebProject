@@ -9,5 +9,7 @@ import vn.iotstar.entity.Voucher;
 
 @Repository
 public interface IVoucherRepository  extends JpaRepository<Voucher, Integer>{
-	List<Voucher> findByVoucherType(String voucherType);
+	List<Voucher> findByVoucherCode(String voucherCode);
+	
+	boolean existsByVoucherCode(String voucherCode);
 }

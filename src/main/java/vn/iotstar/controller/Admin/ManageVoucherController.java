@@ -1,27 +1,20 @@
 package vn.iotstar.controller.Admin;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.*;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.validation.Valid;
@@ -69,9 +62,8 @@ public class ManageVoucherController {
 
 	@GetMapping("/add")
 	public String add(Model model) {
-		VoucherDTO voucher = new VoucherDTO();
-
-		model.addAttribute("voucher", voucher);
+		VoucherDTO voucherDTO = new VoucherDTO();
+		model.addAttribute("voucherDTO", voucherDTO);
 		return "Admin/voucher/add";
 	}
 
@@ -88,49 +80,135 @@ public class ManageVoucherController {
 		return new ModelAndView("forward:/Admin/voucher", model);
 	}
 
+	// Kiểm tra mã code đã tồn tại chưa
+	public boolean existCode(ModelMap model, VoucherDTO voucherDTO) {
+		if (voucherService.existsByVoucherCode(voucherDTO.getVoucherCode())) {
+			model.addAttribute("existCode", "MÃ CODE ĐÃ TỒN TẠI!!!");
+			return true;
+		}
+		return false;
+	}
+
+	// Kiểm tra startDate, endDate
+	public boolean isValidDate(ModelMap model, VoucherDTO voucherDTO) {
+		if (voucherDTO.getStartDate() != null & voucherDTO.getEndDate() != null) {
+			LocalDate startDay = voucherDTO.getStartDate().toLocalDate();
+			LocalDate endDay = voucherDTO.getEndDate().toLocalDate();
+			
+			LocalTime startTime = voucherDTO.getStartDate().toLocalTime();
+			LocalTime endTime = voucherDTO.getEndDate().toLocalTime();
+
+			if (startDay.isEqual(endDay)) {
+				
+				if (startTime.isAfter(endTime)) {
+					model.addAttribute("checkDate", "GIỜ BẮT ĐẦU PHẢI TRƯỚC GIỜ KẾT THÚC!");
+					return true;
+				}else if (startTime.equals(endTime)) {
+					model.addAttribute("checkDate", "NGÀY GIỜ BẮT ĐẦU KHÔNG ĐƯỢC TRÙNG NGÀY GIỜ KẾT THÚC!");
+					return true;					
+				}
+			} else if (voucherDTO.getStartDate().isAfter(voucherDTO.getEndDate())) {
+				model.addAttribute("checkDate", "NGÀY BẮT ĐẦU PHẢI TRƯỚC NGÀY KẾT THÚC!");
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//Kiểm tra số lượng voucher thêm vào
+	public boolean checkQuantity(ModelMap model, VoucherDTO voucherDTO) {
+		if (voucherDTO.getQuantity() <= 0) {
+			model.addAttribute("valid", "SỐ LƯỢNG PHẢI LỚN HƠN 0!!!");
+			return true;
+		}
+		return false;
+	}
+	
+	//Kiểm tra trị giá voucher
+	public boolean checkValue(ModelMap model, VoucherDTO voucherDTO) {
+		if (voucherDTO.getVoucherValue() < 1000 ) {
+			model.addAttribute("value", "GIÁ TRỊ VOUCHER PHẢI LỚN HƠN 1000 VND");
+			return true;
+		}
+		return false;
+	}
+
 	@PostMapping("/save")
 	public ModelAndView addOrEdit(ModelMap model, @Valid @ModelAttribute Voucher voucher,
 			@Valid @ModelAttribute VoucherDTO voucherDTO, BindingResult result) {
 		if (result.hasErrors()) {
-			model.addAttribute("voucher", voucher);
-			return new ModelAndView("Admin/voucher", model);
+			if (voucher.getVoucherId() != 0) {
+				return new ModelAndView("Admin/voucher/edit", model);
+			} else {
+				return new ModelAndView("Admin/voucher/add", model);
+			}
 		}
 
-		if (voucher.getVoucherId() != 0) {
+		boolean check = false;
+
+		// Kiểm tra nếu voucherId đã tồn tại thì sửa ngược lại thêm
+		if (voucherDTO.getVoucherId() != 0) {
+
 			Optional<Voucher> optionalEntity = voucherService.findById(voucher.getVoucherId());
 
 			Voucher entity = optionalEntity.get();
-			String name = entity.getVoucherType();
+				
+			if (existCode(model,voucherDTO)) {
+				check = true;
+			}
+			
+			if (isValidDate(model, voucherDTO)) {
+				check = true;
+			}
+			
+			if (checkValue(model, voucherDTO)) {
+				check = true;
+			}
+			
+			if (check) {
+				return new ModelAndView("Admin/voucher/edit", model);
+			}
 
-			List<Voucher> listByType = voucherService.findByVoucherType(name);
+			String name = entity.getVoucherCode();
 
-			for (Voucher mgg : listByType) {
+			List<Voucher> listByVoucherCode = voucherService.findByVoucherCode(name);
+
+			for (Voucher mgg : listByVoucherCode) {
+				
 				mgg.setVoucherCode(voucher.getVoucherCode());
 				mgg.setVoucherType(voucher.getVoucherType());
 				mgg.setVoucherValue(voucher.getVoucherValue());
 				mgg.setStartDate(voucher.getStartDate());
 				mgg.setEndDate(voucher.getEndDate());
 				mgg.setActive(voucher.getActive());
+				
 				voucherService.save(mgg);
 			}
-
 		} else {
 			int quantity = voucherDTO.getQuantity();
 
-			if (quantity <= 0) {
-				model.addAttribute("error", "Quantity must be greater than 0!");
-				return new ModelAndView("Admin/voucher/list", model);
+			if (existCode(model, voucherDTO)) {
+				check = true;
+			}
+			
+			if (checkQuantity(model, voucherDTO)) {
+				check = true;
+			}
+				
+			if (isValidDate(model, voucherDTO)) {
+				check = true;
+			}
+			
+			if (checkValue(model, voucherDTO)) {
+				check = true;
+			}
+			if (check) {
+				return new ModelAndView("Admin/voucher/add", model);
 			}
 
 			for (int i = 0; i < quantity; i++) {
 				Voucher newVoucher = new Voucher();
-
-				newVoucher.setVoucherCode(voucherDTO.getVoucherCode());
-				newVoucher.setVoucherType(voucherDTO.getVoucherType());
-				newVoucher.setVoucherValue(voucherDTO.getVoucherValue());
-				newVoucher.setStartDate(voucherDTO.getStartDate());
-				newVoucher.setEndDate(voucherDTO.getEndDate());
-				newVoucher.setActive(voucherDTO.getActive());
+				BeanUtils.copyProperties(voucherDTO, newVoucher);
 				voucherService.save(newVoucher);
 			}
 		}

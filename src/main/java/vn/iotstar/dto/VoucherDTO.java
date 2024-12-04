@@ -17,10 +17,7 @@ public class VoucherDTO {
 	private String voucherCode;
 	private int voucherValue;	
 	private LocalDateTime startDate;	
-	private LocalDateTime endDate;
-	
+	private LocalDateTime endDate;	
 	private int active;
 	private int quantity;
-
-
 }

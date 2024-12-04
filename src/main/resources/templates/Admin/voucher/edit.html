@@ -76,6 +76,7 @@
 					</div>
 
 				</div>
+
 				<div class="portlet-body form">
 					<!-- BEGIN FORM-->
 					<form action="/Admin/voucher/save" method="post" th:object=${voucher} class="form-horizontal">
@@ -87,7 +88,6 @@
 								<div class="col-md-4">
 									<input type="text" class="form-control" id="voucherId" name="voucherId"
 										th:value="${voucher.voucherId}" readonly />
-
 								</div>
 							</div>
 
@@ -97,15 +97,23 @@
 									<input type="text" class="form-control" id="voucherCode" name="voucherCode"
 										th:value="${voucher.voucherCode}" />
 
+									<div th:if="${existCode}" class="alert alert-info">
+										<span th:text="${existCode}"></span>
+									</div>
+
 								</div>
 							</div>
 
 							<div class="form-group has-error">
 								<label class="control-label col-md-3" for="voucherType">Loại voucher</label>
 								<div class="col-md-4">
-									<input type="text" class="form-control" id="voucherType" name="voucherType"
-										th:value="${voucher.voucherType}" />
-
+									<select class="form-control" id="voucherType" name="voucherType">
+										<option value="SHIP" th:selected="${voucher.voucherType == 'SHIP'}">SHIP
+										</option>
+										<option value="PRODUCT" th:selected="${voucher.voucherType == 'PRODUCT'}">
+											PRODUCT
+										</option>
+									</select>
 								</div>
 							</div>
 
@@ -115,6 +123,10 @@
 									<input type="text" class="form-control" id="voucherValue" name="voucherValue"
 										th:value="${voucher.voucherValue}" />
 									<span class="input-group-addon">VND</span>
+
+									<div th:if="${value}" class="alert alert-info">
+										<span th:text="${value}"></span>
+									</div>
 								</div>
 							</div>
 
@@ -137,45 +149,50 @@
 										<input type="datetime-local" class="form-control" id="endDate" name="endDate"
 											th:value="${voucher.endDate}" />
 									</div>
-								</div>
-							</div>
-							<h3 class="form-section">Trạng thái mã giảm giá</h3>
-							<div class="form-group has-success">
-								<label class="control-label col-md-3">Tình trạng</label>
-								<div class="col-md-4">
-									<div class="input-icon right">
 
-										<div class="radio-list">
-											<label>
-												<input type="radio" id="active" name="active" th:value="1"
-													th:checked="${voucher.active == 1}" />
-												Chưa được sử dụng
-											</label>
-											<label>
-												<input type="radio" id="inactive" name="active" th:value="0"
-													th:checked="${voucher.active == 0}" />
-												Đã được sử dụng
-											</label>
-										</div>
+									<div th:if="${checkDate}" class="alert alert-info">
+										<span th:text="${checkDate}"></span>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<h3 class="form-section">Trạng thái mã giảm giá</h3>
+						<div class="form-group has-success">
+							<label class="control-label col-md-3">Tình trạng</label>
+							<div class="col-md-4">
+								<div class="input-icon right">
+
+									<div class="radio-list">
+										<label>
+											<input type="radio" id="active" name="active" th:value="1"
+												th:checked="${voucher.active == 1}" />
+											Chưa được sử dụng
+										</label>
+										<label>
+											<input type="radio" id="inactive" name="active" th:value="0"
+												th:checked="${voucher.active == 0}" />
+											Đã được sử dụng
+										</label>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="form-actions">
-							<div class="row">
-								<div class="col-md-offset-3 col-md-9">
-									<button type="submit" class="btn green">Submit</button>
-									<button type="button" class="btn default"
-										onclick="window.history.back()">Cancel</button>
-								</div>
-							</div>
-						</div>
-					</form>
-					<!-- END FORM-->
 				</div>
+				<div class="form-actions">
+					<div class="row">
+						<div class="col-md-offset-3 col-md-9">
+							<button type="submit" class="btn green">Submit</button>
+							<button type="button" class="btn default" onclick="window.history.back()">Cancel</button>
+						</div>
+					</div>
+				</div>
+				</form>
+				<!-- END FORM-->
 			</div>
-			<!-- END VALIDATION STATES-->
 		</div>
+		<!-- END VALIDATION STATES-->
+	</div>
 	</div>
 
 	<div>

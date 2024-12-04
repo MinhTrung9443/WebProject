@@ -39,8 +39,8 @@ public class VoucherService implements IVoucherService {
 	}
 
 	@Override
-	public List<Voucher> findByVoucherType(String voucherType) {
-		return voucherRepository.findByVoucherType(voucherType);
+	public List<Voucher> findByVoucherCode(String voucherCode) {
+		return voucherRepository.findByVoucherCode(voucherCode);
 	}
 
 	@Override
@@ -56,6 +56,11 @@ public class VoucherService implements IVoucherService {
 	@Override
 	public void delete(Voucher entity) {
 		voucherRepository.delete(entity);
+	}
+
+	@Override
+	public boolean existsByVoucherCode(String voucherCode) {
+		return voucherRepository.existsByVoucherCode(voucherCode);
 	}
 	
 	

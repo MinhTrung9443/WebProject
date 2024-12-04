@@ -116,6 +116,10 @@
 									Trạng thái
 								</th>
 
+								<th width="15%">
+									Thao tác
+								</th>
+
 							</tr>
 							<tr role="row" class="filter" th:each="voucher, iterStat : ${list}">
 
@@ -135,10 +139,10 @@
 										<input type="text" class="form-control form-filter input-sm"
 											name="voucher.startDate" th:value="${voucher.startDate}" readonly><br>
 									</div>
+
 									<div>
 										<input type="text" class="form-control form-filter input-sm"
 											name="voucher.endDate" th:value="${voucher.endDate}" readonly>
-
 									</div>
 								</td>
 
@@ -150,11 +154,14 @@
 								</div>
 
 								<td>
-									<div>
+
+									<div th:if="${voucher.active != 0}">
 										<a th:href="@{/Admin/voucher/edit/{id}(id=${voucher.voucherId})}"
-											class="btn btn-sm yellow filter-submit margin-bottom"><i
-												class="fa fa-wrench"></i> Sửa</a> <br />
+											class="btn btn-sm yellow filter-submit margin-bottom">
+											<i class="fa fa-wrench"></i> Sửa
+										</a>
 									</div>
+
 									<a th:href="@{/Admin/voucher/delete/{id}(id=${voucher.voucherId})}"
 										class="btn btn-sm red filter-cancel" onclick="return confirmDelete();"><i
 											class="fa fa-times"></i>
@@ -162,9 +169,8 @@
 								</td>
 							</tr>
 						</thead>
-						<tbody>
-						</tbody>
 					</table>
+
 
 					<div class="col-md-7 col-sm-12">
 						<div class="dataTables_paginate paging_simple_numbers" id="sample_1_paginate">
@@ -194,6 +200,7 @@
 							</ul>
 						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>

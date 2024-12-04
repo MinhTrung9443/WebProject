@@ -24,6 +24,8 @@ public interface IVoucherService {
 
 	<S extends Voucher> S save(S entity);
 
-	List<Voucher> findByVoucherType(String voucherType);
+	List<Voucher> findByVoucherCode(String voucherCode);
+	
+	boolean existsByVoucherCode(String voucherCode);
 
 }

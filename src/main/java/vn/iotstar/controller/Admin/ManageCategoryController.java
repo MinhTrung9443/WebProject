@@ -78,9 +78,11 @@ public class ManageCategoryController {
 	        Optional<Category> optionalEntity = cateService.findById(category.getCategoryId());
 	       
 	        entity = optionalEntity.get();
-	        entity.setCategoryName(category.getCategoryName());
-	        entity.setImages(category.getImages());
-	        entity.setActive(category.getActive());
+//	        entity.setCategoryName(category.getCategoryName());
+//	        entity.setImages(category.getImages());
+//	        entity.setActive(category.getActive());	        
+	        BeanUtils.copyProperties(category, entity);
+
 	    } else {
 	        entity = new Category();
 	        BeanUtils.copyProperties(category, entity);
