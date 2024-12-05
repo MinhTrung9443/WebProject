@@ -7,5 +7,6 @@ import vn.iotstar.entity.Delivery;
 
 @Repository
 public interface IDeliveryRepository extends JpaRepository<Delivery, Integer>{
-
+	
+	Delivery findByDeliveryName(String deliveryName);
 }

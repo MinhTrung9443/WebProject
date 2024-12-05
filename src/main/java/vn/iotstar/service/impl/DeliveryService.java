@@ -51,7 +51,10 @@ public class DeliveryService implements IDeliveryService{
 	public void deleteById(Integer id) {
 		deliveryRepository.deleteById(id);
 	}
-	
-	
 
+	@Override
+	public Delivery findByDeliveryName(String deliveryName) {
+		return deliveryRepository.findByDeliveryName(deliveryName);
+	}
+	
 }

@@ -22,4 +22,6 @@ public interface IDeliveryService {
 
 	<S extends Delivery> S save(S entity);
 
+	Delivery findByDeliveryName(String deliveryName);
+
 }
