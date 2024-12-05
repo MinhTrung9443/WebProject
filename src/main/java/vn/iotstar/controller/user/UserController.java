@@ -58,16 +58,6 @@ public class UserController {
 		return "User/index";
 	}
 
-	@GetMapping("/Search")
-	public String search() {
-		return "User/category-list";
-	}
-
-	@GetMapping("/product")
-	public String productDetail() {
-		return "User/product";
-	}
-
 	@GetMapping("/cart")
 	public String cart(HttpSession session, ModelMap model) {
 		Account account = (Account) session.getAttribute("account");
@@ -209,6 +199,9 @@ public class UserController {
 				newView.setUser(person);
 				viewService.save(newView);
 			}
+			
+			List<Product> top5 = productService.findTop5ByFavouriteCount();
+			model.addAttribute("top5",top5);
 			
 			return "/User/product";
 		}

@@ -95,10 +95,12 @@
 	                	<div class="row">
 	                		<div class="col-lg-9">
 	                			<div>
+	                				<input type="text" id="orderId" th:value = "${order.orderId}" hidden="hidden">
 	                				<p><strong>Họ tên:</strong> <span th:text="${order.user.fullname}"></span></p>
 	                				<p><strong>Địa chỉ giao hàng:</strong> <span th:text="${order.shippingAddress}"></span></p>
 	                				<p><strong>Điện thoại khách hàng:</strong> <span th:text="${order.user.phone}"></span></p>
 	                				<p><strong>Ngày đặt:</strong> <span th:text="${order.orderDate}"></span></p>
+	                				<p><strong>Trạng thái:</strong> <span th:text="${order.orderStatus.name()}"></span></p>
 	                			</div>
 	                			<table class="table table-cart table-mobile">
 									<thead>
@@ -182,8 +184,8 @@
 	                				<div style="display: flex;">
 										<div class="col-6 col-lg-4 col-xl-2" th:if="${order.orderStatus.name() == 'COMPLETED' }" >
 									   		<div class="btn-wrap">
-									    		<a th:href="'/User/Return/' + ${order.orderId}" class="btn btn-outline-primary btn-rounded">Trả đơn hàng</a>
-									    	</div><!-- End .btn-wrap -->
+									    		<a href="#" onclick="returnOrder()" class="btn btn-outline-primary btn-rounded">Trả đơn hàng</a>
+									    	</div> <!-- End .btn-wrap -->
 									    </div><!-- End .col-md-4 col-lg-2 -->
 									</div>
 	                			</div><!-- End .summary -->
@@ -245,11 +247,12 @@
 
 	<div style="display: flex; justify-content: center">
 		<div class="col-6 col-lg-4 col-xl-2" th:if="${order.orderStatus.name() == 'PENDING' || order.orderStatus.name() == 'CONFIRMED'}" >
-	   		<div class="btn-wrap">
-	    		<a th:href="'/User/Cancel/' + ${order.orderId}" class="btn btn-outline-primary btn-rounded">Hủy đơn hàng</a>
+	   		<div class="btn-wrap"  >
+	    		<a href="#" onclick="cancelOrder()"  class="btn btn-outline-primary btn-rounded">Hủy đơn hàng</a>
 	    	</div><!-- End .btn-wrap -->
 	    </div><!-- End .col-md-4 col-lg-2 -->
 	</div>
+
 	
 	
 <footer th:replace="~{User/fragments/footer::footer}"></footer>
@@ -290,6 +293,61 @@ function validateForm() {
     }
     return true;  // Gửi form nếu điều kiện thỏa mãn
 }
+
+function cancelOrder()
+{
+	const orderId = document.getElementById('orderId').value;
+	
+	const userConfirmed = confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');
+
+	
+	if (userConfirmed) {
+		
+		// Thực hiện lưu dữ liệu (gửi dữ liệu đến server thông qua AJAX)
+        $.ajax({
+            url: '/User/Order/cancel', // URL để xử lý yêu cầu
+            type: 'POST',
+            data: {
+            	orderId: orderId,
+            },
+            success: function () {
+                alert('Đã hủy đơn hàng!'); 
+                window.location.href = '/User/Order/detail/' + orderId;
+            },
+            error: function (response) {
+                alert(response);
+                window.location.href = '/User/Order/detail/' + orderId;
+            }
+        });
+	}
+	}
+function returnOrder()
+{
+	const orderId = document.getElementById('orderId').value;
+	
+	const userConfirmed = confirm('Bạn có chắc chắn muốn trả lại đơn hàng này?');
+
+	
+	if (userConfirmed) {
+		
+		// Thực hiện lưu dữ liệu (gửi dữ liệu đến server thông qua AJAX)
+        $.ajax({
+            url: '/User/Order/return', // URL để xử lý yêu cầu
+            type: 'POST',
+            data: {
+            	orderId: orderId,
+            },
+            success: function () {
+                alert('Đã gửi yêu cầu trả đơn hàng!'); 
+                window.location.href = '/User/Order/detail/' + orderId;
+            },
+            error: function (response) {
+                alert(response);
+                window.location.href = '/User/Order/detail/' + orderId;
+            }
+        });
+	}
+	}
 </script>
 
 </body>

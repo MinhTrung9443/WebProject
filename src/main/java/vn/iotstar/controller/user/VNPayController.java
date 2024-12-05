@@ -9,7 +9,7 @@ import vn.iotstar.entity.Voucher;
 import vn.iotstar.repository.IOrderRepository;
 import vn.iotstar.repository.IVoucherRepository;
 import vn.iotstar.service.ICartService;
-import vn.iotstar.service.IOrderService;
+import vn.iotstar.service.IProductService;
 import vn.iotstar.service.payment.VNPAYService;
 
 import java.time.LocalDateTime;
@@ -31,6 +31,8 @@ public class VNPayController {
 	private ICartService cartService;
     @Autowired
 	private IVoucherRepository voucherService;
+    @Autowired
+	private IProductService productService;
     
     @GetMapping("/vnpay-payment-return")
     public String paymentCompleted(HttpServletRequest request, Model model,HttpSession session) {
@@ -39,21 +41,29 @@ public class VNPayController {
         Order order = (Order) session.getAttribute("checkingOutOrder");
         order.getPayment().setPaymentDate(LocalDateTime.now());
         Voucher voucher = (Voucher) session.getAttribute("orderVoucher");
+        
+        Integer check = (Integer)session.getAttribute("single");
         if (paymentStatus == 1) {
         	if (voucher != null)
         	{
-        		cartService.deleteAllCartItem(user.getId());
     			voucherService.save(voucher);
         	}
         	else 
         	{
-        		cartService.deleteAllCartItem(user.getId());
     			orderService.save(order);
         	}
-
+        	
+        	if (check == 1)
+        	{
+        		productService.decreaseProductStock((int) session.getAttribute("productId"));
+        	}
+        	else 
+        	{
+        		cartService.deleteAllCartItem(user.getId());
+        	}
             return "redirect:/User/Order";
         } else {
-            return "redirect:/User/cart";
+            return "redirect:/User";
         }
     }
 

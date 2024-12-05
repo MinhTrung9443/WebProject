@@ -91,11 +91,17 @@ public class ShoppingCartController {
         if (cartItemOptional.isPresent()) {
             CartItem cartItem = cartItemOptional.get();
             cartItem.setQuantity(quantity);
+            
+            if (cartItem.getProduct().getStock() < quantity)
+            {
+            	return ResponseEntity.badRequest().body("Số lượng hàng không đủ.");
+            }
+            
             cartItemService.save(cartItem);
            
             return ResponseEntity.ok("Cập nhật thành công");
         } else {
-            return ResponseEntity.badRequest().body("K tìm thấy");
+            return ResponseEntity.badRequest().body("Không tìm thấy");
         }
     }
 }

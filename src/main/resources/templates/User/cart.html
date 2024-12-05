@@ -188,8 +188,9 @@
             	 updateTotal();
             	 window.location.href = '/User/cart'; 
              },
-             error: function () {
-                 alert("Có lỗi xảy ra!");
+             error: function (response) {
+                 alert(response);
+                 window.location.href = '/User/cart'; 
              }
          });
      });

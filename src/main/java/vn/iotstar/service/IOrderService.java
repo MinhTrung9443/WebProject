@@ -19,5 +19,9 @@ public interface IOrderService {
 	Page<Order> findAllByUserId(int id, Pageable page);
 
 	Optional<Order> findById(Integer id);
+
+	<S extends Order> S save(S entity);
+	
+	
 	
 }

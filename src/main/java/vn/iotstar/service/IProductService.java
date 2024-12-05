@@ -22,4 +22,8 @@ public interface IProductService {
 
 	Optional<Product> findById(Integer id);
 
+	void decreaseProductStock(int productId);
+
+	List<Product> findTop5ByFavouriteCount();
+
 }

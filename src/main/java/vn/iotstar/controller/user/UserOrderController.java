@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -24,6 +26,9 @@ import vn.iotstar.entity.User;
 import vn.iotstar.entity.Vendor;
 import vn.iotstar.enums.OrderStatus;
 import vn.iotstar.service.IOrderService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -103,5 +108,34 @@ public class UserOrderController {
 		model.addAttribute("order",order);
 		return "User/OrderDetail";
 	}
-	
+	@PostMapping("/cancel")
+	public ResponseEntity<?> postMethodName(ModelMap model, HttpSession session, @RequestParam int orderId) {
+		
+		try {
+			Order order = orderService.findById(orderId).get();
+			
+			order.setOrderStatus(OrderStatus.CANCELLED);
+			
+			orderService.save(order);
+			
+			return new ResponseEntity<>("HỦy đơn thành công",HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Hủy đơn khong thành công",HttpStatus.BAD_REQUEST);
+		}
+	}
+	@PostMapping("/return")
+	public ResponseEntity<?> returnOrder(ModelMap model, HttpSession session, @RequestParam int orderId) {
+		
+		try {
+			Order order = orderService.findById(orderId).get();
+			
+			order.setOrderStatus(OrderStatus.REFUNDED);
+			
+			orderService.save(order);
+			
+			return new ResponseEntity<>("Yêu cầu trả hàng thành công",HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Yêu cầu trả hàng gặp lỗi",HttpStatus.BAD_REQUEST);
+		}
+	}
 }

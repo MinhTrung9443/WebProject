@@ -45,5 +45,19 @@ public class ProductService implements IProductService{
 		return productrepo.findById(id);
 	}
 	
+	@Override
+	public void decreaseProductStock(int productId)
+	{
+		Product product = this.findById(productId).get();
+		long stock = product.getStock();
+		product.setStock(stock - 1);
+		productrepo.save(product);
+	}
+
+	@Override
+	public List<Product> findTop5ByFavouriteCount() {
+		return productrepo.findTop5ByFavouriteCount();
+	}
+	
 	
 }

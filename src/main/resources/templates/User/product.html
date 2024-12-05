@@ -38,33 +38,12 @@
         <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
           <div class="container d-flex align-items-center">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-              <li class="breadcrumb-item"><a href="#">Products</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Default</li>
+              <li class="breadcrumb-item"><a href="/User">Trang chủ</a></li>
+              <li class="breadcrumb-item"><a href="/User">Cửa hàng</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Chi tiết sản phẩm</li>
             </ol>
 
-            <nav class="product-pager ml-auto" aria-label="Product">
-              <a
-                class="product-pager-link product-pager-prev"
-                href="#"
-                aria-label="Previous"
-                tabindex="-1"
-              >
-                <i class="icon-angle-left"></i>
-                <span>Prev</span>
-              </a>
-
-              <a
-                class="product-pager-link product-pager-next"
-                href="#"
-                aria-label="Next"
-                tabindex="-1"
-              >
-                <span>Next</span>
-                <i class="icon-angle-right"></i>
-              </a>
-            </nav>
-            <!-- End .pager-nav -->
+            
           </div>
           <!-- End .container -->
         </nav>
@@ -161,9 +140,15 @@
                         >
 
                       </div>
+                      <div class="details-action-wrapper">
+                        <a th:href="'/User/checkout/product/' + ${product.productId}"  class="btn-product" 
+                          ><span>Mua ngay</span></a
+                        >
+
+                      </div>
                       <!-- End .details-action-wrapper -->
                     </div>
-						 </form>
+				</form>
                     
                     <!-- End .product-details-action -->
 
@@ -379,33 +364,17 @@
                             }
                         }'
             >
-              <div class="product product-7 text-center">
+              <div class="product product-7 text-center" th:each="product : ${top5}">
                 <figure class="product-media">
-                  <span class="product-label label-new">New</span>
-                  <a href="product.html">
+                  <a th:href="'/User/productDetail/' + ${product.productId}">
                     <img
-                      src="/assets/images/products/product-4.jpg"
+                      th:src="${product.images[0].imageUrl}"
                       alt="Product image"
                       class="product-image"
                     />
                   </a>
 
-                  <div class="product-action-vertical">
-                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"
-                      ><span>add to wishlist</span></a
-                    >
-                    <a
-                      href="popup/quickView.html"
-                      class="btn-product-icon btn-quickview"
-                      title="Quick view"
-                      ><span>Quick view</span></a
-                    >
-                    <a href="#" class="btn-product-icon btn-compare" title="Compare"
-                      ><span>Compare</span></a
-                    >
-                  </div>
-                  <!-- End .product-action-vertical -->
-
+                  
                   <div class="product-action">
                     <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
                   </div>
@@ -414,15 +383,11 @@
                 <!-- End .product-media -->
 
                 <div class="product-body">
-                  <div class="product-cat">
-                    <a href="#">Women</a>
-                  </div>
-                  <!-- End .product-cat -->
                   <h3 class="product-title">
-                    <a href="product.html">Brown paperbag waist <br />pencil skirt</a>
+                    <a th:href="'/User/productDetail/' + ${product.productId}" th:text = "${product.productName}">Brown paperbag waist <br />pencil skirt</a>
                   </h3>
                   <!-- End .product-title -->
-                  <div class="product-price">$60.00</div>
+                  <div class="product-price" th:text = "${product.price} + ' đ'">$60.00</div>
                   <!-- End .product-price -->
                   <div class="ratings-container">
                     <div class="ratings">
@@ -436,14 +401,14 @@
 
                   <div class="product-nav product-nav-thumbs">
                     <a href="#" class="active">
-                      <img src="/assets/images/products/product-4-thumb.jpg" alt="product desc" />
+                      <img th:if="${product.images[1]}" th:src="${product.images[1].imageUrl}" alt="product desc" />
                     </a>
                     <a href="#">
-                      <img src="/assets/images/products/product-4-2-thumb.jpg" alt="product desc" />
+                      <img th:if="${product.images[2]}" th:src="${product.images[2].imageUrl}" alt="product desc" />
                     </a>
 
                     <a href="#">
-                      <img src="/assets/images/products/product-4-3-thumb.jpg" alt="product desc" />
+                      <img th:if="${product.images[3]}" th:src="${product.images[3].imageUrl}" alt="product desc" />
                     </a>
                   </div>
                   <!-- End .product-nav -->
@@ -500,46 +465,6 @@ function addlove(productId) {
         }
     });
 }
-
-let currentIndex = 4; // Đánh giá đã được hiển thị ban đầu
-
-function loadMoreReviews() {
-    fetch(`/api/feedbacks?productId=${productId}&page=${currentIndex / 4}&size=4`)
-        .then(response => response.json())
-        .then(feedbacks => {
-            let reviewsContainer = document.querySelector('.reviews');
-            feedbacks.forEach(feed => {
-                let reviewElement = document.createElement('div');
-                reviewElement.classList.add('review');
-                reviewElement.innerHTML = `
-                    <div class="row no-gutters">
-                        <div class="col-auto">
-                            <h4>${feed.user.fullname}</h4>
-                            <div class="ratings-container">
-                                <div class="ratings">
-                                    <div class="ratings-val" style="width: ${feed.rating * 20}%"></div>
-                                </div>
-                            </div>
-                            <span class="review-date">${feed.reviewDate}</span>
-                        </div>
-                        <div class="col-auto">
-                            <img src="${feed.image.startsWith('http') ? feed.image : '/api/images?imageName=' + feed.image}"
-                                 alt="Product Image" class="img-thumbnail" style="width: 80px; height: auto;">
-                        </div>
-                        <div class="col">
-                            <div class="review-content">
-                                <p>${feed.comment}</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                reviewsContainer.appendChild(reviewElement);
-            });
-
-            currentIndex += 4;
-        });
-}
-
 </script>
   </body>
 
