@@ -49,19 +49,16 @@ public class CategoryService implements ICategoryService{
 	}
 
 	@Override
-	public Page<Category> findByCategoryNameContaining(String categoryName, Pageable pageable) {
-		return cateRepository.findByCategoryNameContaining(categoryName, pageable);
-	};
-
-	@Override
-	public Optional<Category> findByCategoryName(String categoryName) {
-		return cateRepository.findByCategoryName(categoryName);
+	public boolean existsByCategoryName(String categoryName) {
+		return cateRepository.existsByCategoryName(categoryName);
 	}
 
 	@Override
 	public void deleteById(Integer id) {
 		cateRepository.deleteById(id);
 	}
+	
+	
 	
 
 }

@@ -81,10 +81,26 @@ public class ManageVoucherController {
 	}
 
 	// Kiểm tra mã code đã tồn tại chưa
-	public boolean existCode(ModelMap model, VoucherDTO voucherDTO) {
+	public boolean existCode(ModelMap model, VoucherDTO voucherDTO, int id) {
+		boolean temp = false;
 		if (voucherService.existsByVoucherCode(voucherDTO.getVoucherCode())) {
-			model.addAttribute("existCode", "MÃ CODE ĐÃ TỒN TẠI!!!");
-			return true;
+			if (id != 0) {
+				List<Voucher> list = voucherService.findByVoucherCode(voucherDTO.getVoucherCode());
+				for (Voucher v : list) {
+					if (v.getVoucherId() == id) {
+						temp = true;
+						break;
+					}
+				}
+				if (!temp) {
+					model.addAttribute("existCode", "MÃ CODE ĐÃ TỒN TẠI!!!");
+					return true;
+				}
+
+			} else {
+				model.addAttribute("existCode", "MÃ CODE ĐÃ TỒN TẠI!!!");
+				return true;
+			}
 		}
 		return false;
 	}
@@ -94,18 +110,18 @@ public class ManageVoucherController {
 		if (voucherDTO.getStartDate() != null & voucherDTO.getEndDate() != null) {
 			LocalDate startDay = voucherDTO.getStartDate().toLocalDate();
 			LocalDate endDay = voucherDTO.getEndDate().toLocalDate();
-			
+
 			LocalTime startTime = voucherDTO.getStartDate().toLocalTime();
 			LocalTime endTime = voucherDTO.getEndDate().toLocalTime();
 
 			if (startDay.isEqual(endDay)) {
-				
+
 				if (startTime.isAfter(endTime)) {
 					model.addAttribute("checkDate", "GIỜ BẮT ĐẦU PHẢI TRƯỚC GIỜ KẾT THÚC!");
 					return true;
-				}else if (startTime.equals(endTime)) {
+				} else if (startTime.equals(endTime)) {
 					model.addAttribute("checkDate", "NGÀY GIỜ BẮT ĐẦU KHÔNG ĐƯỢC TRÙNG NGÀY GIỜ KẾT THÚC!");
-					return true;					
+					return true;
 				}
 			} else if (voucherDTO.getStartDate().isAfter(voucherDTO.getEndDate())) {
 				model.addAttribute("checkDate", "NGÀY BẮT ĐẦU PHẢI TRƯỚC NGÀY KẾT THÚC!");
@@ -114,8 +130,8 @@ public class ManageVoucherController {
 		}
 		return false;
 	}
-	
-	//Kiểm tra số lượng voucher thêm vào
+
+	// Kiểm tra số lượng voucher thêm vào
 	public boolean checkQuantity(ModelMap model, VoucherDTO voucherDTO) {
 		if (voucherDTO.getQuantity() <= 0) {
 			model.addAttribute("valid", "SỐ LƯỢNG PHẢI LỚN HƠN 0!!!");
@@ -123,10 +139,10 @@ public class ManageVoucherController {
 		}
 		return false;
 	}
-	
-	//Kiểm tra trị giá voucher
+
+	// Kiểm tra trị giá voucher
 	public boolean checkValue(ModelMap model, VoucherDTO voucherDTO) {
-		if (voucherDTO.getVoucherValue() < 1000 ) {
+		if (voucherDTO.getVoucherValue() < 1000) {
 			model.addAttribute("value", "GIÁ TRỊ VOUCHER PHẢI LỚN HƠN 1000 VND");
 			return true;
 		}
@@ -152,19 +168,19 @@ public class ManageVoucherController {
 			Optional<Voucher> optionalEntity = voucherService.findById(voucher.getVoucherId());
 
 			Voucher entity = optionalEntity.get();
-				
-			if (existCode(model,voucherDTO)) {
+
+			if (existCode(model, voucherDTO, voucher.getVoucherId())) {
 				check = true;
 			}
-			
+
 			if (isValidDate(model, voucherDTO)) {
 				check = true;
 			}
-			
+
 			if (checkValue(model, voucherDTO)) {
 				check = true;
 			}
-			
+
 			if (check) {
 				return new ModelAndView("Admin/voucher/edit", model);
 			}
@@ -174,31 +190,31 @@ public class ManageVoucherController {
 			List<Voucher> listByVoucherCode = voucherService.findByVoucherCode(name);
 
 			for (Voucher mgg : listByVoucherCode) {
-				
+
 				mgg.setVoucherCode(voucher.getVoucherCode());
 				mgg.setVoucherType(voucher.getVoucherType());
 				mgg.setVoucherValue(voucher.getVoucherValue());
 				mgg.setStartDate(voucher.getStartDate());
 				mgg.setEndDate(voucher.getEndDate());
 				mgg.setActive(voucher.getActive());
-				
+
 				voucherService.save(mgg);
 			}
 		} else {
 			int quantity = voucherDTO.getQuantity();
 
-			if (existCode(model, voucherDTO)) {
+			if (existCode(model, voucherDTO, voucherDTO.getVoucherId())) {
 				check = true;
 			}
-			
+
 			if (checkQuantity(model, voucherDTO)) {
 				check = true;
 			}
-				
+
 			if (isValidDate(model, voucherDTO)) {
 				check = true;
 			}
-			
+
 			if (checkValue(model, voucherDTO)) {
 				check = true;
 			}

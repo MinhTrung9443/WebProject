@@ -14,11 +14,14 @@ import lombok.*;
 @Entity
 @Table(name = "Shipper")
 public class Shipper extends Person implements Serializable {
+
+	@Column(columnDefinition = "NVARCHAR(255)")
 	private String address;
+	
+	@Column(columnDefinition = "NVARCHAR(255)")
 	private String deliveryArea;
 	
-	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "deliveryId")
 	@JsonBackReference 
 	private Delivery delivery;

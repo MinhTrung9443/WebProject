@@ -41,4 +41,16 @@ public class AccountService implements IAccountService {
         // For now, you would set the cookies' max age to 0 (expired).
         // This logic would be handled by the controller.
     }
+
+	@Override
+	public void deleteById(Integer id) {
+		accountRepository.deleteById(id);
+	}
+
+	@Override
+	public Account findByUsername(String username) {
+		return accountRepository.findByUsername(username);
+	}
+    
+    
 }

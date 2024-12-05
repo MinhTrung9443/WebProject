@@ -13,4 +13,8 @@ public interface IAccountService {
 
 	void deleteRememberMe(String username);
 
+	void deleteById(Integer id);
+
+	Account findByUsername(String username);
+
 }

@@ -21,13 +21,8 @@ public interface ICategoryService {
 
 	<S extends Category> S save(S entity);
 
-	Page<Category> findByCategoryNameContaining(String categoryName, Pageable pageable);
-
-	Optional<Category> findByCategoryName(String categoryName);
-
 	void deleteById(Integer id);
-	
-	
-	
 
+	boolean existsByCategoryName(String categoryName);
+	
 }

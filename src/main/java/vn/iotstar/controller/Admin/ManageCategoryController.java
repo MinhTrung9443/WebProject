@@ -67,26 +67,36 @@ public class ManageCategoryController {
 	public ModelAndView addOrEdit(ModelMap model, @Valid @ModelAttribute Category category, BindingResult result) {
 		if (result.hasErrors()) {
 			model.addAttribute("cate", category);
-			if (category.getCategoryName() != null) {
+			if (category.getCategoryId() != 0) {
 				return new ModelAndView("Admin/category/edit", model);
 			} else {
 				return new ModelAndView("Admin/category/add", model);
 			}
-		}		
+		}
+		
+		boolean check = false;
+		if (cateService.existsByCategoryName(category.getCategoryName())) {
+			model.addAttribute("existCateName","DANH MỤC NÀY ĐÃ TỒN TẠI!");
+			check = true;
+		}
+		if (check) {
+			Category cate = new Category();
+			BeanUtils.copyProperties(category,cate);
+			model.addAttribute("cate", cate);
+			if (category.getCategoryId() != 0) {
+				return new ModelAndView("Admin/category/edit", model);
+			} else {
+				return new ModelAndView("Admin/category/add", model);
+			}
+		}
 		Category entity;
-		if (category.getCategoryId() != null) {
-	        Optional<Category> optionalEntity = cateService.findById(category.getCategoryId());
-	       
-	        entity = optionalEntity.get();
-//	        entity.setCategoryName(category.getCategoryName());
-//	        entity.setImages(category.getImages());
-//	        entity.setActive(category.getActive());	        
-	        BeanUtils.copyProperties(category, entity);
-
+		if (category.getCategoryId() != 0) {
+	        Optional<Category> optionalEntity = cateService.findById(category.getCategoryId());	       
+	        entity = optionalEntity.get();        
 	    } else {
-	        entity = new Category();
-	        BeanUtils.copyProperties(category, entity);
-	    }					
+	        entity = new Category();	        
+	    }			
+		BeanUtils.copyProperties(category, entity);
 		cateService.save(entity);		
 		return new ModelAndView("forward:/Admin/category", model);
 	}
