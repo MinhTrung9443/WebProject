@@ -1,7 +1,7 @@
 package vn.iotstar.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -38,7 +38,7 @@ public class Order implements Serializable{/**
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	private int orderId;
-	private Date orderDate;
+	private LocalDateTime orderDate;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String shippingAddress;
     @Enumerated(EnumType.STRING)

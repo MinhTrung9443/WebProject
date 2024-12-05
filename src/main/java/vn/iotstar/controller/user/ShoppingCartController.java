@@ -92,8 +92,7 @@ public class ShoppingCartController {
             CartItem cartItem = cartItemOptional.get();
             cartItem.setQuantity(quantity);
             cartItemService.save(cartItem);
-            for (int i = 0;i<10;i++)
-            	System.out.println(quantity);
+           
             return ResponseEntity.ok("Cập nhật thành công");
         } else {
             return ResponseEntity.badRequest().body("K tìm thấy");

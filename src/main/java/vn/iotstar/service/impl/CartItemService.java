@@ -13,7 +13,6 @@ import vn.iotstar.service.ICartItemService;
 public class CartItemService implements ICartItemService{
 	@Autowired
 	ICartItemRepository cartRepository;
-
 	@Override
 	public <S extends CartItem> S save(S entity) {
 		return cartRepository.save(entity);
@@ -27,6 +26,11 @@ public class CartItemService implements ICartItemService{
 	@Override
 	public void deleteById(Integer id) {
 		cartRepository.deleteById(id);
+	}
+
+	@Override
+	public void delete(CartItem entity) {
+		cartRepository.delete(entity);
 	}
 
 	

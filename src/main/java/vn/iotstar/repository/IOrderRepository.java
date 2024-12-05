@@ -15,4 +15,5 @@ public interface IOrderRepository extends JpaRepository<Order, Integer>{
 	Page<Order> findByUserIdAndOrderStatus(int id,OrderStatus status, Pageable page);
 	int countByUserIdAndOrderStatus(int id,OrderStatus status);
 	Page<Order> findAllByUserId(int id, Pageable page);
+
 }

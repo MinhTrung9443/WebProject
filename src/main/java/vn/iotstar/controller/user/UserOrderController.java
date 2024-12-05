@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -54,7 +56,7 @@ public class UserOrderController {
         
         Page<Order> orders;
         int pageSize = 10;
-        Pageable page = PageRequest.of(pageNo-1, pageSize);
+        Pageable page = PageRequest.of(pageNo-1, pageSize,Sort.by(Sort.Order.desc("orderId")));
         int count = 0;
         switch (tab) {
             case "don-cho-xac-nhan":

@@ -16,5 +16,7 @@ public interface ICartItemService {
 
 	Optional<CartItem> findById(Integer id);
 
+	void delete(CartItem entity);
+
 	
 }

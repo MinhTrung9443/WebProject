@@ -32,6 +32,7 @@
 <body>
     <div class="page-wrapper">
 <header th:replace="~{User/fragments/header::header}"></header>
+
         <main class="main">
         	<div class="page-header text-center" style="background-image: url('/assets/images/page-header-bg.jpg')">
         		<div class="container">
@@ -47,7 +48,8 @@
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
-
+			<form action="/User/checkout" method="post">
+			<input type="text" name="shoppingCartId" th:if="${listCart.size() > 0}" th:value="${listCart[0].cart.shoppingCartId}" hidden="hidden">
             <div class="page-content">
             	<div class="cart">
 	                <div class="container">
@@ -82,7 +84,7 @@
 											<td class="price-col" th:text="${cartItem.product.price} + ' đ'">$84.00</td>
 											<td class="quantity-col">
                                                 <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control inputquantity"  th:data-cart-item-id="${cartItem.cartItemId}" th:value="${cartItem.quantity}" value="1" min="1"  step="1" data-decimals="0" required>
+                                                    <input type="number" class="form-control inputquantity"  th:data-cart-item-id="${cartItem.cartItemId}" th:value="${cartItem.quantity}" value="1" min="0"  step="1" data-decimals="0" required>
                                                 </div><!-- End .cart-product-quantity -->
                                             </td>
 											<td class="total-col" th:text="${cartItem.product.price * cartItem.quantity}">$84.00</td>
@@ -106,16 +108,18 @@
    	                					</tbody>
 	                				</table><!-- End .table table-summary -->
 
-	                				<a href="/User/checkout" class="btn btn-outline-primary-2 btn-order btn-block">Mua Hàng</a>
+	                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">Mua Hàng</button>
 	                			</div><!-- End .summary -->
-
+								
 		            			<a href="/User" class="btn btn-outline-dark-2 btn-block mb-3"><span>Tiếp tục mua sắm</span><i class="icon-refresh"></i></a>
 	                		</aside><!-- End .col-lg-3 -->
 	                	</div><!-- End .row -->
 	                </div><!-- End .container -->
                 </div><!-- End .cart -->
             </div><!-- End .page-content -->
+         </form>
         </main><!-- End .main -->
+       
 <footer th:replace="~{User/fragments/footer::footer}"></footer>
 
     </div><!-- End .page-wrapper -->
@@ -148,25 +152,32 @@
 	}
 //Function to update total price in the cart
  function updateTotal() {
-     let total = 0;
+    let total = 0;
 
-     // Loop through each cart item and calculate total price
-     document.querySelectorAll('.inputquantity').forEach(input => {
-         const quantity = parseInt(input.value, 10); // Get the quantity
-         const price = parseFloat(input.closest('tr').querySelector('.price-col').textContent.replace(' đ', '').trim()); // Get the price
-         total += price * quantity; // Add the total for each item
-     });
+    // Loop through each cart item and calculate total price
+    document.querySelectorAll('.inputquantity').forEach(input => {
+        const quantity = parseInt(input.value, 10); // Get the quantity
+        const price = parseFloat(input.closest('tr').querySelector('.price-col').textContent.replace(' đ', '').trim()); // Get the price
 
-     // Update the subtotal and total in the summary
-     document.getElementById('totalCart').textContent = total.toFixed(2) + ' đ';
+        // If quantity is 0, remove the item from the cart
+        if (quantity === 0) {
+            const cartItemId = input.getAttribute('data-cart-item-id');
+            removeItem(cartItemId); // Call removeItem function to remove the item
+        } else {
+            total += price * quantity; // Add the total for each item
+        }
+    });
 
- }
+    // Update the subtotal and total in the summary
+    document.getElementById('totalCart').textContent = total.toFixed(2) + ' đ';
+}
 
 //Event listener for quantity changes
  document.querySelectorAll('.inputquantity').forEach(input => {
      input.addEventListener('change', function () {
          const cartItemId = input.getAttribute('data-cart-item-id');
          const quantity = input.value;
+
          // Update quantity via AJAX
          $.ajax({
              url: '/User/update-quantity', // URL to handle the update request
@@ -187,13 +198,6 @@
  document.addEventListener('DOMContentLoaded', function () {
      updateTotal();
  });
- 
- 
-
- 
  </script>
 </body>
-
-
-<!-- molla/cart.html  22 Nov 2019 09:55:06 GMT -->
 </html>

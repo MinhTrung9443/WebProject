@@ -2,7 +2,6 @@ package vn.iotstar.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,7 +24,7 @@ public class ShoppingCart implements Serializable{/**
 	@JoinColumn(name = "id")
 	private Person user;
 	
-	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
 	private List<CartItem> items;
 	

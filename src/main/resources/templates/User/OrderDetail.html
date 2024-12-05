@@ -98,6 +98,7 @@
 	                				<p><strong>Họ tên:</strong> <span th:text="${order.user.fullname}"></span></p>
 	                				<p><strong>Địa chỉ giao hàng:</strong> <span th:text="${order.shippingAddress}"></span></p>
 	                				<p><strong>Điện thoại khách hàng:</strong> <span th:text="${order.user.phone}"></span></p>
+	                				<p><strong>Ngày đặt:</strong> <span th:text="${order.orderDate}"></span></p>
 	                			</div>
 	                			<table class="table table-cart table-mobile">
 									<thead>
@@ -138,10 +139,10 @@
 
 	                		</div><!-- End .col-lg-9 -->
 	                		<aside class="col-lg-3">
-	                			<div class="summary summary-cart" th:if="${order.vouchers}">
-	                				<h3 class="summary-title">Mã giảm giá</h3><!-- End .summary-title -->
+	                			<div class="summary summary-cart" >
+	                				<h3 class="summary-title" th:if="${order.vouchers}">Mã giảm giá</h3><!-- End .summary-title -->
 
-	                				<table class="table table-summary">
+	                				<table class="table table-summary" th:if="${order.vouchers}">
 	                					<tbody>
 	                						<tr class="summary-subtotal">
 	                							<td>Giá trị voucher:</td>

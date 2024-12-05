@@ -12,5 +12,9 @@ public interface ICartService {
 	<S extends ShoppingCart> S save(S entity);
 
 	Optional<ShoppingCart> findByUserId(int id);
+
+	Optional<ShoppingCart> findById(Integer id);
+
+	void deleteAllCartItem(Integer id);
 	
 }
