@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import io.lettuce.core.dynamic.annotation.Param;
 import vn.iotstar.entity.Product;
 
 
@@ -29,6 +30,10 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 	@Query("SELECT ol.product FROM OrderLine ol " + "GROUP BY ol.product " + "ORDER BY SUM(ol.quantity) DESC")
 	List<Product> findTop20BySalesQuantity();
 	
-	@Query("SELECT p FROM Product p " + "LEFT JOIN p.favourite f " + "GROUP BY p " + "ORDER BY COUNT(f) DESC")
-	List<Product> findTop5ByFavouriteCount();
+	@Query("SELECT p FROM Product p " +
+		       "LEFT JOIN p.favourite f " +
+		       "WHERE p.category.categoryId = :categoryId " +
+		       "GROUP BY p " +
+		       "ORDER BY COUNT(f) DESC")
+		List<Product> findTopProductsByCategory(@Param("categoryId") Long categoryId, Pageable pageable);
 }

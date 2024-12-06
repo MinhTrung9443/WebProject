@@ -24,6 +24,8 @@ public interface IProductService {
 
 	void decreaseProductStock(int productId);
 
-	List<Product> findTop5ByFavouriteCount();
+	List<Product> findTop5ByFavouriteCount(long categoryId);
+
+	<S extends Product> S save(S entity);
 
 }

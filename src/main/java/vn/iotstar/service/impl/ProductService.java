@@ -55,8 +55,14 @@ public class ProductService implements IProductService{
 	}
 
 	@Override
-	public List<Product> findTop5ByFavouriteCount() {
-		return productrepo.findTop5ByFavouriteCount();
+	public List<Product> findTop5ByFavouriteCount(long categoryId) {
+		Pageable page = PageRequest.of(0, 5);
+		return productrepo.findTopProductsByCategory(categoryId,page);
+	}
+
+	@Override
+	public <S extends Product> S save(S entity) {
+		return productrepo.save(entity);
 	}
 	
 	

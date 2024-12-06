@@ -200,7 +200,7 @@ public class UserController {
 				viewService.save(newView);
 			}
 			
-			List<Product> top5 = productService.findTop5ByFavouriteCount();
+			List<Product> top5 = productService.findTop5ByFavouriteCount(product.getCategory().getCategoryId());
 			model.addAttribute("top5",top5);
 			
 			return "/User/product";

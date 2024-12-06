@@ -21,11 +21,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.Order;
+import vn.iotstar.entity.OrderLine;
 import vn.iotstar.entity.Person;
+import vn.iotstar.entity.Product;
 import vn.iotstar.entity.User;
 import vn.iotstar.entity.Vendor;
 import vn.iotstar.enums.OrderStatus;
 import vn.iotstar.service.IOrderService;
+import vn.iotstar.service.IProductService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -36,6 +40,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UserOrderController {
 	@Autowired
 	private IOrderService orderService;
+	@Autowired
+	private IProductService productService;
 	
 	@GetMapping({"","/page"})
     public String getOrderHistory(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
@@ -115,6 +121,14 @@ public class UserOrderController {
 			Order order = orderService.findById(orderId).get();
 			
 			order.setOrderStatus(OrderStatus.CANCELLED);
+			
+			for (OrderLine line : order.getLines())
+			{
+				Product product = line.getProduct();
+				long stock = product.getStock();
+				product.setStock(stock+ line.getQuantity());
+				productService.save(product);
+			}
 			
 			orderService.save(order);
 			

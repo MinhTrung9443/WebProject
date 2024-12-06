@@ -53,7 +53,7 @@ public class VNPayController {
     			orderService.save(order);
         	}
         	
-        	if (check == 1)
+        	if (check != null)
         	{
         		productService.decreaseProductStock((int) session.getAttribute("productId"));
         	}
