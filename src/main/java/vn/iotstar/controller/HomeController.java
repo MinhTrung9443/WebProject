@@ -20,10 +20,8 @@ public class HomeController {
 	@GetMapping("/")
 	public String showHomePage(Model model) {
 		// Lấy tất cả sản phẩm từ database
-		List<Product> products = productService.getAllProducts();
-
-		// Truyền danh sách sản phẩm vào model để hiển thị trong view
-		model.addAttribute("products", products);
+		List<Product> topSellingProducts = productService.getTop10BestSellingProducts();
+        model.addAttribute("products", topSellingProducts);
 
 		// Trả về tên của trang HTML để Thymeleaf render (ví dụ: guest/index.html)
 		return "Guest/index";

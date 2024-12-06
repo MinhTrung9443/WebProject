@@ -74,7 +74,7 @@ public class RegisterController {
 			// Set vai trò mặc định (ví dụ: customer)
 			Role role = roleService.findByName("User"); // Lấy role từ cơ sở dữ liệu
 			account.setRole(role);
-
+			account.setActive(1);
 			accountService.save(account); // Lưu Account trước
 
 			// 2. Tạo User
@@ -83,9 +83,9 @@ public class RegisterController {
 			user.setEmail(userDTO.getEmail());
 			user.setPhone(userDTO.getPhone());
 			// Chuyển gender từ string "Male" hoặc "Female" thành số (0 hoặc 1)
-			if ("Nam".equals(userDTO.getGender())) {
+			if ("Male".equals(userDTO.getGender())) {
 				user.setGender(0); // Male -> 0
-			} else if ("Nữ".equals(userDTO.getGender())) {
+			} else if ("Female".equals(userDTO.getGender())) {
 				user.setGender(1); // Female -> 1
 			}
 

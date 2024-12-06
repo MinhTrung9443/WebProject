@@ -89,7 +89,7 @@
 			border: 1px solid #ddd;
 			border-radius: 10px;
 			overflow: hidden;
-			margin-bottom: 30px;
+			margin-bottom: 50px;
 			transition: transform 0.3s ease, box-shadow 0.3s ease;
 			flex-grow: 1;
 			/* Đảm bảo sản phẩm chiếm phần còn lại của không gian */
@@ -173,6 +173,33 @@
 			margin-right: 0;
 		}
 
+		.pagination-container {
+			display: flex;
+			justify-content: right;
+			margin-top: 20px;
+			/* Thêm khoảng cách phía trên nếu cần */
+			flex-grow: 1;
+			padding: 20px;
+		}
+
+		.pagination {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			/* Khoảng cách giữa các liên kết phân trang */
+		}
+
+
+
+		.pagination a:hover {
+			text-decoration: underline;
+		}
+
+		.pagination span {
+			font-weight: bold;
+		}
+
+
 		footer {
 			background-color: #333;
 			color: white;
@@ -205,7 +232,7 @@
 						<br>
 
 						<label for="maxPrice">Giá tối đa:</label>
-						<input type="number" id="maxPrice" name="maxPrice" th:value="${maxPrice}" min="0"><br><br>
+						<input type="number" id="maxPrice" name="maxPrice" th:value="${maxPrice}" max="100000000"><br><br>
 
 						<!-- Bộ lọc thương hiệu -->
 						<label for="brand">Thương hiệu:</label>
@@ -281,11 +308,20 @@
 				</form>
 				<!-- Hiển thị sản phẩm -->
 				<div class="col-lg-9 col-md-8">
+					<!-- Phân trang -->
+					<div class="pagination">
+						<a th:href="@{/search(page=${currentPage - 1}, size=${size})}"
+							th:if="${currentPage > 0}">&laquo;
+							Previous</a>
+						<span th:text="${currentPage + 1}">1</span> / <span th:text="${totalPages}">1</span>
+						<a th:href="@{/search(page=${currentPage + 1}, size=${size})}"
+							th:if="${currentPage < totalPages - 1}">Next &raquo;</a>
+					</div>
 					<div class="products">
 
 						<div class="row">
 							<!-- Duyệt qua các sản phẩm -->
-							<div th:each="product : ${products}" class="col-lg-3 col-md-4 col-sm-6">
+							<div th:each="product : ${products}" class="col-lg-4 col-md-4 col-sm-6">
 								<div class="product product-11 text-center">
 									<figure class="product-media">
 										<a th:href="@{/product-details/{productId}(productId=${product.productId})}">
@@ -325,8 +361,23 @@
 							</div><!-- End .col-lg-3 col-md-4 col-sm-6 -->
 						</div><!-- End .row -->
 					</div><!-- End .products -->
+					<!-- Phân trang -->
+					<div class="pagination">
+						<!-- Liên kết trang trước -->
+						<a th:href="@{/search(page=${currentPage - 1}, size=${size})}"
+							th:if="${currentPage > 0}">&laquo; Previous</a>
+
+						<!-- Hiển thị số trang hiện tại và tổng số trang -->
+						<span th:text="${currentPage + 1}">1</span> / <span th:text="${totalPages}">1</span>
+
+						<!-- Liên kết trang tiếp theo -->
+						<a th:href="@{/search(page=${currentPage + 1}, size=${size})}"
+							th:if="${currentPage < totalPages - 1}">Next &raquo;</a>
+					</div>
+
 				</div><!-- End .col-lg-9 col-md-8 -->
 			</div>
+
 		</main><!-- End .main -->
 		<footer th:replace="~{Guest/fragments/footer::footer}"></footer>
 

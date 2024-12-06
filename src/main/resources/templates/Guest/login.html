@@ -155,7 +155,7 @@
 	<header th:replace="~{Guest/fragments/header::header}"></header>
 	<div class="login-form">
 		<h3>Đăng Nhập</h3>
-		<div th:if="${success != null}" class="success-message" style="color: green;">
+		<div th:if="${successMessage != null}" class="success-message" style="color: green;">
 			<p th:text="${success}"></p>
 		</div>
 		<div th:if="${error != null}" class="error-message" style="color: red;">

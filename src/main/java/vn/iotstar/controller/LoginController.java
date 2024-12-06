@@ -65,6 +65,7 @@ public class LoginController {
 	// Hiển thị trang quên mật khẩu
 	@GetMapping("/forgot-password")
 	public String showForgotPasswordPage() {
+		System.out.println(1111);
 		return "Guest/forgot-password"; // Trả về file forgot-password.html
 	}
 
@@ -73,7 +74,7 @@ public class LoginController {
 	public String processForgotPassword(@RequestParam("email") String email, Model model) {
 		// Tìm tài khoản theo email
 		Person person = personSer.findByEmail(email); // Hoặc findByUsername nếu dùng username
-		System.out.println(person);
+		
 		if (person != null) {
 			Account account = accountSer.findById(person.getAccount().getAccountId()); // Sửa thành đúng ID tài khoản
 			if (account != null) {
@@ -115,22 +116,32 @@ public class LoginController {
 	// Xử lý form đặt lại mật khẩu
 	@PostMapping("/process-reset-password")
 	public String processResetPassword(@RequestParam("token") String token,
-			@RequestParam("newPassword") String newPassword, Model model) {
-		Account acc = accountSer.findByToken(token);
-		if (acc == null) {
-			model.addAttribute("error", "Không có mã otp hoặc tài khoản này!");
-			return "Guest/process-reset-password";
-		}
+	                                   @RequestParam("newPassword") String newPassword,
+	                                   @RequestParam("confirmPassword") String confirmPassword, // Thêm tham số confirmPassword
+	                                   Model model) {
+	    // Kiểm tra nếu mật khẩu mới và mật khẩu xác nhận không khớp
+	    if (!newPassword.equals(confirmPassword)) {
+	        model.addAttribute("error", "Mật khẩu xác nhận không khớp với mật khẩu mới!");
+	        return "Guest/process-reset-password";
+	    }
 
-		// Xử lý đặt lại mật khẩu (có thể sử dụng token để xác minh)
-		if (accountSer.resetPassword(token, newPassword)) {
-			model.addAttribute("success", "Đổi mật khẩu thành công vui lòng đăng nhập lại!");
-			return "redirect:/login"; // Quay lại trang đăng nhập
-		} else {
-			model.addAttribute("error", "Có lỗi xảy ra khi đặt lại mật khẩu!");
-			return "Guest/process-reset-password";
-		}
+	    // Kiểm tra token
+	    Account acc = accountSer.findByToken(token);
+	    if (acc == null) {
+	        model.addAttribute("error", "Không có mã otp hoặc tài khoản này!");
+	        return "Guest/process-reset-password";
+	    }
+
+	    // Xử lý đặt lại mật khẩu (có thể sử dụng token để xác minh)
+	    if (accountSer.resetPassword(token, newPassword)) {
+	        model.addAttribute("success", "Đổi mật khẩu thành công, vui lòng đăng nhập lại!");
+	        return "redirect:/login"; // Quay lại trang đăng nhập
+	    } else {
+	        model.addAttribute("error", "Có lỗi xảy ra khi đặt lại mật khẩu!");
+	        return "Guest/process-reset-password";
+	    }
 	}
+
 
 	// Phương thức tạo mã OTP ngẫu nhiên (có thể sử dụng thư viện hoặc tự viết
 	// logic)

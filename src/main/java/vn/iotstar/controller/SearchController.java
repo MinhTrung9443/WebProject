@@ -3,14 +3,19 @@ package vn.iotstar.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.data.domain.Pageable;
+import vn.iotstar.entity.Category;
 import vn.iotstar.entity.Product;
 import vn.iotstar.entity.ProductFeedback;
+import vn.iotstar.repository.ICategoryRepository;
+import vn.iotstar.service.ICategoryService;
 import vn.iotstar.service.IProductService;
 
 @Controller
@@ -18,6 +23,8 @@ public class SearchController {
 
 	@Autowired
 	private IProductService productService;
+	@Autowired
+	private ICategoryService categoryService;
 
 	// Lọc sản phẩm theo các điều kiện
 	@GetMapping("/search")
@@ -26,52 +33,59 @@ public class SearchController {
 			@RequestParam(value = "maxPrice", required = false) Integer maxPrice,
 			@RequestParam(value = "brand", required = false) String brand,
 			@RequestParam(value = "category_name", required = false) String categoryName,
-			@RequestParam(value = "brandOrigin", required = false) String brandOrigin, Model model) {
-		List<Product> products;
-		if (keyword != null) {
-			products=productService.getProductsByName(keyword);
-		}else {
-		
-		if (minPrice == null && maxPrice == null && (brand == null  || brand == "" )&& (brandOrigin == null || brandOrigin== "" ) && (categoryName == null|| categoryName== "" )) {
-			// If no filters are applied, fetch all products
-			products = productService.getAllProducts();
+			@RequestParam(value = "brandOrigin", required = false) String brandOrigin,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "21") int size, Model model) {
+
+		// Đảm bảo rằng các giá trị phân trang hợp lệ
+		Pageable pageable = PageRequest.of(page, size);
+
+		// Xử lý tìm kiếm và phân trang
+		Page<Product> productPage= Page.empty();;
+		if (keyword != null && !keyword.isEmpty()) {
+		    // Nếu có keyword, tìm kiếm sản phẩm theo tên
+		    productPage = productService.getProductsByName(keyword, pageable);
 		} else {
-			if (minPrice!=null &&  maxPrice != null && (brand == null  || brand == "" )&& (brandOrigin == null || brandOrigin== "" ) && (categoryName == null|| categoryName== "" ))
-			{
-				products = productService.getProductsByPriceRange(minPrice, maxPrice);
-			}
-			else
-				if(minPrice == null && maxPrice == null && brand!= null && (brandOrigin == null || brandOrigin== "" ) && (categoryName == null|| categoryName== "" ))
-			{
-				products = productService.getProductsByBrand(brand);
-			}
-				else 
-					if (minPrice == null && maxPrice == null && brand!= null && brandOrigin!= null && (categoryName == null|| categoryName== "" ))
-					{
-						products = productService.getProductsByBrandOrigin(brandOrigin);
-					}
-					else if(minPrice == null && maxPrice == null && (brand == null  || brand == "" )&& (brandOrigin == null || brandOrigin== "" ) && categoryName != null)
-					{
-						products = productService.getProductsByCategoryName(categoryName);
-					}
-					else {
-			// Apply filters if any are provided
-			products = productService.searchProductsWithMultipleKeywords(minPrice, maxPrice, brand,
-					brandOrigin, categoryName);
-			System.out.println(minPrice +" 1 "+ maxPrice+" 2 "+ brand+" 3 " +brandOrigin+" 4 "+ categoryName);
+		    // Trường hợp không có bộ lọc nào
+		    if (minPrice == null && maxPrice == null && (brand == null || brand.isEmpty()) 
+		            && (brandOrigin == null || brandOrigin.isEmpty()) 
+		            && (categoryName == null || categoryName.isEmpty())) {
+		        productPage = productService.getAllProducts(pageable); // Lấy tất cả sản phẩm nếu không có bộ lọc
+		    } else {
+		        // Trường hợp có bộ lọc
+		        if (minPrice != null && maxPrice == null) {
+		            productPage = productService.getProductsByPriceRange(minPrice, Integer.MAX_VALUE, pageable);
+		            System.out.println("Filtered by min price: " + minPrice);
+		        } else if (minPrice == null && maxPrice != null ) {
+		            productPage = productService.getProductsByPriceRange(0, maxPrice, pageable);
+		        } else if (minPrice != null && maxPrice != null ) {
+		            productPage = productService.getProductsByPriceRange(minPrice, maxPrice, pageable); // Bộ lọc theo giá
+		        } else if ( (brand != null && !brand.isEmpty())) {
+		            productPage = productService.getProductsByBrand(brand, pageable); // Bộ lọc theo thương hiệu
+		        } else if ( brandOrigin != null && !brandOrigin.isEmpty()) {
+		            productPage = productService.getProductsByBrandOrigin(brandOrigin, pageable); // Bộ lọc theo nguồn gốc thương hiệu
+		        } else if ( categoryName != null && !categoryName.isEmpty()) {
+		            productPage = productService.getProductsByCategoryName(categoryName, pageable); // Bộ lọc theo danh mục
+		        } 
+		    }
 		}
-		}}
+
 		
 
-		model.addAttribute("products", products);
+		// Thêm dữ liệu vào model để hiển thị trong view
+		model.addAttribute("products", productPage.getContent());
 		model.addAttribute("minPrice", minPrice);
 		model.addAttribute("maxPrice", maxPrice);
 		model.addAttribute("brand", brand);
 		model.addAttribute("category_name", categoryName);
 		model.addAttribute("brandOrigin", brandOrigin);
-		
 
-		return "/product-search";
+		// Thêm phân trang vào model
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", productPage.getTotalPages());
+		model.addAttribute("totalItems", productPage.getTotalElements());
+
+		return "/product-search"; // Trả về trang HTML với các sản phẩm đã phân trang
 	}
 
 	// Xử lý yêu cầu hiển thị chi tiết sản phẩm
@@ -79,6 +93,7 @@ public class SearchController {
 	public String showProductDetails(@PathVariable("productId") int productId, Model model) {
 		// Lấy sản phẩm theo productId
 		Product product = productService.getProductById(productId);
+		List<Category> cate = categoryService.findById(product.getCategory().getCategoryId());
 		List<ProductFeedback> feedbacks = product.getFeedbacks();
 		// Nếu không tìm thấy sản phẩm, chuyển đến trang lỗi
 		if (product == null) {
@@ -88,6 +103,7 @@ public class SearchController {
 		// Thêm sản phẩm vào mô hình (model)
 		model.addAttribute("product", product);
 		model.addAttribute("feedbacks", feedbacks);
+		model.addAttribute("categorys", cate);
 		// Trả về trang chi tiết sản phẩm
 		return "product-details"; // Tên của trang HTML chi tiết sản phẩm (product-details.html)
 	}
