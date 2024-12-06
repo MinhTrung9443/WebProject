@@ -76,6 +76,11 @@ public class VendorService implements IVendorService {
 	public Account findByUsername(String username) {
 		return accountRepository.findByUsername(username);
 	}
+
+	@Override
+	public Optional<Vendor> findByFullnameContaining(String fullname) {
+		return venRepository.findByFullnameContaining(fullname);
+	}
 	
 	
 

@@ -1,5 +1,7 @@
 package vn.iotstar.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +13,5 @@ public interface IShipperRepository extends JpaRepository<Shipper, Integer> {
 
 	Shipper findByEmail(String email);
 
+	Optional<Shipper> findByFullnameContaining(String fullname);
 }

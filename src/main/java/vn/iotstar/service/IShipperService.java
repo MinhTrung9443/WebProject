@@ -30,5 +30,7 @@ public interface IShipperService {
 	Shipper findByPhone(String phone);
 
 	Shipper findByEmail(String email);
+	
+	Optional<Shipper> findByFullnameContaining(String fullname);
 
 }

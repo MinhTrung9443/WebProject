@@ -24,4 +24,6 @@ public interface IUserService {
 
 	List<User> findAll();
 
+	Optional<User> findByFullnameContaining(String fullname);
+
 }

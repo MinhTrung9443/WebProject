@@ -76,4 +76,10 @@ public class ShipperService implements IShipperService{
 	public Shipper findByPhone(String phone) {
 		return shipperRepository.findByPhone(phone);
 	}
+
+	@Override
+	public Optional<Shipper> findByFullnameContaining(String fullname) {
+		return shipperRepository.findByFullnameContaining(fullname);
+	}
+	
 }

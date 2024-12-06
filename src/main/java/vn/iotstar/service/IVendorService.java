@@ -30,5 +30,6 @@ public interface IVendorService {
 	void deleteByAccountId(Integer accountid);
 
 	Account findByUsername(String username);
-
+	
+	Optional <Vendor> findByFullnameContaining(String fullname);
 }
