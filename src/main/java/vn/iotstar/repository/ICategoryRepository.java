@@ -8,5 +8,5 @@ import vn.iotstar.entity.Category;
 @Repository
 public interface ICategoryRepository extends JpaRepository<Category,Integer>{
 	
-	boolean existsByCategoryName(String categoryName);
+	Category findByCategoryName(String categoryName);
 }

@@ -23,6 +23,6 @@ public interface ICategoryService {
 
 	void deleteById(Integer id);
 
-	boolean existsByCategoryName(String categoryName);
+	Category findByCategoryName(String categoryName);
 	
 }

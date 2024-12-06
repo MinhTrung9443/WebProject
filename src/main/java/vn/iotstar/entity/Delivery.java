@@ -21,7 +21,7 @@ public class Delivery implements Serializable {
 	private String deliveryName;
 	private int price;
 	
-	@OneToMany(mappedBy = "delivery",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "delivery",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JsonManagedReference
 	private List<Shipper> shipper;
 }

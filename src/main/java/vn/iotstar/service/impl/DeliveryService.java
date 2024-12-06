@@ -56,5 +56,5 @@ public class DeliveryService implements IDeliveryService{
 	public Delivery findByDeliveryName(String deliveryName) {
 		return deliveryRepository.findByDeliveryName(deliveryName);
 	}
-	
+
 }

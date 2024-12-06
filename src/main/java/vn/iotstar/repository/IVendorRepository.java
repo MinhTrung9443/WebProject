@@ -11,5 +11,6 @@ public interface IVendorRepository extends JpaRepository<Vendor, Integer>{
 	Vendor findByEmail(String email);
 	
 	Vendor findByPhone(String phone);
+	
 
 }

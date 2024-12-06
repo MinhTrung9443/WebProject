@@ -25,6 +25,7 @@ import vn.iotstar.entity.Account;
 import vn.iotstar.entity.Delivery;
 import vn.iotstar.entity.Role;
 import vn.iotstar.entity.Shipper;
+import vn.iotstar.entity.Vendor;
 import vn.iotstar.service.IDeliveryService;
 import vn.iotstar.service.IShipperService;
 
@@ -152,14 +153,13 @@ public class ManageShipperController {
 		return false;
 	}
 
-	public boolean checkExistUsername(ModelMap model, Shipper shipper, int id) {
-	    if (id == 0 && shipperService.findByUsername(shipper.getAccount().getUsername()) != null) {
-	        model.addAttribute("existUsername", "USERNAME NÀY ĐÃ TỒN TẠI!");
-	        return true;
-	    }
-	    return false;
+	public boolean checkExistUsername(ModelMap model, Account account, int id) {
+		if (shipperService.findByUsername(account.getUsername()) != null) {
+			model.addAttribute("existUsername", "USERNAME NÀY ĐÃ TỒN TẠI!");
+			return true;
+		}
+		return false;
 	}
-
 
 	public boolean checkPhoneValid(ModelMap model, Shipper shipper) {
 		String phoneRegex = "^\\d{10}$";
@@ -170,33 +170,18 @@ public class ManageShipperController {
 		return false;
 	}
 
-	@PostMapping("/save")
-	public ModelAndView saveOrUpdate(ModelMap model, @Valid @ModelAttribute Shipper shipper, BindingResult result,
+	@PostMapping("/create")
+	public ModelAndView createShipper(ModelMap model, @Valid @ModelAttribute Shipper shipper, BindingResult result,
 			@Valid @ModelAttribute Account account, @RequestParam Integer deliveryId) {
 		if (result.hasErrors()) {
 			model.addAttribute("shipper", shipper);
-			if (shipper.getId() != 0) {
-				return new ModelAndView("Admin/shipper/edit", model);
-			} else {
-				return new ModelAndView("Admin/shipper/add", model);
-			}
+			return new ModelAndView("Admin/shipper/add", model);
 		}
 		int id = shipper.getId();
-		
+
 		boolean check = false;
-		if (checkExistPhone(model, shipper, id)) {
-			check = true;
-		}
-
-		if (checkExistEmail(model, shipper, id)) {
-			check = true;
-		}
-
-		if (checkExistUsername(model, shipper, id)) {
-			check = true;
-		}
-
-		if (checkPhoneValid(model, shipper)) {
+		if (checkExistPhone(model, shipper, id) || checkExistEmail(model, shipper, id)
+				|| checkExistUsername(model, account, id) || checkPhoneValid(model, shipper)) {
 			check = true;
 		}
 		if (check) {
@@ -209,11 +194,8 @@ public class ManageShipperController {
 			model.addAttribute("deliveries", deliveries);
 			model.addAttribute("districts", districts);
 			model.addAttribute("shipper", ship);
-			if (shipper.getId() != 0) {
-				return new ModelAndView("Admin/shipper/edit", model);
-			} else {
-				return new ModelAndView("Admin/shipper/add", model);
-			}
+
+			return new ModelAndView("Admin/shipper/add", model);
 		}
 
 		Optional<Delivery> optDelivery = deliveryService.findById(deliveryId);
@@ -222,12 +204,58 @@ public class ManageShipperController {
 		shipper.setDelivery(delivery);
 
 		Shipper entity = new Shipper();
+		Account tk = new Account();
 		BeanUtils.copyProperties(shipper, entity);
-
-		account.setRole(new Role(4, "shipper"));
-		entity.setAccount(account);
+		BeanUtils.copyProperties(account, tk);
+		entity.setAccount(tk);
+		tk.setRole(new Role(4, "shipper"));
+		entity.setAccount(tk);
 
 		shipperService.save(entity);
+
+		return new ModelAndView("forward:/Admin/shipper", model);
+	}
+
+	@PostMapping("/edit")
+	public ModelAndView editShipper(ModelMap model, @Valid @ModelAttribute Shipper shipper, BindingResult result,
+			@Valid @ModelAttribute Account account, @RequestParam Integer deliveryId) {
+		if (result.hasErrors()) {
+			model.addAttribute("shipper", shipper);
+
+			return new ModelAndView("Admin/shipper/edit", model);
+
+		}
+		int id = shipper.getId();
+		Shipper oldShipper = shipperService.findById(id).get();
+
+		boolean check = false;
+		if (checkExistPhone(model, shipper, id) || checkExistEmail(model, shipper, id)
+				|| checkPhoneValid(model, shipper)) {
+			check = true;
+		}
+		if (check) {
+			Shipper ship = new Shipper();
+			BeanUtils.copyProperties(shipper, ship);
+
+			List<Delivery> deliveries = deliveryService.findAll();
+			model.addAttribute("deliveries", deliveries);
+			model.addAttribute("districts", districts);
+
+			model.addAttribute("shipper", ship);
+
+			return new ModelAndView("Admin/shipper/edit", model);
+		}
+
+		Optional<Delivery> optDelivery = deliveryService.findById(deliveryId);
+
+		Delivery delivery = optDelivery.get();
+		shipper.setDelivery(delivery);
+
+		Account oldAccount = oldShipper.getAccount();
+		BeanUtils.copyProperties(shipper, oldShipper);
+		oldShipper.setAccount(oldAccount);
+
+		shipperService.save(oldShipper);
 
 		return new ModelAndView("forward:/Admin/shipper", model);
 	}
@@ -247,7 +275,7 @@ public class ManageShipperController {
 
 			List<Shipper> list = shipperService.findAll();
 			model.addAttribute("list", list);
-			return new ModelAndView("forward:/Admin/shipper", model);
+			return new ModelAndView("Admin/shipper/list", model);
 		}
 		return new ModelAndView("forward:/Admin/shipper", model);
 	}

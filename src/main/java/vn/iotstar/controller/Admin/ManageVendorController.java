@@ -68,7 +68,7 @@ public class ManageVendorController {
 		model.addAttribute("pageNumbers", pageNumbers);
 		return "Admin/vendor/list";
 	}
-	
+
 	@GetMapping("/detail/{id}")
 	public String viewUserDetail(@PathVariable("id") int id, Model model) {
 		Optional<Vendor> optVendor = vendorService.findById(id);
@@ -79,7 +79,7 @@ public class ManageVendorController {
 		}
 		return "Admin/vendor";
 	}
-	
+
 	@GetMapping("/add")
 	public String addvendor(Model model) {
 		Vendor vendor = new Vendor();
@@ -89,7 +89,7 @@ public class ManageVendorController {
 		model.addAttribute("vendor", vendor);
 		return "Admin/vendor/add";
 	}
-	
+
 	@GetMapping("/edit/{id}")
 	public ModelAndView editVendor(ModelMap model, @PathVariable("id") Integer id) {
 		Optional<Vendor> optVendor = vendorService.findById(id);
@@ -101,13 +101,12 @@ public class ManageVendorController {
 			BeanUtils.copyProperties(entity, vendor);
 
 			model.addAttribute("vendor", vendor);
-	
 
 			return new ModelAndView("Admin/vendor/edit", model);
 		}
 		return new ModelAndView("forward:/Admin/vendor", model);
 	}
-	
+
 	public boolean checkExistPhone(ModelMap model, Vendor vendor, int id) {
 		if (vendorService.findByPhone(vendor.getPhone()) != null) {
 			if (id != 0) {
@@ -122,7 +121,7 @@ public class ManageVendorController {
 		}
 		return false;
 	}
-	
+
 	public boolean checkExistEmail(ModelMap model, Vendor vendor, int id) {
 		if (vendorService.findByEmail(vendor.getEmail()) != null) {
 			if (id != 0) {
@@ -137,15 +136,14 @@ public class ManageVendorController {
 		}
 		return false;
 	}
-	
-	public boolean checkExistUsername(ModelMap model, Vendor vendor, int id) {
-	    if (id == 0 && vendorService.findByUsername(vendor.getAccount().getUsername()) != null) {
-	        model.addAttribute("existUsername", "USERNAME NÀY ĐÃ TỒN TẠI!");
-	        return true;
-	    }
-	    return false;
-	}
 
+	public boolean checkExistUsername(ModelMap model, Account account, int id) {
+		if (vendorService.findByUsername(account.getUsername()) != null) {
+			model.addAttribute("existUsername", "USERNAME NÀY ĐÃ TỒN TẠI!");
+			return true;
+		}
+		return false;
+	}
 
 	public boolean checkPhoneValid(ModelMap model, Vendor vendor) {
 		String phoneRegex = "^\\d{10}$";
@@ -155,61 +153,73 @@ public class ManageVendorController {
 		}
 		return false;
 	}
-	
-	@PostMapping("/save")
-	public ModelAndView saveOrUpdate(ModelMap model, @Valid @ModelAttribute Vendor vendor, BindingResult result,
+
+	@PostMapping("/create")
+	public ModelAndView createVendor(ModelMap model, @Valid @ModelAttribute Vendor vendor, BindingResult result,
 			@Valid @ModelAttribute Account account) {
 		if (result.hasErrors()) {
 			model.addAttribute("vendor", vendor);
-			if (vendor.getId() != 0) {
-				return new ModelAndView("Admin/vendor/edit", model);
-			} else {
-				return new ModelAndView("Admin/vendor/add", model);
-			}
+			return new ModelAndView("Admin/vendor/add", model);
 		}
 		int id = vendor.getId();
-		vendor.setAccount(account);
-		
+
 		boolean check = false;
-		if (checkExistPhone(model, vendor, id)) {
+		if (checkExistPhone(model, vendor, id) || checkExistEmail(model, vendor, id)
+				|| checkExistUsername(model, account, id) || checkPhoneValid(model, vendor)) {
 			check = true;
 		}
 
-		if (checkExistEmail(model, vendor, id)) {
-			check = true;
-		}
-
-		if (checkExistUsername(model, vendor, id)) {
-			check = true;
-		}
-
-		if (checkPhoneValid(model, vendor)) {
-			check = true;
-		}
 		if (check) {
 			Vendor staff = new Vendor();
 			BeanUtils.copyProperties(vendor, staff);
 			staff.setAccount(account);
-			
 			model.addAttribute("vendor", staff);
-			if (vendor.getId() != 0) {
-				return new ModelAndView("Admin/vendor/edit", model);
-			} else {
-				return new ModelAndView("Admin/vendor/add", model);
-			}
+			return new ModelAndView("Admin/vendor/add", model);
 		}
 
 		Vendor entity = new Vendor();
+		Account tk = new Account();
 		BeanUtils.copyProperties(vendor, entity);
-
-		account.setRole(new Role(3, "vendor"));
-		entity.setAccount(account);
-
+		BeanUtils.copyProperties(account, tk);
+		entity.setAccount(tk);
+		tk.setRole(new Role(3, "vendor"));
+		entity.setAccount(tk);
 		vendorService.save(entity);
 
 		return new ModelAndView("forward:/Admin/vendor", model);
 	}
-	
+
+	@PostMapping("/edit")
+	public ModelAndView editVendor(ModelMap model, @Valid @ModelAttribute Vendor vendor, BindingResult result) {
+		if (result.hasErrors()) {
+			model.addAttribute("vendor", vendor);
+			return new ModelAndView("Admin/vendor/edit", model);
+		}
+		int id = vendor.getId();
+		Vendor oldvendor = vendorService.findById(id).get();
+		boolean check = false;
+		if (checkExistPhone(model, vendor, id) || checkExistEmail(model, vendor, id)
+				|| checkPhoneValid(model, vendor)) {
+			check = true;
+		}
+
+		if (check) {
+			Vendor staff = new Vendor();
+			BeanUtils.copyProperties(vendor, staff);
+
+			model.addAttribute("vendor", staff);
+
+			return new ModelAndView("Admin/vendor/edit", model);
+
+		}
+		Account oldAccount = oldvendor.getAccount();
+		BeanUtils.copyProperties(vendor, oldvendor);
+		oldvendor.setAccount(oldAccount);
+		vendorService.save(oldvendor);
+
+		return new ModelAndView("forward:/Admin/vendor", model);
+	}
+
 	@Transactional
 	@GetMapping("/delete/{id}")
 	public ModelAndView delete(ModelMap model, @PathVariable("id") int id) {

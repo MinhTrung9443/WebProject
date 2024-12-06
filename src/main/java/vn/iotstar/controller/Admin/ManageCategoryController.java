@@ -27,12 +27,13 @@ public class ManageCategoryController {
 	ICategoryService cateService;
 
 	@RequestMapping("")
-	public String home(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
-		
+	public String home(Model model, @RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size) {
+
 		int count = (int) cateService.count();
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
-		
+
 		Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
 
 		int totalPages = cateService.findAll(pageable).getTotalPages();
@@ -46,7 +47,7 @@ public class ManageCategoryController {
 			else if (start == 1)
 				end = start + count;
 		}
-		
+
 		List<Integer> pageNumbers = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
 
 		model.addAttribute("list", list);
@@ -63,6 +64,22 @@ public class ManageCategoryController {
 		return "Admin/category/add";
 	}
 
+	public boolean checkExistCategory(ModelMap model, Category category, int id) {
+		if (cateService.findByCategoryName(category.getCategoryName()) != null) {
+			if (id != 0) {
+				if (cateService.findByCategoryName(category.getCategoryName()).getCategoryId() != id) {
+					model.addAttribute("existCateName", "DANH MỤC NÀY ĐÃ TỒN TẠI!");
+					return true;
+				}
+			} else {
+				model.addAttribute("existCateName", "DANH MỤC NÀY ĐÃ TỒN TẠI!");
+				return true;
+			}
+
+		}
+		return false;
+	}
+
 	@PostMapping("/save")
 	public ModelAndView addOrEdit(ModelMap model, @Valid @ModelAttribute Category category, BindingResult result) {
 		if (result.hasErrors()) {
@@ -73,15 +90,14 @@ public class ManageCategoryController {
 				return new ModelAndView("Admin/category/add", model);
 			}
 		}
-		
+
 		boolean check = false;
-		if (cateService.existsByCategoryName(category.getCategoryName())) {
-			model.addAttribute("existCateName","DANH MỤC NÀY ĐÃ TỒN TẠI!");
+		if (checkExistCategory(model, category, category.getCategoryId())) {
 			check = true;
 		}
 		if (check) {
 			Category cate = new Category();
-			BeanUtils.copyProperties(category,cate);
+			BeanUtils.copyProperties(category, cate);
 			model.addAttribute("cate", cate);
 			if (category.getCategoryId() != 0) {
 				return new ModelAndView("Admin/category/edit", model);
@@ -89,18 +105,13 @@ public class ManageCategoryController {
 				return new ModelAndView("Admin/category/add", model);
 			}
 		}
-		Category entity;
-		if (category.getCategoryId() != 0) {
-	        Optional<Category> optionalEntity = cateService.findById(category.getCategoryId());	       
-	        entity = optionalEntity.get();        
-	    } else {
-	        entity = new Category();	        
-	    }			
+		Category entity = new Category();
 		BeanUtils.copyProperties(category, entity);
-		cateService.save(entity);		
+
+		cateService.save(entity);
 		return new ModelAndView("forward:/Admin/category", model);
 	}
-	
+
 	@GetMapping("/edit/{id}")
 	public ModelAndView edit(ModelMap model, @PathVariable("id") Integer categoryId) {
 		Optional<Category> optEmployee = cateService.findById(categoryId);
@@ -125,7 +136,7 @@ public class ManageCategoryController {
 			cateService.deleteById(categoryId);
 			List<Category> list = cateService.findAll();
 			model.addAttribute("list", list);
-			return new ModelAndView("forward:/Admin/category", model);
+			return new ModelAndView("Admin/category/list", model);
 		}
 		return new ModelAndView("forward:/Admin/category", model);
 	}

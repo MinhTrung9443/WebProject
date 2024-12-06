@@ -169,15 +169,8 @@ public class ManageVoucherController {
 
 			Voucher entity = optionalEntity.get();
 
-			if (existCode(model, voucherDTO, voucher.getVoucherId())) {
-				check = true;
-			}
-
-			if (isValidDate(model, voucherDTO)) {
-				check = true;
-			}
-
-			if (checkValue(model, voucherDTO)) {
+			if (existCode(model, voucherDTO, voucher.getVoucherId()) || isValidDate(model, voucherDTO)
+					|| checkValue(model, voucherDTO)) {
 				check = true;
 			}
 
@@ -197,27 +190,16 @@ public class ManageVoucherController {
 				mgg.setStartDate(voucher.getStartDate());
 				mgg.setEndDate(voucher.getEndDate());
 				mgg.setActive(voucher.getActive());
-
 				voucherService.save(mgg);
 			}
 		} else {
 			int quantity = voucherDTO.getQuantity();
 
-			if (existCode(model, voucherDTO, voucherDTO.getVoucherId())) {
+			if (existCode(model, voucherDTO, voucherDTO.getVoucherId()) || checkQuantity(model, voucherDTO)
+					|| isValidDate(model, voucherDTO) || checkValue(model, voucherDTO)) {
 				check = true;
 			}
 
-			if (checkQuantity(model, voucherDTO)) {
-				check = true;
-			}
-
-			if (isValidDate(model, voucherDTO)) {
-				check = true;
-			}
-
-			if (checkValue(model, voucherDTO)) {
-				check = true;
-			}
 			if (check) {
 				return new ModelAndView("Admin/voucher/add", model);
 			}
@@ -239,7 +221,7 @@ public class ManageVoucherController {
 			voucherService.deleteById(voucherId);
 			List<Voucher> list = voucherService.findAll();
 			model.addAttribute("list", list);
-			return new ModelAndView("forward:/Admin/voucher", model);
+			return new ModelAndView("Admin/voucher/list", model);
 		}
 		return new ModelAndView("forward:/Admin/voucher", model);
 	}

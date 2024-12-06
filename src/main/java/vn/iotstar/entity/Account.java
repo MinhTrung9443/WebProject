@@ -30,7 +30,7 @@ public class Account implements Serializable {
    
     private int accountId;
 
-    @Column(name = "username", columnDefinition = "NVARCHAR(255)")
+    @Column(name = "username", columnDefinition = "NVARCHAR(255) NOT NULL")
     private String username;
 
     private String password;

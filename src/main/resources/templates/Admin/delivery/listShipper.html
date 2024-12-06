@@ -5,7 +5,7 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>Quản Lý Người Giao Hàng</title>
+	<title>Danh Sách Người Giao Hàng</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1" name="viewport" />
 	<meta content="" name="description" />
@@ -59,7 +59,7 @@
 
 	<!-- BEGIN PAGE HEADER-->
 	<h3 class="page-title">
-		Quản Lý Người Giao Hàng
+		Danh Sách Người Giao Hàng
 	</h3>
 	<div class="page-bar">
 		<ul class="page-breadcrumb">
@@ -69,9 +69,12 @@
 				<i class="fa fa-angle-right"></i>
 			</li>
 			<li>
-				<a href="/Admin/shipper">Quản lý người giao hàng</a>
+				<a href="/Admin/delivery">Quản lý nhà vận chuyển</a>
 				<i class="fa fa-angle-right"></i>
+			</li><li>
+				<a href="#">Danh sách người giao hàng</a>
 			</li>
+			
 		</ul>
 
 		<!-- END PAGE HEADER-->
@@ -79,78 +82,51 @@
 		<div class="row">
 			<div class="col-md-12">
 				<!-- BEGIN EXAMPLE TABLE PORTLET-->
-				<div class="portlet box blue-hoki">
+				<div class="portlet box red-intense">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-globe"></i>DANH SÁCH NGƯỜI GIAO HÀNG
+							<i class="fa fa-list"></i>DANH SÁCH NGƯỜI GIAO HÀNG
 						</div>
 
 
 					</div>
 					<div class="portlet-body">
-						<div class="table-toolbar">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="btn-group">
-										<a href="/Admin/shipper/add" class="btn blue">
-											Add New <i class="fa fa-plus"></i>
-										</a>
-									</div>
-								</div>
+						
 
-							</div>
-						</div>
-
-						<table class="table table-striped table-bordered table-hover" id="sample_1">
+						<table class="table table-striped table-bordered table-hover" >
 							<thead>
 								<tr>
 									<th>STT</th>
 									<th>ID</th>
 									<th>Họ và tên</th>
 									<th>Số điện thoại</th>
+									<th>Giới tính</th>									
+									<th>Email</th>
+									<th>Địa chỉ</th>
 									<th>Khu vực giao hàng</th>
-									<th>Thuộc nhà vận chuyển</th>
-									<th>Trạng thái tài khoản</th>
-									<th>Thao tác</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="shipper, iterStat : ${list}">
+								<tr th:each="delivery, iterStat : ${list}">
 
 									<td th:text="${iterStat.index + 1}"></td>
 
-									<td th:text="${shipper.id}"></td>
+									<td th:text="${delivery.id}"></td>
 
-									<td th:text="${shipper.fullname}"></td>
+									<td th:text="${delivery.fullname}"></td>
 
-									<td th:text="${shipper.phone}"></td>
-
-									<td th:text="${shipper.deliveryArea}"></td>
-
-									<td th:text="${shipper.delivery != null ? shipper.delivery.deliveryName : 'Chưa có nhà vận chuyển'}"></td>
-
-									<div th:if="${shipper.account != null}">
-										<td th:switch="${shipper.account.active}">
-											<span th:case="'1'">Hoạt động</span>
-											<span th:case="'0'">Không hoạt động</span>
-										</td>
-									</div>
-
-									<td>
-										<a class="btn grey" th:href="@{/Admin/shipper/detail/{id}(id=${shipper.id})}">
-											Xem chi tiết </a>
+									<td th:text="${delivery.phone}"></td>
+									
+									<td th:switch="${delivery.gender}">
+										<span th:case="'1'">Nam</span>
+										<span th:case="'0'">Nữ</span>
 									</td>
+									
+									<td th:text="${delivery.email}"></td>
+									
+									<td th:text="${delivery.address}"></td>									
 
-									<td>
-										<a class="btn yellow" th:href="@{/Admin/shipper/edit/{id}(id=${shipper.id})}">
-											Sửa </a>
-									</td>
-
-									<td>
-										<a class="btn red" th:href="@{/Admin/shipper/delete/{id}(id=${shipper.id})}"
-											onclick="return confirmDelete();">
-											Xoá </a>
-									</td>
+									<td th:text="${delivery.deliveryArea}"></td>									
 
 								</tr>
 							</tbody>
@@ -163,7 +139,7 @@
 								<!-- Nút Previous -->
 								<li class="paginate_button previous" aria-controls="sample_1" tabindex="0"
 									th:classappend="${currentPage == 1} ? 'disabled'">
-									<a th:if="${currentPage > 1}" th:href="@{/Admin/shipper?page=(${currentPage - 1})}"
+									<a th:if="${currentPage > 1}" th:href="@{/Admin/delivery?page=(${currentPage - 1})}"
 										aria-label="Previous">
 										<i class="fa fa-angle-left"></i>
 									</a>
@@ -171,14 +147,14 @@
 
 								<!-- Danh sách các trang -->
 								<li th:each="page : ${pageNumbers}" th:classappend="${page == currentPage} ? 'active'">
-									<a th:href="@{'/Admin/shipper?page=' + ${page}}" th:text="${page}"></a>
+									<a th:href="@{'/Admin/delivery?page=' + ${page}}" th:text="${page}"></a>
 								</li>
 
 								<!-- Nút Next -->
 								<li class="paginate_button next" aria-controls="sample_1" tabindex="0"
 									th:classappend="${currentPage == totalPages} ? 'disabled'">
 									<a th:if="${currentPage < totalPages}"
-										th:href="@{/Admin/shipper?page=(${currentPage + 1})}" aria-label="Next">
+										th:href="@{/Admin/delivery?page=(${currentPage + 1})}" aria-label="Next">
 										<i class="fa fa-angle-right"></i>
 									</a>
 								</li>
@@ -193,15 +169,7 @@
 			<footer th:replace="~{Admin/fragments/footer::footer}"></footer>
 			<!-- END FOOTER -->
 		</div>
-		<script>
-			function confirmDelete(url) {
-				if (confirm("Bạn có chắc chắn muốn xóa tài khoản này không?")) {
-					window.location.href = url;
-					return true;
-				}
-				return false;
-			}
-		</script>
+		
 
 		<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 		<!-- BEGIN CORE PLUGINS -->

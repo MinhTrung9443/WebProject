@@ -49,16 +49,13 @@ public class CategoryService implements ICategoryService{
 	}
 
 	@Override
-	public boolean existsByCategoryName(String categoryName) {
-		return cateRepository.existsByCategoryName(categoryName);
-	}
-
-	@Override
 	public void deleteById(Integer id) {
 		cateRepository.deleteById(id);
 	}
-	
-	
-	
+
+	@Override
+	public Category findByCategoryName(String categoryName) {
+		return cateRepository.findByCategoryName(categoryName);
+	}
 
 }
