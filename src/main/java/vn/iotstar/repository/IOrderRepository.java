@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import vn.iotstar.entity.Account;
@@ -20,4 +22,10 @@ public interface IOrderRepository extends JpaRepository<Order, Integer>  {
     long countByOrderStatus(OrderStatus status);
     
     Page<Order> findAll(Pageable pageable);
+    List<Order> findByOrderStatus(OrderStatus orderStatus);
+
+
+
+
+
 }
