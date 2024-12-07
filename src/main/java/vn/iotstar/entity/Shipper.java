@@ -14,10 +14,12 @@ import lombok.*;
 @Entity
 @Table(name = "Shipper")
 public class Shipper extends Person implements Serializable {
+
+	@Column(columnDefinition = "NVARCHAR(255)")
 	private String address;
-	@Column(columnDefinition = "nvarchar(max)")
-	private String deliveryArea;
 	
+	@Column(columnDefinition = "NVARCHAR(255)")
+	private String deliveryArea;
 	
 	@ManyToOne()
 	@JoinColumn(name = "deliveryId")

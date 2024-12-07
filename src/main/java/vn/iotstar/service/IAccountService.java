@@ -10,8 +10,6 @@ public interface IAccountService {
 	// Method to log in by username and password
 	Account login(String username, String password);
 
-	// Method to find an account by email
-	Account findByUsername(String email);
 
 	Account findById(int i);
 
@@ -29,5 +27,9 @@ public interface IAccountService {
 	Account findByToken(String resetToken);
 
 	void update(Account account);
+
+	void deleteById(Integer id);
+
+	Account findByUsername(String username);
 
 }

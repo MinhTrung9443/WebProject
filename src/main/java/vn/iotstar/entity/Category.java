@@ -11,12 +11,14 @@ import lombok.*;
 @Entity
 @Table(name = "Category")
 public class Category {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int categoryId;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String categoryName;
 	private String images;
+	private int active;
 	
 	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
 	@JsonManagedReference

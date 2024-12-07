@@ -1,9 +1,7 @@
 package vn.iotstar.entity;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,12 +29,14 @@ public class Voucher implements Serializable{/**
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	private int voucherId;
-	@Column(columnDefinition = "nvarchar(max)")
-	private String voucherCode;
+	
+	@Column( columnDefinition = "NVARCHAR(255)")
 	private String voucherType;
+	
+	private String voucherCode;
 	private int voucherValue;
-	private Date startDate;
-	private Date endDate;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 	private int active;
 	
 	@OneToOne(cascade = CascadeType.ALL)

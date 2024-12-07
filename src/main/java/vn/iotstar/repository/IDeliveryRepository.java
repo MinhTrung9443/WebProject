@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import vn.iotstar.entity.Delivery;
 
 @Repository
-public interface IDeliveryRepository  extends JpaRepository<Delivery, Integer>{
-
+public interface IDeliveryRepository extends JpaRepository<Delivery, Integer>{
+	
+	Delivery findByDeliveryName(String deliveryName);
 }

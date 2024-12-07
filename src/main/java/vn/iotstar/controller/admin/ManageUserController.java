@@ -26,14 +26,14 @@ import jakarta.validation.Valid;
 import vn.iotstar.entity.Account;
 import vn.iotstar.entity.Person;
 import vn.iotstar.entity.User;
-import vn.iotstar.service.impl.UserService;
+import vn.iotstar.service.IUserService;
 
 @Controller
 @RequestMapping("/Admin/user")
 public class ManageUserController {
 
 	@Autowired
-	UserService userService;
+	IUserService userService;
 
 	@RequestMapping("")
 	public String getUser(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {

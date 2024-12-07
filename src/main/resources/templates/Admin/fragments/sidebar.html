@@ -1,95 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body th:fragment="sidebar">
-		<!-- BEGIN SIDEBAR -->
-			
-			<div class="page-sidebar navbar-collapse collapse">
-				<!-- BEGIN SIDEBAR MENU -->
-				
-				<ul class="page-sidebar-menu page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-					<li class="start active ">
-						<a href="/Admin">
-						<i class="icon-home"></i>
-						<span class="title">Trang Chủ</span>
-						<span class="selected"></span>
-						</a>
-					</li>
-					<li>
-						<a href="/Admin/category">
-						<i class="icon-list"></i>
-						<span class="title">Quản Lý Danh Mục</span>
-						<span class="arrow "></span>
-						</a>
-						<ul class="sub-menu">
-							<li>
-								<a href="ecommerce_index.html">
-								<i class="icon-home"></i>
-								Dashboard</a>
-							</li>
-							<li>
-								<a href="ecommerce_orders.html">
-								<i class="icon-basket"></i>
-								Orders</a>
-							</li>
-							<li>
-								<a href="ecommerce_orders_view.html">
-								<i class="icon-tag"></i>
-								Order View</a>
-							</li>
-							<li>
-								<a href="ecommerce_products.html">
-								<i class="icon-handbag"></i>
-								Products</a>
-							</li>
-							<li>
-								<a href="ecommerce_products_edit.html">
-								<i class="icon-pencil"></i>
-								Product Edit</a>
-							</li>
-						</ul>
-					</li>
+	<!-- BEGIN SIDEBAR -->
+
+	<div class="page-sidebar navbar-collapse collapse">
+		<!-- BEGIN SIDEBAR MENU -->
+
+		<ul class="page-sidebar-menu page-sidebar-menu-hover-submenu " data-keep-expanded="false"
+			data-auto-scroll="true" data-slide-speed="200">
+			<li class="start active ">
+				<a href="/Admin">
+					<i class="icon-home"></i>
+					<span class="title">Trang Chủ</span>
+					<span class="selected"></span>
+				</a>
+			</li>
+			<li>
+				<a href="/Admin/category">
+					<i class="icon-list"></i>
+					<span class="title">Quản Lý Danh Mục</span>
+					<span class="arrow "></span>
+				</a>
+
+			</li>
+			<li>
+				<a href="#">
+					<i class="icon-user"></i>
+					<span class="title">Quản Lý Người Dùng</span>
+					<span class="arrow "></span>
+				</a>
+				<ul class="sub-menu">
+
 					<li>
 						<a href="/Admin/user">
-						<i class="icon-user"></i>
-						<span class="title">Quản Lý Người Dùng</span>
-						<span class="arrow "></span>
-						</a>
+							Quản Lý Khách Hàng</a>
+					</li>
+
+					<li>
+						<a href="/Admin/vendor">
+							Quản Lý Nhân Viên</a>
 					</li>
 					<li>
-						<a href="/Admin/voucher">
-						<i class="icon-present"></i>
-						<span class="title">Quản Lý Chương Trình Khuyến Mãi</span>
-						<span class="arrow "></span>
-						</a>
+						<a href="/Admin/shipper">
+							Quản Lý Người Giao Hàng</a>
 					</li>
-					<li>
-						<a href="#">
-						<i class="icon-plane"></i>
-						<span class="title">Quản Lý Nhà Vận Chuyển</span>
-						<span class="arrow "></span>
-						</a>
-						
-					</li>
-					<!-- BEGIN ANGULARJS LINK -->
-					<li class="tooltips" data-container="body" data-placement="right" data-html="true" data-original-title="AngularJS version demo">
-						
-					<!-- END ANGULARJS LINK -->
-					<li>
-						<a href="#">
-						<i class="icon-settings"></i>
-						<span class="title">Cài Đặt</span>
-						<span class="arrow "></span>
-						</a>
-						
-					</li>
-								
 				</ul>
-				<!-- END SIDEBAR MENU -->
-			</div>
-		<!-- END SIDEBAR -->
-		</body>
-		</html>
+			</li>
+
+
+
+
+			<li>
+				<a href="/Admin/voucher">
+					<i class="icon-present"></i>
+					<span class="title">Quản Lý Chương Trình Khuyến Mãi</span>
+					<span class="arrow "></span>
+				</a>
+			</li>
+			<li>
+				<a href="/Admin/delivery">
+					<i class="icon-plane"></i>
+					<span class="title">Quản Lý Nhà Vận Chuyển</span>
+					<span class="arrow "></span>
+				</a>
+
+			</li>
+			<!-- BEGIN ANGULARJS LINK -->
+			
+
+		</ul>
+		<!-- END SIDEBAR MENU -->
+	</div>
+	<!-- END SIDEBAR -->
+</body>
+
+</html>

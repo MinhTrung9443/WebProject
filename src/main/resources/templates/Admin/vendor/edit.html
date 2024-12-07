@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{/Admin/index.html}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/Admin/index.html}">
 
 <head>
 	<meta charset="utf-8" />
-	<title>Chi tiết khách hàng</title>
+	<title>Chỉnh sửa nhân viên</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -39,7 +39,7 @@ layout:decorate="~{/Admin/index.html}">
 
 	<!-- BEGIN PAGE HEADER-->
 	<h3 class="page-title">
-		Quản lý khách hàng <small>Chi tiết khách hàng</small>
+		Quản lý nhân viên
 	</h3>
 	<div class="page-bar">
 		<ul class="page-breadcrumb">
@@ -49,11 +49,11 @@ layout:decorate="~{/Admin/index.html}">
 				<i class="fa fa-angle-right"></i>
 			</li>
 			<li>
-				<a href="/Admin/user">Quản lý khách hàng</a>
+				<a href="/Admin/vendor">Quản lý nhân viên</a>
 				<i class="fa fa-angle-right"></i>
 			</li>
 			<li>
-				<a href="#">Chi tiết khách hàng</a>
+				<a href="#">Chỉnh sửa nhân viên</a>
 			</li>
 		</ul>
 	</div>
@@ -67,21 +67,19 @@ layout:decorate="~{/Admin/index.html}">
 					<div class="portlet box blue ">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-gift"></i>CHI TIẾT KHÁCH HÀNG
+								<i class="fa fa-gift"></i>CHỈNH SỬA NHÂN VIÊN
 							</div>
 						</div>
 
 						<div class="portlet-body form">
-							<!-- BEGIN FORM-->
-							<!--	<form action= "#"  class="form-horizontal form-bordered" >-->
-							<form action="/Admin/user/save" method="post" th:object=${user}
+							<form action="/Admin/vendor/edit" method="post" th:object=${vendor}
 								class="form-horizontal form-bordered">
 
 								<div class="form-body">
 									<div class="form-group">
 										<label for="id" class="control-label col-md-3">ID</label>
 										<div class="col-md-9">
-											<input type="text" id="id" name="id" th:value="${user.id}"
+											<input type="text" id="id" name="id" th:value="${vendor.id}"
 												class="form-control" readonly />
 
 										</div>
@@ -91,9 +89,12 @@ layout:decorate="~{/Admin/index.html}">
 										<label class="control-label col-md-3">Tên người dùng</label>
 										<div class="col-md-9">
 											<input type="text" id="username" name="username"
-												th:value="${user != null && user.account != null ? user.account.username : ''}"
+												th:value="${vendor != null && vendor.account != null ? vendor.account.username : ''}"
 												class="form-control" readonly
 												style="background-color: #f7f7f7; border: 2px solid #4CAF50; font-weight: bold; color: #333;" />
+											<div th:if="${existUsername}" class="alert alert-info">
+												<span th:text="${existUsername}"></span>
+											</div>
 										</div>
 									</div>
 
@@ -101,27 +102,26 @@ layout:decorate="~{/Admin/index.html}">
 										<label class="control-label col-md-3">Mật khẩu</label>
 										<div class="col-md-9">
 											<input type="text" id="password" name="password"
-												th:value="${user != null && user.account != null ? user.account.password : ''}"
+												th:value="${vendor != null &&vendor.account != null ? vendor.account.password : ''}"
 												class="form-control" readonly
 												style="background-color: #f7f7f7; border: 2px solid #4CAF50; font-weight: bold; color: #333;" />
 										</div>
 									</div>
 
-
 									<div class="form-group">
 										<label class="control-label col-md-3">Họ và tên</label>
 										<div class="col-md-9">
-											<input type="text" id="fullname" name="fullname" th:value="${user.fullname}"
-												class="form-control" readonly />
+											<input type="text" id="fullname" name="fullname"
+												th:value="${vendor.fullname}" class="form-control">
 										</div>
 									</div>
 
-									<div class="form-group">
+									<div class="form-group" >
 										<label class="control-label col-md-3">Giới tính</label>
 										<div class="col-md-9">
-											<select class="form-control" disabled>
-												<option value="1" th:selected="${user.gender == 1}">Nam</option>
-												<option value="0" th:selected="${user.gender == 0}">Nữ</option>
+											<select class="form-control" id = "gender" name="gender">
+												<option value="1" th:selected="${vendor.gender == 1}">Nam</option>
+												<option value="0" th:selected="${vendor.gender == 0}">Nữ</option>
 											</select>
 										</div>
 									</div>
@@ -129,27 +129,47 @@ layout:decorate="~{/Admin/index.html}">
 									<div class="form-group">
 										<label class="control-label col-md-3">Số điện thoại</label>
 										<div class="col-md-9">
-											<input type="text" id="phone" name="phone" th:value="${user.phone}"
-												class="form-control" readonly />
+											<input type="text" id="phone" name="phone" th:value="${vendor.phone}"
+												class="form-control">
+											<div th:if="${checkPhone}" class="alert alert-info">
+												<span th:text="${checkPhone}"></span>
+											</div>
 										</div>
 									</div>
 
 									<div class="form-group">
 										<label class="control-label col-md-3">Email</label>
 										<div class="col-md-9">
-											<input type="text" id="email" name="email" th:value="${user.email}"
-												class="form-control" readonly />
+											<input type="text" id="email" name="email" th:value="${vendor.email}"
+												class="form-control">
+											<div th:if="${existEmail}" class="alert alert-info">
+												<span th:text="${existEmail}"></span>
+											</div>
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-md-3">Ngày sinh</label>
+										<label class="control-label col-md-3">Địa chỉ</label>
 										<div class="col-md-9">
-											<input type="text" id="birthday" name="birthday"
-												th:value="${#dates.format(user.birthday, 'dd/MM/yyyy')}"
-												class="form-control" placeholder="dd/mm/yyyy" readonly>
+											<input type="text" id="address" name="address" th:value="${vendor.address}"
+												class="form-control">
 										</div>
+									</div>
 
+									<div class="form-group">
+										<label class="control-label col-md-3">Ngày bắt đầu</label>
+										<div class="col-md-9">
+											<input type="date" class="form-control" id="startDate" name="startDate"
+												th:value="${vendor.startDate}" />
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-md-3">Lương</label>
+										<div class="col-md-9">
+											<input type="text" id="salary" name="salary" th:value="${vendor.salary}"
+												class="form-control">
+										</div>
 									</div>
 
 									<div class="form-group">
@@ -158,12 +178,14 @@ layout:decorate="~{/Admin/index.html}">
 											<div class="radio-list">
 												<label>
 													<input type="radio" id="active" name="active" th:value="1"
-														th:checked="${user.account.active == 1}" />
+														th:checked="${vendor.account != null && vendor.account.active == 1}" />
+
 													Mở Khoá
 												</label>
 												<label>
 													<input type="radio" id="inactive" name="active" th:value="0"
-														th:checked="${user.account.active == 0}" />
+														th:checked="${vendor.account != null && vendor.account.active == 1}" />
+
 													Khoá
 												</label>
 											</div>
@@ -234,7 +256,6 @@ layout:decorate="~{/Admin/index.html}">
 	</script>
 	<!-- END JAVASCRIPTS -->
 </body>
-
 <!-- END BODY -->
 
 </html>
