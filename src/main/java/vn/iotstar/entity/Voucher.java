@@ -12,7 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,14 +31,15 @@ public class Voucher implements Serializable{/**
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	private int voucherId;
+	@Column(columnDefinition = "nvarchar(max)")
+	private String voucherCode;
 	private String voucherType;
 	private int voucherValue;
 	private Date startDate;
 	private Date endDate;
 	private int active;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "orderId")
-	@JsonBackReference
 	private Order order;
 }

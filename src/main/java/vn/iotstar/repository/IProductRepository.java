@@ -6,13 +6,37 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import io.lettuce.core.dynamic.annotation.Param;
 import vn.iotstar.entity.Product;
+
+
+
 
 @Repository
 public interface IProductRepository extends JpaRepository<Product, Integer> {
+	List<Product> findTop20ByOrderByWarehouseDateFirstDesc();
+
+	@Query("SELECT p FROM Product p " +
+		       "LEFT JOIN p.feedbacks f " +
+		       "GROUP BY p " +
+		       "ORDER BY COALESCE(AVG(f.rating), 0) DESC")
+	Page<Product> findTopProductsByAverageRating(Pageable pageable);
+
+	@Query("SELECT p FROM Product p " + "LEFT JOIN p.favourite f " + "GROUP BY p " + "ORDER BY COUNT(f) DESC")
+	List<Product> findTop20ByFavouriteCount();
+
+	@Query("SELECT ol.product FROM OrderLine ol " + "GROUP BY ol.product " + "ORDER BY SUM(ol.quantity) DESC")
+	List<Product> findTop20BySalesQuantity();
+	
+	@Query("SELECT p FROM Product p " +
+		       "LEFT JOIN p.favourite f " +
+		       "WHERE p.category.categoryId = :categoryId " +
+		       "GROUP BY p " +
+		       "ORDER BY COUNT(f) DESC")
+		List<Product> findTopProductsByCategory(@Param("categoryId") Long categoryId, Pageable pageable);
+
 
 	// Lọc theo khoảng giá
 	@Query("SELECT p FROM Product p WHERE p.price BETWEEN :minPrice AND :maxPrice")
@@ -96,5 +120,4 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 			    ORDER BY total_quantity ASC
 			""", nativeQuery = true)
 	List<Product> findTop10BestSellingProducts();
-
 }

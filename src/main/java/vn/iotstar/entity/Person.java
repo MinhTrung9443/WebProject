@@ -17,6 +17,7 @@ public abstract class Person implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int id;
+	@Column(columnDefinition = "nvarchar(max)")
 	protected String fullname;
 	protected String phone;
 	protected int gender;

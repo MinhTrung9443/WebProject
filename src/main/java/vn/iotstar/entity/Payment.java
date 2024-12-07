@@ -1,6 +1,7 @@
 package vn.iotstar.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -29,8 +30,9 @@ public class Payment implements Serializable{/**
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	private int paymentId;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String paymentMethod;
-	private Date paymentDate;
+	private LocalDateTime paymentDate;
 	private int total;
 	
 	@OneToOne(mappedBy = "payment")

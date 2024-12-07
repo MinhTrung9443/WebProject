@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,18 +23,18 @@ import lombok.NoArgsConstructor;
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-   
     private int accountId;
 
     @Column(name = "username", columnDefinition = "NVARCHAR(255)")
     private String username;
 
     private String password;
+    
+	private int active;
 
-    @OneToOne
+    @ManyToOne()
     @JoinColumn(name = "roleId")
     private Role role;
     @Column(name = "token", columnDefinition = "NVARCHAR(MAX)")

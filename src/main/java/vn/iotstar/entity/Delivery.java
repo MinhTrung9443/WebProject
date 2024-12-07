@@ -16,10 +16,11 @@ public class Delivery implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	private int deliveryId;
+	@Column(columnDefinition = "nvarchar(max)")
 	private String deliveryName;
 	private int price;
 	
-	@OneToMany(mappedBy = "delivery")
+	@OneToMany(mappedBy = "delivery",cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Shipper> shipper;
 }

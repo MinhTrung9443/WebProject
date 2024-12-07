@@ -13,20 +13,25 @@ import lombok.*;
 @Data
 @Entity
 @Table(name = "[User]")
+@PrimaryKeyJoinColumn(name = "id")
 public class User extends Person implements Serializable{/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private LocalDate birthday;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "shoppingCartId", nullable = true)
-	@JsonManagedReference
-	private ShoppingCart cart;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Address> address;
+	
 
+	@OneToMany(mappedBy= "user", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Favourite> favourite;
+	
+	@OneToMany(mappedBy= "user", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<ViewHistory> viewHistory;
 	
 }
