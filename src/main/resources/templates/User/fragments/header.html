@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 
 <head>
 <meta charset="UTF-8">
@@ -7,10 +8,16 @@
 
 </head>
 
+
 <body th:fragment="header">
+<div >
+	welcome <b> <span sec:authentication="name">Username</span> </b>
+
+</div>
+
 <header class="header header-2 header-intro-clearance">
 
-
+	
 		<div class="header-middle">
 			<div class="container">
 				<div class="header-left">
@@ -128,9 +135,11 @@
                     </div>
 
                     <div class="header-right">
-                        <a href="logout"><p>Đăng xuất</p></a>
-                        
-                    </div>
+					<form th:action="@{/logout}" method="post">
+						<input type="submit" value="Logout" />
+					</form>
+
+				</div>
                     
                 </div><!-- End .container -->
             </div><!-- End .header-bottom -->

@@ -11,7 +11,7 @@ import vn.iotstar.entity.Account;
 public interface IAccountRepository  extends JpaRepository<Account, Integer> {
 
 	Account findByUsername(String username);
-	  // Tìm tài khoản theo reset token
+
     Account findByToken(String token);
 	
 

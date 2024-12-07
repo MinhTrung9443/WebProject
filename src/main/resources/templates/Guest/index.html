@@ -265,12 +265,11 @@
 					}
 				}'>
 							<!-- Lặp qua danh sách sản phẩm -->
-							<div th:each="product : ${products}">
-								<div class="product product-11 text-center">
+								<div class="product product-11 text-center" th:each="product : ${products}">
 									<figure class="product-media">
 
-										<img th:src="@{${product.images}}" alt="Product image" class="product-image">
-										<img th:src="@{${product.images}}" alt="Product image hover"
+										<img th:src="@{${product.images[0].imageUrl}}" alt="Product image" class="product-image">
+										<img th:src="@{${product.images[0].imageUrl}}" alt="Product image hover"
 											class="product-image-hover">
 
 										<div class="product-action-vertical">
@@ -298,7 +297,7 @@
 									</a>
 
 								</div><!-- End .product -->
-							</div>
+
 						</div><!-- End .owl-carousel -->
 
 						<div class="more-container text-center mt-2">

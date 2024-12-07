@@ -3,6 +3,7 @@ package vn.iotstar.controller;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,8 @@ public class RegisterController {
 	private IAddressService addressService;
 	@Autowired
 	private IRoleService roleService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	// Hiển thị trang đăng nhập
 	@GetMapping("/register")
@@ -68,49 +71,49 @@ public class RegisterController {
 			// 1. Tạo Account
 			Account account = new Account();
 			account.setUsername(userDTO.getUsername());
-			account.setPassword(userDTO.getPassword());
-		// Đặt giá trị cho active trước khi lưu
+			account.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
-			// Set vai trò mặc định (ví dụ: customer)
-			Role role = roleService.findByName("User"); // Lấy role từ cơ sở dữ liệu
+
+
+			Role role = roleService.findByName("USER"); 
 			account.setRole(role);
 			account.setActive(1);
-			accountService.save(account); // Lưu Account trước
+			accountService.save(account); 
 
-			// 2. Tạo User
+
 			User user = new User();
 			user.setFullname(userDTO.getFullName());
 			user.setEmail(userDTO.getEmail());
 			user.setPhone(userDTO.getPhone());
-			// Chuyển gender từ string "Male" hoặc "Female" thành số (0 hoặc 1)
+
 			if ("Male".equals(userDTO.getGender())) {
-				user.setGender(0); // Male -> 0
+				user.setGender(1); 
 			} else if ("Female".equals(userDTO.getGender())) {
-				user.setGender(1); // Female -> 1
+				user.setGender(0); 
 			}
 
 			user.setBirthday(userDTO.getBirthday());
-			user.setAccount(account); // Liên kết Account với User
+			user.setAccount(account); 
 			
-			userService.save(user); // Lưu User
+			userService.save(user); 
 
-			// 3. Tạo Address (nếu có)
+
 			if (userDTO.getAddress_detail() != null && !userDTO.getAddress_type().isEmpty()) {
 				Address address = new Address();
 				address.setAddressDetail(userDTO.getAddress_detail());
 				address.setAddressType(userDTO.getAddress_type());
-				address.setUser(user); // Liên kết với User
-				addressService.save(address); // Lưu Address
+				address.setUser(user); 
+				addressService.save(address); 
 			}
 
-			// 4. Thông báo thành công
+
 			model.addAttribute("successMessage", "Đăng ký thành công!");
-			return "redirect:/login"; // Chuyển hướng tới trang đăng nhập
+			return "redirect:/login"; 
 			
 		} catch (Exception e) {
-			e.printStackTrace(); // Debug lỗi nếu có
+			e.printStackTrace(); 
 			model.addAttribute("error", "Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại!");
-			return "Guest/register"; // Quay lại trang đăng ký nếu lỗi
+			return "Guest/register"; 
 		}
 	}
 

@@ -39,5 +39,4 @@ public class Account implements Serializable {
     private Role role;
     @Column(name = "token", columnDefinition = "NVARCHAR(MAX)")
     private String token;
-    private int active;
 }

@@ -1,6 +1,11 @@
 package vn.iotstar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,57 +31,69 @@ public class LoginController {
 	private IPersonService personSer;
 
 	@Autowired
-	private IEmailService emailService; // Dịch vụ gửi email
+	private IEmailService emailService; 
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-	// Hiển thị trang đăng nhập
+
 	@GetMapping("/login")
 	public String showLoginPage() {
-		return "Guest/login"; // Trả về tên file `login.html` trong thư mục templates
+		return "Guest/login"; 
 	}
 
-	// Xử lý form đăng nhập
-	@PostMapping("/process-login")
-	public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password,
-			@RequestParam(value = "remember-me", required = false) String rememberMe, HttpServletRequest request,
-			HttpServletResponse response) { // Thêm HttpServletResponse ở đây
-		// Tìm tài khoản dựa trên username
-		Account account = accountSer.findByUsername(username);
 
-		if (account != null && account.getPassword().equals(password)) {
-			// Đăng nhập thành công, lưu thông tin tài khoản vào session
-			HttpSession session = request.getSession();
-			session.setAttribute("account", account);
+//	@PostMapping("/login")
+//	public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password,
+//			@RequestParam(value = "remember-me", required = false) String rememberMe, HttpServletRequest request,
+//			HttpServletResponse response) { 
+//		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//		
+//		SecurityContextHolder.getContext().setAuthentication(authentication);
+//		System.out.println("Current User: " + SecurityContextHolder.getContext().getAuthentication().getName());
+//		System.out.println("Current Role: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+//		System.out.println(authentication.toString());
+//		
+//		Account account = accountSer.findByUsername(username);
+//
+//		if (account != null && passwordEncoder.matches(password, account.getPassword())) {
+//			
+//			HttpSession session = request.getSession();
+//			session.setAttribute("account", account);
+//
+//			System.out.println("dang nhap dung roi");
+//			
+//			if ("on".equals(rememberMe)) {
+//				
+//				Cookie cookie = new Cookie("rememberMe", account.getUsername());
+//				cookie.setMaxAge(10 * 60); 
+//				cookie.setPath("/");
+//				response.addCookie(cookie); 
+//			}
+//
+//			return "redirect:/waiting"; 
+//		} else {
+//			return "redirect:/login?error=true"; 
+//		}
+//	}
 
-			// Nếu người dùng chọn "Nhớ tôi"
-			if ("on".equals(rememberMe)) {
-				// Tạo cookie lưu thông tin tài khoản
-				Cookie cookie = new Cookie("rememberMe", account.getUsername());
-				cookie.setMaxAge(10 * 60); // Cookie tồn tại
-				cookie.setPath("/"); // Áp dụng cookie trên toàn bộ ứng dụng
-				response.addCookie(cookie); // Sử dụng đối tượng response
-			}
 
-			return "redirect:/waiting"; // Chuyển đến trang chờ
-		} else {
-			return "redirect:/login?error=true"; // Nếu thất bại, quay lại trang đăng nhập
-		}
-	}
-
-	// Hiển thị trang quên mật khẩu
 	@GetMapping("/forgot-password")
 	public String showForgotPasswordPage() {
 		System.out.println(1111);
-		return "Guest/forgot-password"; // Trả về file forgot-password.html
+		return "Guest/forgot-password"; 
 	}
 
-	// Xử lý form gửi yêu cầu lấy lại mật khẩu
+
 	@PostMapping("/process-forgot-password")
 	public String processForgotPassword(@RequestParam("email") String email, Model model) {
-		// Tìm tài khoản theo email
-		Person person = personSer.findByEmail(email); // Hoặc findByUsername nếu dùng username
+
+		Person person = personSer.findByEmail(email); 
 		
 		if (person != null) {
-			Account account = accountSer.findById(person.getAccount().getAccountId()); // Sửa thành đúng ID tài khoản
+			Account account = accountSer.findById(person.getAccount().getAccountId()); 
 			if (account != null) {
 				// Tạo OTP và lưu vào token
 				String otp = generateOtp();

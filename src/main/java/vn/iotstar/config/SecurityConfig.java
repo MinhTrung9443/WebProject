@@ -1,27 +1,88 @@
 package vn.iotstar.config;
 
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+
+import vn.iotstar.service.impl.CustomerUserDetailsService;
+import vn.iotstar.service.impl.UserServiceImpl;
+
 
 
 @Configuration
-public class SecurityConfig {
-/*
+@EnableWebSecurity
+@EnableMethodSecurity
+public class SecurityConfig{
+	@Autowired
+	private CustomerUserDetailsService userDetailsService;
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	public UserDetailsService userDetailsService() {
+		return new UserServiceImpl();
 	}
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().requestMatchers("/public/**").permitAll() // Cho phép truy cập công
-																							// khai
-				.anyRequest().authenticated() // Yêu cầu đăng nhập cho các request khác
-				.and().formLogin().loginPage("/login") // Đặt trang đăng nhập tùy chỉnh
-				.loginProcessingUrl("/login") // URL để xử lý đăng nhập
-				.defaultSuccessUrl("/home", true) // Redirect sau khi đăng nhập thành công
-				.failureUrl("/login?error=true") // Redirect khi đăng nhập thất bại
-				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/public/goodbye");
-		return http.build();
-	}*/
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	@Bean
+	DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		authProvider.setUserDetailsService(userDetailsService());
+		authProvider.setPasswordEncoder(passwordEncoder());
+		return authProvider;
+	}
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception
+	{
+		auth.userDetailsService(userDetailsService)
+		.passwordEncoder(passwordEncoder());
+	}
+	@Bean
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception
+	{
+		final List<GlobalAuthenticationConfigurerAdapter> configurers = new ArrayList<>();
+		configurers.add(new GlobalAuthenticationConfigurerAdapter() {
+			@Override
+			public void configure(AuthenticationManagerBuilder auth) throws Exception
+			{
+				//
+			}
+		});
+		return authConfig.getAuthenticationManager();
+	}
+	@Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http.csrf(csrf -> csrf.disable())
+        		.authorizeHttpRequests(auth -> auth
+        		.requestMatchers("/User/**").hasAnyAuthority("USER","VENDOR")
+        		.requestMatchers("/Vendor/**").hasAnyAuthority("VENDOR")
+        		.requestMatchers("/Admin/**").hasAnyAuthority("ADMIN")
+        		.requestMatchers("/Shipper/**").hasAnyAuthority("SHIPPER")
+        		.requestMatchers("/**").permitAll()
+        		.anyRequest().authenticated())
+        	.httpBasic(Customizer.withDefaults())
+        	.formLogin(login -> login.loginPage("/login")
+        			.defaultSuccessUrl("/waiting", true)
+        			.permitAll())
+        	.logout(logout -> logout.permitAll())
+        	.exceptionHandling(handling -> handling.accessDeniedPage("/403"))
+        	.build();
+    }
 }

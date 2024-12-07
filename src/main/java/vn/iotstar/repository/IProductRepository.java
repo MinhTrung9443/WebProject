@@ -81,43 +81,4 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 	                                @Param("categoryName") String categoryName,
 	                                Pageable pageable);
 
-
-	@Query(value = """
-			    SELECT TOP 10  p.product_id,
-			  p.product_name,
-			  p.price,
-			  p.images,
-			  p.brand,
-			  p.brand_origin,
-			  p.expiration_date,
-			  p.ingredient,
-			  p.instruction,
-			  p.manufacture_date,
-			  p.stock,
-			  p.volume_or_weight,
-			  p.warehouse_date_first,
-			  p.category_id,
-			  p.image,
-			  p.description, SUM(ol.quantity) AS total_quantity
-			    FROM Product p
-			    JOIN order_line ol ON p.product_id = ol.product_id
-			    GROUP BY  p.product_id,
-			  p.product_name,
-			  p.price,
-			  p.images,
-			  p.brand,
-			  p.brand_origin,
-			  p.expiration_date,
-			  p.ingredient,
-			  p.instruction,
-			  p.manufacture_date,
-			  p.stock,
-			  p.volume_or_weight,
-			  p.warehouse_date_first,
-			  p.category_id,
-			  p.image,
-			  p.description
-			    ORDER BY total_quantity ASC
-			""", nativeQuery = true)
-	List<Product> findTop10BestSellingProducts();
 }

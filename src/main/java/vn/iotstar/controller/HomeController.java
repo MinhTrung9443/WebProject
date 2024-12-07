@@ -17,7 +17,7 @@ public class HomeController {
 	@Autowired
 	private IProductService productService; // Inject service lấy dữ liệu
 
-	@GetMapping("/")
+	@GetMapping("")
 	public String showHomePage(Model model) {
 		// Lấy tất cả sản phẩm từ database
 		List<Product> topSellingProducts = productService.getTop10BestSellingProducts();

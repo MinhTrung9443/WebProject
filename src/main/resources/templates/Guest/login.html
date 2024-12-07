@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 
 <head>
 	<title>Đăng Nhập</title>
@@ -162,7 +163,7 @@
 			<p th:text="${error}"></p>
 		</div>
 
-		<form th:action="@{/process-login}" method="post">
+		<form th:action="@{/login}" method="post">
 			<div class="form-group">
 				<label for="username">Tên đăng nhập:</label>
 				<input type="text" id="username" name="username" placeholder="Nhập username của bạn" required>

@@ -29,8 +29,8 @@ public class AccountServiceImpl implements IAccountService {
 
     // Tìm tài khoản bằng email
     @Override
-    public Account findByUsername(String email) {
-        return accountRepository.findByUsername(email);
+    public Account findByUsername(String username) {
+        return accountRepository.findByUsername(username);
     }
     @Override
     public boolean resetPassword(String token, String newPassword) {

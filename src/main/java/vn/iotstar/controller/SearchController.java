@@ -1,6 +1,7 @@
 package vn.iotstar.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,8 +15,10 @@ import org.springframework.data.domain.Pageable;
 import vn.iotstar.entity.Category;
 import vn.iotstar.entity.Product;
 import vn.iotstar.entity.ProductFeedback;
+import vn.iotstar.entity.ViewHistory;
 import vn.iotstar.repository.ICategoryRepository;
 import vn.iotstar.service.ICategoryService;
+import vn.iotstar.service.IProductFeedbackService;
 import vn.iotstar.service.IProductService;
 
 @Controller
@@ -87,24 +90,24 @@ public class SearchController {
 
 		return "/product-search"; // Trả về trang HTML với các sản phẩm đã phân trang
 	}
-
+	@Autowired
+	private IProductFeedbackService feedbackService;
 	// Xử lý yêu cầu hiển thị chi tiết sản phẩm
 	@GetMapping("/product-details/{productId}")
 	public String showProductDetails(@PathVariable("productId") int productId, Model model) {
-		// Lấy sản phẩm theo productId
-		Product product = productService.getProductById(productId);
-		List<Category> cate = categoryService.findById(product.getCategory().getCategoryId());
-		List<ProductFeedback> feedbacks = product.getFeedbacks();
-		// Nếu không tìm thấy sản phẩm, chuyển đến trang lỗi
-		if (product == null) {
-			return "error"; // Có thể bạn cần tạo một trang error.html để xử lý
-		}
+		Optional<Product> opProduct = productService.findById(productId);
 
-		// Thêm sản phẩm vào mô hình (model)
-		model.addAttribute("product", product);
-		model.addAttribute("feedbacks", feedbacks);
-		model.addAttribute("categorys", cate);
-		// Trả về trang chi tiết sản phẩm
+		if (opProduct.isPresent()) {
+			Product product = opProduct.get();
+			List<ProductFeedback> feedback = feedbackService.findByProduct_ProductId(productId);
+			model.addAttribute("product", product);
+			model.addAttribute("feedback", feedback);
+
+			List<Product> top5 = productService.findTop5ByFavouriteCount(product.getCategory().getCategoryId());
+			model.addAttribute("top5",top5);
+
 		return "product-details"; // Tên của trang HTML chi tiết sản phẩm (product-details.html)
-	}
+		}
+		return "product-details"; // Tên của trang HTML chi tiết sản phẩm (product-details.html)
+}
 }
