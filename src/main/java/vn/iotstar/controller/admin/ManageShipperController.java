@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -169,7 +169,8 @@ public class ManageShipperController {
 		}
 		return false;
 	}
-
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@PostMapping("/create")
 	public ModelAndView createShipper(ModelMap model, @Valid @ModelAttribute Shipper shipper, BindingResult result,
 			@Valid @ModelAttribute Account account, @RequestParam Integer deliveryId) {
@@ -207,6 +208,7 @@ public class ManageShipperController {
 		Account tk = new Account();
 		BeanUtils.copyProperties(shipper, entity);
 		BeanUtils.copyProperties(account, tk);
+		tk.setPassword(passwordEncoder.encode(account.getPassword()));
 		entity.setAccount(tk);
 		tk.setRole(new Role(4, "shipper"));
 		entity.setAccount(tk);

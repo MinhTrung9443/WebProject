@@ -32,6 +32,10 @@ public class CategoryService implements ICategoryService{
 	public Optional<Category> findById(int id) {
 		return cateRepository.findById(id);
 	}
+	@Override
+	public List<Category> findAllById(int id) {
+		return cateRepository.findByCategoryId(id);
+	}
 
 	@Override
 	public List<Category> findAll() {

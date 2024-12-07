@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/Admin/index.html}">
 
 <head>
@@ -149,17 +149,9 @@
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-md-3">Địa chỉ</label>
-										<div class="col-md-9">
-											<input type="text" id="address" name="address" th:value="${vendor.address}"
-												class="form-control">
-										</div>
-									</div>
-
-									<div class="form-group">
 										<label class="control-label col-md-3">Ngày bắt đầu</label>
 										<div class="col-md-9">
-											<input type="date" class="form-control" id="startDate" name="startDate"
+											<input type="datetime-local" class="form-control" id="startDate" name="startDate"
 												th:value="${vendor.startDate}" />
 										</div>
 									</div>

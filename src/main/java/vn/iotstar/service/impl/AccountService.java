@@ -51,6 +51,42 @@ public class AccountService implements IAccountService {
 	public Account findByUsername(String username) {
 		return accountRepository.findByUsername(username);
 	}
+
+	@Override
+	public Account findById(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean resetPassword(String token, String newPassword) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void save(Account account) {
+		accountRepository.save(account);
+		
+	}
+
+	@Override
+	public String generateResetToken(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Account findByToken(String resetToken) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Account account) {
+		// TODO Auto-generated method stub
+		
+	}
     
     
 }

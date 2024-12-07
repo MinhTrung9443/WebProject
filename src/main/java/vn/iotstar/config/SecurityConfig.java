@@ -82,7 +82,7 @@ public class SecurityConfig{
         			.defaultSuccessUrl("/waiting", true)
         			.permitAll())
         	.logout(logout -> logout.permitAll())
-        	.exceptionHandling(handling -> handling.accessDeniedPage("/403"))
+        	.exceptionHandling(handling -> handling.accessDeniedPage("/login"))
         	.build();
     }
 }

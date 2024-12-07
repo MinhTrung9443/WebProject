@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/Admin/index.html}">
-<html lang="en">
 
 <head>
 	<meta charset="utf-8" />
@@ -134,7 +134,7 @@
 										<i class="fa fa-home"></i>
 									</span>
 									<input type="text" class="form-control input-circle-right" id="address"
-										name="address" th:value="${vendor.address}" readonly>
+										name="address" th:value="${vendor.address[0].addressDetail}" readonly>
 								</div>
 							</div>
 
@@ -145,7 +145,7 @@
 										<i class="fa fa-calendar"></i>
 									</span>
 									<input type="text" id="startDate" name="startDate"
-										th:value="${#dates.format(vendor.startDate, 'dd/MM/yyyy')}" class="form-control"
+										th:value="${vendor.startDate}" class="form-control"
 										readonly>
 								</div>
 							</div>

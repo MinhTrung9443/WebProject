@@ -1,6 +1,7 @@
 package vn.iotstar.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class Vendor extends Person implements Serializable{/**
 	 */
 	private static final long serialVersionUID = 1L;
 	private int salary;
-	private Date startDate;
+	private LocalDateTime startDate;
 	@Column(columnDefinition = "nvarchar(max)")
 	
 	

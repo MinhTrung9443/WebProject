@@ -146,7 +146,7 @@ layout:decorate="~{/Admin/index.html}">
 										<label class="control-label col-md-3">Ngày sinh</label>
 										<div class="col-md-9">
 											<input type="text" id="birthday" name="birthday"
-												th:value="${#dates.format(user.birthday, 'dd/MM/yyyy')}"
+												th:value="${user.birthday}"
 												class="form-control" placeholder="dd/mm/yyyy" readonly>
 										</div>
 

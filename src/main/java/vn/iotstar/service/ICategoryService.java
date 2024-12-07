@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+
 
 import vn.iotstar.entity.Category;
 @Service
@@ -24,5 +24,5 @@ public interface ICategoryService {
 	void deleteById(Integer id);
 
 	Category findByCategoryName(String categoryName);
-	List<Category> findById(int id);
+	List<Category> findAllById(int id);
 }

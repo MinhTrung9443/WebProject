@@ -1,5 +1,6 @@
 package vn.iotstar.controller.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -26,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.validation.Valid;
 import vn.iotstar.entity.Account;
+import vn.iotstar.entity.Address;
 import vn.iotstar.entity.Role;
 import vn.iotstar.entity.Vendor;
 import vn.iotstar.service.IVendorService;
@@ -33,7 +36,8 @@ import vn.iotstar.service.IVendorService;
 @Controller
 @RequestMapping("/Admin/vendor")
 public class ManageVendorController {
-
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Autowired
 	IVendorService vendorService;
 
@@ -77,7 +81,7 @@ public class ManageVendorController {
 			model.addAttribute("vendor", vendor);
 			return "Admin/vendor/detail";
 		}
-		return "Admin/vendor";
+		return "Admin/vendor/detail";
 	}
 
 	@GetMapping("/add")
@@ -155,20 +159,24 @@ public class ManageVendorController {
 	}
 
 	@PostMapping("/create")
-	public ModelAndView createVendor(ModelMap model, @Valid @ModelAttribute Vendor vendor, BindingResult result,
-			@Valid @ModelAttribute Account account) {
+	public ModelAndView createVendor(ModelMap model, @Valid @ModelAttribute("vendor") Vendor vendor, BindingResult result,
+			@Valid @ModelAttribute("account") Account account) {
+		
+		System.out.println(vendor.getFullname());
+		System.out.println(account.toString());
 		if (result.hasErrors()) {
 			model.addAttribute("vendor", vendor);
+			System.out.println(result.toString());
 			return new ModelAndView("Admin/vendor/add", model);
 		}
 		int id = vendor.getId();
+		System.out.println(vendor.toString() + account.toString());
 
 		boolean check = false;
 		if (checkExistPhone(model, vendor, id) || checkExistEmail(model, vendor, id)
 				|| checkExistUsername(model, account, id) || checkPhoneValid(model, vendor)) {
 			check = true;
 		}
-
 		if (check) {
 			Vendor staff = new Vendor();
 			BeanUtils.copyProperties(vendor, staff);
@@ -181,21 +189,25 @@ public class ManageVendorController {
 		Account tk = new Account();
 		BeanUtils.copyProperties(vendor, entity);
 		BeanUtils.copyProperties(account, tk);
+		tk.setActive(1);
+		tk.setPassword(passwordEncoder.encode(account.getPassword()));
 		entity.setAccount(tk);
-		tk.setRole(new Role(3, "vendor"));
+		tk.setRole(new Role(3, "VENDOR"));
 		entity.setAccount(tk);
+		
 		vendorService.save(entity);
 
 		return new ModelAndView("forward:/Admin/vendor", model);
 	}
 
 	@PostMapping("/edit")
-	public ModelAndView editVendor(ModelMap model, @Valid @ModelAttribute Vendor vendor, BindingResult result) {
+	public ModelAndView editVendor(ModelMap model, @Valid @ModelAttribute("vendor") Vendor vendor, BindingResult result) {
 		if (result.hasErrors()) {
 			model.addAttribute("vendor", vendor);
 			return new ModelAndView("Admin/vendor/edit", model);
 		}
 		int id = vendor.getId();
+
 		Vendor oldvendor = vendorService.findById(id).get();
 		boolean check = false;
 		if (checkExistPhone(model, vendor, id) || checkExistEmail(model, vendor, id)

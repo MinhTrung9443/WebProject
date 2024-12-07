@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/Admin/index.html}">
-<html lang="en">
 
 <head>
 	<meta charset="utf-8" />
@@ -123,7 +123,7 @@
 
 									<td th:text="${user.email}"></td>
 
-									<td th:text="${#dates.format(user.birthday, 'dd/MM/yyyy')}"></td>
+									<td th:text="${user.birthday}"></td>
 									<div th:if="${user.account != null}">
 										<td th:switch="${user.account.active}">
 											<span th:case="'1'">Hoạt động</span>

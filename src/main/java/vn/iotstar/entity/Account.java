@@ -32,7 +32,7 @@ public class Account implements Serializable {
 
     private String password;
     
-	private int active;
+	private int active=1;
 
     @ManyToOne()
     @JoinColumn(name = "roleId")
