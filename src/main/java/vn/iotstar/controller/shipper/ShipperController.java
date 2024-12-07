@@ -11,4 +11,5 @@ public class ShipperController {
     public String home() {
         return "Shipper/index";
     }
+    
 }

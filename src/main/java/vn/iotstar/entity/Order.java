@@ -23,6 +23,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vn.iotstar.enums.OrderStatus;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,8 +41,8 @@ public class Order implements Serializable{/**
 	private Date orderDate;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String shippingAddress;
-	@Column(columnDefinition = "nvarchar(max)")
-	private String orderStatus;
+    @Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;
 	
 	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
 	@JsonManagedReference
