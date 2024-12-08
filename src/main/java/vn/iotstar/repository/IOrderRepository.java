@@ -1,5 +1,6 @@
 package vn.iotstar.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,8 @@ public interface IOrderRepository extends JpaRepository<Order, Integer>  {
     Optional<Order> findById(int id);
     Page<Order> findAll(Pageable pageable);
     List<Order> findByOrderStatus(OrderStatus orderStatus);
+	List<Order> findByOrderStatusAndCompletionTimeBetween(OrderStatus completed, LocalDateTime startOfMonth,
+			LocalDateTime endOfMonth);
 
 
 

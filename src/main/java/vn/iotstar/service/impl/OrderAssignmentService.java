@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import vn.iotstar.entity.Order;
 import vn.iotstar.entity.OrderAssignment;
+import vn.iotstar.entity.Shipper;
 import vn.iotstar.repository.IOrderAssignment;
 
 @Service
@@ -19,5 +20,8 @@ public class OrderAssignmentService {
     }
     public List<Order> findByShipperId(int shipperId) {
         return orderAssignmentRepository.findByShipperId(shipperId);
+    }
+    public List<OrderAssignment> findByShipper(Shipper shipper) {
+        return orderAssignmentRepository.findByShipper(shipper);
     }
 }

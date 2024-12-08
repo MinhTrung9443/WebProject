@@ -1,5 +1,10 @@
 package vn.iotstar.service.impl;
 
+import java.time.LocalDateTime;
+import java.time.Year;
+import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +24,7 @@ public class OrderService implements IOrderService  {
 
     @Autowired
     private IOrderRepository orderRepository;
-
+    
     public Page<Order> getOrdersPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return orderRepository.findAll(pageable);
@@ -88,4 +93,21 @@ public class OrderService implements IOrderService  {
 		 orderRepository.save(order); 
 		
 	}
+	public List<Order> findCompletedOrdersByMonth(int year, int month) {
+	    // Sử dụng YearMonth để tính số ngày trong tháng
+	    YearMonth yearMonth = YearMonth.of(year, month);
+	    int lastDayOfMonth = yearMonth.lengthOfMonth(); // Số ngày trong tháng
+
+	    // Tạo thời gian bắt đầu và kết thúc của tháng
+	    LocalDateTime startOfMonth = LocalDateTime.of(year, month, 1, 0, 0, 0, 0);
+	    LocalDateTime endOfMonth = LocalDateTime.of(year, month, lastDayOfMonth, 23, 59, 59, 999999999);
+
+	    // Trả về danh sách các đơn hàng đã hoàn thành trong khoảng thời gian từ đầu đến cuối tháng
+	    return orderRepository.findByOrderStatusAndCompletionTimeBetween(
+	        OrderStatus.COMPLETED,
+	        startOfMonth,
+	        endOfMonth
+	    );
+	}
+
 }
