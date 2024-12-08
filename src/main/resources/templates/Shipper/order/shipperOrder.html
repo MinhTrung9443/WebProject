@@ -31,14 +31,12 @@
             <td th:text="${order.shippingAddress}">Địa chỉ</td>
             <td th:text="${order.orderStatus}">Trạng thái</td>
             <td>
-                <form th:action="@{/Shipper/order/{orderId}/updateStatus(orderId=${order.orderId})}" method="post">
-                    <select name="status" class="form-control">
-                        <option th:value="'COMPLETED'" th:text="'COMPLETED'" th:selected="${order.orderStatus == 'SHIPPING'}">Hoàn thành</option>
-                        <option th:value="'CANCELLED'" th:text="'CANCELLED'" th:selected="${order.orderStatus == 'SHIPPING'}">Hủy đơn</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary mt-2">Cập nhật trạng thái</button>
-                </form>
-            </td>
+    <form th:action="@{/Shipper/order/{orderId}/updateStatus(orderId=${order.orderId})}" method="post">
+        <input type="hidden" name="status" value="COMPLETED" />
+        <button type="submit" th:if="${order.orderStatus.name() == 'SHIPPING'}" class="btn btn-primary">Xác nhận giao thành công</button>
+    </form>
+</td>
+
         </tr>
     </tbody>
 </table>

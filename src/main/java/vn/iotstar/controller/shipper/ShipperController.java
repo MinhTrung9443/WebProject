@@ -151,30 +151,16 @@ public class ShipperController {
             return "error";
         }
 
-        // Chuyển trạng thái theo yêu cầu
-        switch (status) {
-            case "COMPLETED":
-                // Chỉ cho phép chuyển từ SHIPPING sang COMPLETED
-                if (order.getOrderStatus().equals(OrderStatus.SHIPPING)) {
-                    order.setOrderStatus(OrderStatus.COMPLETED);
-                }
-                break;
-                
-            case "CANCELLED":
-                // Chỉ cho phép chuyển từ SHIPPING sang CANCELLED
-                if (order.getOrderStatus().equals(OrderStatus.SHIPPING)) {
-                    order.setOrderStatus(OrderStatus.CANCELLED);
-                }
-                break;
-                
-            default:
-                // Nếu trạng thái không hợp lệ, không thay đổi gì và không hiển thị lỗi
-                return "redirect:/Shipper/delivered"; // Chỉ quay lại trang danh sách đơn hàng mà không thay đổi gì
+        // Chỉ cho phép chuyển từ SHIPPING sang COMPLETED
+        if ("COMPLETED".equals(status) && order.getOrderStatus().equals(OrderStatus.SHIPPING)) {
+            order.setOrderStatus(OrderStatus.COMPLETED);
+            order.setCompletionTime(LocalDateTime.now());
+            orderService.save(order);
         }
 
-        orderService.save(order);
         return "redirect:/Shipper/delivered"; // Quay lại trang danh sách đơn hàng sau khi cập nhật trạng thái
     }
+
 
 
 }
