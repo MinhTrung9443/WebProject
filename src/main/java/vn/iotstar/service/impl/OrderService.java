@@ -13,8 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.iotstar.entity.Order;
 import vn.iotstar.enums.OrderStatus;
 import vn.iotstar.repository.IOrderRepository;
+import vn.iotstar.service.IOrderService;
 @Service
-public class OrderService {
+public class OrderService implements IOrderService  {
 
     @Autowired
     private IOrderRepository orderRepository;
@@ -33,6 +34,11 @@ public class OrderService {
     }
 
 
+    @Override
+    public List<Order> findByDeliveryIdAndStatus(int deliveryId,OrderStatus status) {
+        return orderRepository.findByDelivery_DeliveryIdAndOrderStatus(deliveryId, status);
+    }
+    
     public Page<Order> getOrdersByStatus(OrderStatus status, Pageable pageable) {
         return orderRepository.findByOrderStatus(status, pageable);}
     
@@ -72,5 +78,14 @@ public class OrderService {
         }
         return false;
     }
-    
+    @Override
+    public Order findById(int id) {
+        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
+    }
+
+	@Override
+	public void save(Order order) {
+		 orderRepository.save(order); 
+		
+	}
 }
