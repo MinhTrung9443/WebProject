@@ -64,6 +64,7 @@ public class ShipperController {
 
         int deliveryId = shipper1.getDelivery().getDeliveryId();
 
+        // Truy vấn danh sách đơn hàng có trạng thái COMPLETED
         List<Order> completedOrders = orderService.findByDeliveryIdAndStatus(deliveryId, OrderStatus.CONFIRMED);
 
         // Truyền danh sách đơn hàng vào model

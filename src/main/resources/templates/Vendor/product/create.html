@@ -110,15 +110,16 @@
 						type="text" class="form-control" id="brandOrigin"
 						th:field="*{brandOrigin}" required>
 				</div>
-				<div class="mb-3">
-					<label for="expirationDate" class="form-label">Ngày hết hạn</label>
-					<input type="date" class="form-control" id="expirationDate"
-						th:field="*{expirationDate}">
-				</div>
+				
 				<div class="mb-3">
 					<label for="manufactureDate" class="form-label">Ngày sản
 						xuất</label> <input type="date" class="form-control" id="manufactureDate"
 						th:field="*{manufactureDate}">
+				</div>
+				<div class="mb-3">
+					<label for="expirationDate" class="form-label">Ngày hết hạn</label>
+					<input type="date" class="form-control" id="expirationDate"
+						th:field="*{expirationDate}">
 				</div>
 				<br>
 				<div class="mb-3">
@@ -149,6 +150,11 @@
 						th:field="*{imageUrls}"
 						placeholder="Nhập URL hình ảnh, cách nhau bằng dấu phẩy" required>
 				</div>
+				<div class="mb-3">
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <span th:text="${errorMessage}"></span>
+        </div>
+    </div>
 				<button type="submit" class="btn btn-primary">Lưu</button>
 			</form></div>
 			<!--  BEGIN JAVASCRIPT -->
