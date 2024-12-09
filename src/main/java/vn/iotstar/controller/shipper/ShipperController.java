@@ -75,7 +75,7 @@ public class ShipperController {
     @PostMapping("/Shipper/confirmDelivery")
     public String confirmDelivery(@RequestParam int orderId, HttpSession session) {
         // Cập nhật trạng thái đơn hàng
-        Order order = orderService.findById(orderId);
+        Order order = orderService.findById(orderId).get();
         if (order != null) {
             order.setOrderStatus(OrderStatus.SHIPPING); // Cập nhật trạng thái đơn hàng
             orderService.save(order); // Lưu lại trạng thái mới
@@ -139,7 +139,7 @@ public class ShipperController {
             return "error"; 
         }
 
-        Order order = orderService.findById(orderId);
+        Order order = orderService.findById(orderId).get();
         if (order == null) {
             model.addAttribute("error", "Đơn hàng không hợp lệ.");
             return "error";

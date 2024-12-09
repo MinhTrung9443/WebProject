@@ -27,7 +27,7 @@
     <tbody>
         <tr th:each="order : ${confirmedOrders}">
             <td th:text="${order.orderId}">Mã đơn</td>
-            <td th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">Ngày đặt</td>
+            <td th:text="${order.orderDate}">Ngày đặt</td>
             <td th:text="${order.shippingAddress}">Địa chỉ</td>
             <td th:text="${order.orderStatus}">Trạng thái</td>
             <td>
