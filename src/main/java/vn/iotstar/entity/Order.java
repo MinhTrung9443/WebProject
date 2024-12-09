@@ -2,6 +2,7 @@ package vn.iotstar.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 
@@ -44,6 +45,9 @@ public class Order implements Serializable{/**
     @Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;
 	
+    @Column(name = "completion_time")
+    private LocalDateTime completionTime;
+
 	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<OrderLine> lines;

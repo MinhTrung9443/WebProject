@@ -1,5 +1,6 @@
 package vn.iotstar.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -22,6 +23,6 @@ public interface IOrderService {
 
 	<S extends Order> S save(S entity);
 	
-	
+	List<Order> findByDeliveryIdAndStatus(int deliveryId, OrderStatus status);
 	
 }

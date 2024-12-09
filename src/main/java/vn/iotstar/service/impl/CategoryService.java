@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import vn.iotstar.entity.Category;
@@ -15,10 +14,10 @@ import vn.iotstar.service.ICategoryService;
 
 @Service
 public class CategoryService implements ICategoryService{
-	
+	@Autowired
 	private ICategoryRepository cateRepository;
 	
-	@Autowired
+
 	public CategoryService(ICategoryRepository cateRepository) {
 		this.cateRepository = cateRepository;
 	}
@@ -62,4 +61,12 @@ public class CategoryService implements ICategoryService{
 		return cateRepository.findByCategoryName(categoryName);
 	}
 
+
+
+    public List<Category> getAllCategories() {
+        return cateRepository.findAll();
+    }
+	public List<Category> getActiveCategories() {
+		 return cateRepository.findByActive(1);
+	}
 }

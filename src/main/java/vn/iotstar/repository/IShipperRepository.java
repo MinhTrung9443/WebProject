@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import vn.iotstar.entity.Shipper;
 
+import vn.iotstar.entity.Shipper;
+
 @Repository
 public interface IShipperRepository extends JpaRepository<Shipper, Integer> {
 	Shipper findByPhone(String phone);
@@ -14,4 +16,6 @@ public interface IShipperRepository extends JpaRepository<Shipper, Integer> {
 	Shipper findByEmail(String email);
 
 	Optional<Shipper> findByFullnameContaining(String fullname);
+
+	Shipper findByAccount_AccountId(int accountId);
 }
