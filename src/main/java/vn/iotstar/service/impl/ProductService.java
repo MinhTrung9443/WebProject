@@ -165,10 +165,9 @@ public class ProductService implements IProductService {
 		return productRepository.findTop20BySalesQuantity();
 	}
 	
-
-	public List<Product> findAll() {
-		return productRepository.findAll();
-	}
+	public Page<Product> findAllAvailable(Pageable pageable) {
+        return productRepository.findAllAvailable(pageable);
+    }
 
 	public void updateProduct(Integer productId, ProductRequestDTO productRequestDTO) {
 	    Optional<Product> optionalProduct = productRepository.findById(productId);
@@ -237,13 +236,11 @@ public class ProductService implements IProductService {
 	    return productRepository.save(product);
     }
 
-
-    
-	@Transactional
-	public void delete(Integer id) {
-		productRepository.deleteById(id);
-	}
-
+	public void setStockToZero(Integer id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setStock(0); 
+        productRepository.save(product);
+    }
 	public List<String> getImageUrlsByProductId(Integer id) {
 		// TODO Auto-generated method stub
 		return null;

@@ -6,6 +6,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,10 +40,13 @@ public class ProductController {
 
     
     @GetMapping("")
-    public String listProducts(Model model) {
-        List<Product> products = productService.findAll();
-        model.addAttribute("products", products);  
-        return "Vendor/product_list"; 
+    public String listProducts(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productService.findAllAvailable(pageable);
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        return "Vendor/product_list";
     }
 
     @GetMapping("/create")
@@ -58,7 +64,7 @@ public class ProductController {
     }
     
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Integer id, Model model) {
+    public String showEditForm(@PathVariable Integer id, Model model) {
         Optional<Product> productOptional = productService.findById(id);
 
         if (productOptional.isPresent()) {
@@ -100,16 +106,11 @@ public class ProductController {
         }
     }
     
-    
-    
-    
-    @GetMapping("/delete")
-    public String deleteProduct(@RequestParam Integer id) {
-        productService.delete(id); 
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Integer id) {
+        productService.setStockToZero(id); 
         return "redirect:/Vendor/products"; 
     }
-
-
 
 }
 

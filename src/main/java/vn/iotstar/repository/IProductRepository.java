@@ -64,7 +64,8 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 			@Param("maxPrice") Integer maxPrice, @Param("brand") String brand, @Param("brandOrigin") String brandOrigin,
 			@Param("categoryName") String categoryName);
 
-	public Page<Product> findAll(Pageable pageable);
+	@Query("SELECT p FROM Product p WHERE p.stock > 0")
+	Page<Product> findAllAvailable(Pageable pageable);
 
 	public Page<Product> findByProductNameContaining(String keyword, Pageable pageable);
 
