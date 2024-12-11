@@ -326,7 +326,7 @@
 									<figure class="product-media">
 										<a th:href="@{/product-details/{productId}(productId=${product.productId})}">
 											<!-- Hình ảnh sản phẩm -->
-											<img th:src="@{${product.images}}" alt="Product image"
+											<img th:src="@{${product.images[0].imageUrl}}" alt="Product image"
 												class="product-image">
 
 										</a>
