@@ -12,14 +12,19 @@ let stompClient = null;
 
 // Lấy tên người dùng từ URL path (phần cuối cùng của đường dẫn)
 const pathParts = window.location.pathname.split('/');
-let username = pathParts[pathParts.length - 1] || "Guest"; // Nếu không tìm thấy, mặc định là "Guest"
+let username = pathParts[pathParts.length - 2] || "Guest"; // Nếu không tìm thấy, mặc định là "Guest"
 
-// Kiểm tra nếu URL chứa "/employee", thay đổi tên người dùng để thêm "Nhân viên"
-const isEmployee = window.location.pathname.includes('/employee');
-if (isEmployee && username !== "Guest") {
-    username = "Nhân viên " + username; // Thêm tiền tố "Nhân viên" cho tên người dùng
+// Kiểm tra nếu URL chứa "/Vendor", thay đổi tên người dùng để thêm "Nhân viên"
+const isUser = window.location.pathname.includes('/User');
+if (isUser && username !== "Guest") {
+    username = generateRandomUsername(); // Tạo username ngẫu nhiên
 }
 
+function generateRandomUsername() {
+    const prefix = "User_"; // Tiền tố username
+    const randomId = Math.floor(Math.random() * 10000); // Số ngẫu nhiên từ 0 đến 9999
+    return `${prefix}${randomId}`;
+}
 // Mảng màu cho avatar
 const colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',

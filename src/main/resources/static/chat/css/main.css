@@ -38,9 +38,6 @@ body:before {
     clear: both;
 }
 
-.hidden {
-    display: none;
-}
 
 .form-control {
     width: 100%;
