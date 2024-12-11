@@ -45,7 +45,7 @@ public class LoginController {
 		return "Guest/login"; 
 	}
 
-
+/*
 	@PostMapping("/login")
 	public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password,
 			@RequestParam(value = "remember-me", required = false) String rememberMe, HttpServletRequest request,
@@ -78,7 +78,7 @@ public class LoginController {
 		} else {
 			return "redirect:/login?error=true"; 
 		}
-	}
+	}*/
 
 
 	@GetMapping("/forgot-password")

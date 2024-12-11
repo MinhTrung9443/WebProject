@@ -49,7 +49,9 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 			<!-- BEGIN TOP NAVIGATION MENU -->
 			<div class="top-menu">
 				<ul class="nav navbar-nav pull-right">
-					
+					<form th:action="@{/chat/vendor}" method="post">
+						<input type="submit" value="Chat với khách hàng" />
+					</form>
 					<!-- BEGIN USER LOGIN DROPDOWN -->
 					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 					<li class="dropdown dropdown-user">

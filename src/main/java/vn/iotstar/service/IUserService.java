@@ -22,7 +22,7 @@ public interface IUserService {
 	void deleteById(Integer id);
 
 	long count();
-
+	
 
 	Page<User> findAll(Pageable pageable);
 
