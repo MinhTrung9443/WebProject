@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.Account;
 import vn.iotstar.entity.Person;
+import vn.iotstar.entity.User;
 import vn.iotstar.service.IAccountService;
 import vn.iotstar.service.IEmailService; // Giả sử bạn có một service gửi email
 import vn.iotstar.service.IPersonService;
@@ -45,59 +46,59 @@ public class LoginController {
 	}
 
 
-//	@PostMapping("/login")
-//	public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password,
-//			@RequestParam(value = "remember-me", required = false) String rememberMe, HttpServletRequest request,
-//			HttpServletResponse response) { 
-//		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-//		
-//		SecurityContextHolder.getContext().setAuthentication(authentication);
-//		System.out.println("Current User: " + SecurityContextHolder.getContext().getAuthentication().getName());
-//		System.out.println("Current Role: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-//		System.out.println(authentication.toString());
-//		
-//		Account account = accountSer.findByUsername(username);
-//
-//		if (account != null && passwordEncoder.matches(password, account.getPassword())) {
-//			
-//			HttpSession session = request.getSession();
-//			session.setAttribute("account", account);
-//
-//			System.out.println("dang nhap dung roi");
-//			
-//			if ("on".equals(rememberMe)) {
-//				
-//				Cookie cookie = new Cookie("rememberMe", account.getUsername());
-//				cookie.setMaxAge(10 * 60); 
-//				cookie.setPath("/");
-//				response.addCookie(cookie); 
-//			}
-//
-//			return "redirect:/waiting"; 
-//		} else {
-//			return "redirect:/login?error=true"; 
-//		}
-//	}
+	@PostMapping("/login")
+	public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password,
+			@RequestParam(value = "remember-me", required = false) String rememberMe, HttpServletRequest request,
+			HttpServletResponse response) { 
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		System.out.println("Current User: " + SecurityContextHolder.getContext().getAuthentication().getName());
+		System.out.println("Current Role: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+		System.out.println(authentication.toString());
+		
+		Account account = accountSer.findByUsername(username);
+
+		if (account != null && passwordEncoder.matches(password, account.getPassword())) {
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("account", account);
+
+			System.out.println("dang nhap dung roi");
+			
+			if ("on".equals(rememberMe)) {
+				
+				Cookie cookie = new Cookie("rememberMe", account.getUsername());
+				cookie.setMaxAge(10 * 60); 
+				cookie.setPath("/");
+				response.addCookie(cookie); 
+			}
+
+			return "redirect:/waiting"; 
+		} else {
+			return "redirect:/login?error=true"; 
+		}
+	}
 
 
 	@GetMapping("/forgot-password")
 	public String showForgotPasswordPage() {
-		System.out.println(1111);
+		
 		return "Guest/forgot-password"; 
 	}
 
 
 	@PostMapping("/process-forgot-password")
 	public String processForgotPassword(@RequestParam("email") String email, Model model) {
-
 		Person person = personSer.findByEmail(email); 
 		
 		if (person != null) {
-			Account account = accountSer.findById(person.getAccount().getAccountId()); 
+			Account account = person.getAccount(); 
 			if (account != null) {
 				// Tạo OTP và lưu vào token
 				String otp = generateOtp();
 				account.setToken(otp);
+				
 				accountSer.update(account); // Lưu lại thay đổi vào cơ sở dữ liệu
 
 				// Gửi OTP qua email
@@ -141,16 +142,16 @@ public class LoginController {
 	        model.addAttribute("error", "Mật khẩu xác nhận không khớp với mật khẩu mới!");
 	        return "Guest/process-reset-password";
 	    }
-
 	    // Kiểm tra token
 	    Account acc = accountSer.findByToken(token);
+	   
 	    if (acc == null) {
 	        model.addAttribute("error", "Không có mã otp hoặc tài khoản này!");
 	        return "Guest/process-reset-password";
 	    }
-
+	  
 	    // Xử lý đặt lại mật khẩu (có thể sử dụng token để xác minh)
-	    if (accountSer.resetPassword(token, newPassword)) {
+	    if (accountSer.resetPassword(token, passwordEncoder.encode(newPassword))) {
 	        model.addAttribute("success", "Đổi mật khẩu thành công, vui lòng đăng nhập lại!");
 	        return "redirect:/login"; // Quay lại trang đăng nhập
 	    } else {
@@ -171,7 +172,7 @@ public class LoginController {
 	private boolean isOtpValid(String otp, String email) {
 		Person person = personSer.findByEmail(email);
 		// Tìm tài khoản theo email (hoặc username nếu cần)
-		Account account = accountSer.findById(person.getAccount().getAccountId());
+		Account account = person.getAccount();
 
 		// Kiểm tra nếu tài khoản tồn tại và mã OTP khớp với token đã lưu trong cơ sở dữ
 		// liệu

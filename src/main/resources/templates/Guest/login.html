@@ -156,15 +156,16 @@
 	<header th:replace="~{Guest/fragments/header::header}"></header>
 	<div class="login-form">
 		<h3>Đăng Nhập</h3>
-		<div th:if="${successMessage != null}" class="success-message" style="color: green;">
-			<p th:text="${success}"></p>
-		</div>
-		<div th:if="${error != null}" class="error-message" style="color: red;">
-			<p th:text="${error}"></p>
-		</div>
 
 		<form th:action="@{/login}" method="post">
 			<div class="form-group">
+				<div th:if="${successMessage != null}" class="success-message" style="color: green;">
+					<p th:text="${success}"></p>
+				</div>
+				<div th:if="${error != null}" class="error-message" style="color: red;">
+					<p th:text="${error}"></p>
+				</div>
+
 				<label for="username">Tên đăng nhập:</label>
 				<input type="text" id="username" name="username" placeholder="Nhập username của bạn" required>
 			</div>

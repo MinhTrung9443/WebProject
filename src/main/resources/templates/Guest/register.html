@@ -153,6 +153,9 @@
 			<div th:if="${errorEmail != null}" class="error-message" style="color: red;">
 				<p th:text="${errorEmail}"></p>
 			</div>
+			<div th:if="${errorMail != null}" class="error-message" style="color: red;">
+				<p th:text="${errorMail}"></p>
+			</div>
 			<!-- Person Information -->
 			<div class="form-group">
 				<label for="email">Email:</label>

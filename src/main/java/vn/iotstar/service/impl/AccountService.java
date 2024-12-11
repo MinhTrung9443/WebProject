@@ -1,6 +1,7 @@
 package vn.iotstar.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import vn.iotstar.entity.Account;
@@ -12,7 +13,8 @@ public class AccountService implements IAccountService {
 
     @Autowired
     private IAccountRepository accountRepository;
-
+    
+   
     @Override
     public Account login(String username, String password) {
         // Tìm account theo username và password
@@ -60,8 +62,24 @@ public class AccountService implements IAccountService {
 
 	@Override
 	public boolean resetPassword(String token, String newPassword) {
-		// TODO Auto-generated method stub
-		return false;
+		 // Tìm Account dựa trên token
+	    Account account = accountRepository.findByToken(token);
+	    if (account == null) {
+	        // Token không hợp lệ hoặc không tồn tại
+	        return false;
+	    }
+
+	    // Cập nhật mật khẩu mới
+	    account.setPassword(newPassword);
+
+	    // Lưu thay đổi vào cơ sở dữ liệu
+	    accountRepository.save(account);
+
+	    // Xóa token để bảo mật
+	    account.setToken(null);
+	    accountRepository.save(account);
+
+	    return true;
 	}
 
 	@Override
@@ -79,12 +97,12 @@ public class AccountService implements IAccountService {
 	@Override
 	public Account findByToken(String resetToken) {
 		// TODO Auto-generated method stub
-		return null;
+		return accountRepository.findByToken(resetToken);
 	}
 
 	@Override
 	public void update(Account account) {
-		// TODO Auto-generated method stub
+		accountRepository.save(account);
 		
 	}
     

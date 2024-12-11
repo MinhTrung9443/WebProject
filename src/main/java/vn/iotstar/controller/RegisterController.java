@@ -38,7 +38,7 @@ public class RegisterController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	// Hiển thị trang đăng nhập
+	// Hiển thị trang đăng kí
 	@GetMapping("/register")
 	public String showRegisterPage() {
 		return "Guest/register"; // Trả về tên file `register.html` trong thư mục templates
@@ -47,13 +47,24 @@ public class RegisterController {
 	@PostMapping("/process-register")
 	public String processRegister(@ModelAttribute("user") UserRegistrationDTO userDTO, Model model) {
 		boolean check = false;
+		System.out.println("userDTO: " + userDTO.toString());
+		System.out.println("account : "+accountService.findByUsername(userDTO.getUsername()).toString());
+		if(accountService.findByUsername(userDTO.getUsername())!= null)
+		{
+			System.out.println(userDTO.getUsername());
+			System.out.println(accountService.findByUsername(userDTO.getUsername()).toString());
+			model.addAttribute("errorUsername", "Tên đăng nhập đã tồn tại!");
+			return "Guest/register"; 
+		}
 		if (personService.findByEmail(userDTO.getEmail())!= null) {
 			model.addAttribute("errorMail", "Email đã tồn tại!");
+			System.out.println(personService.findByEmail(userDTO.getEmail()));
 			return "Guest/register"; 
 		}
 		if (personService.findByPhone(userDTO.getPhone()) != null)
 		{
 			model.addAttribute("errorPhone", "Số điện thoại đã tồn tại!");
+			System.out.println(personService.findByPhone(userDTO.getPhone()).toString());
 			return "Guest/register"; 
 		}
 		String phoneRegex = "^\\d{10}$";
@@ -61,11 +72,7 @@ public class RegisterController {
 			model.addAttribute("errorPhone", "Số điện thoại không hợp lệ");
 			return "Guest/register"; 
 		}
-		if(accountService.findByUsername(userDTO.getUsername())!= null)
-		{
-			model.addAttribute("errorUsername", "Tên đăng nhập đã tồn tại!");
-			return "Guest/register"; 
-		}
+		
 		try {
 			
 			// 1. Tạo Account
@@ -80,23 +87,23 @@ public class RegisterController {
 			account.setActive(1);
 			accountService.save(account); 
 
-
 			User user = new User();
-			user.setFullname(userDTO.getFullName());
+			user.setFullname(userDTO.getFullname());
+			System.out.println(userDTO.getFullname());
 			user.setEmail(userDTO.getEmail());
 			user.setPhone(userDTO.getPhone());
-
 			if ("Male".equals(userDTO.getGender())) {
 				user.setGender(1); 
 			} else if ("Female".equals(userDTO.getGender())) {
 				user.setGender(0); 
 			}
-
+			
 			user.setBirthday(userDTO.getBirthday());
 			user.setAccount(account); 
 			
+			
 			userService.save(user); 
-
+			
 
 			if (userDTO.getAddress_detail() != null && !userDTO.getAddress_type().isEmpty()) {
 				Address address = new Address();
