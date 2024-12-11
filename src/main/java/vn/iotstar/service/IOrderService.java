@@ -23,6 +23,7 @@ public interface IOrderService {
 
 	<S extends Order> S save(S entity);
 	
-	List<Order> findByDeliveryIdAndStatus(int deliveryId, OrderStatus status);
+	Page<Order> findByDeliveryIdAndStatus(int deliveryId, OrderStatus status, Pageable pageable);
+
 	
 }

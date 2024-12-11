@@ -7,62 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Danh sách sản phẩm</title>
-<!-- BEGIN GLOBAL MANDATORY STYLES -->
-<link
-	href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all"
-	rel="stylesheet" type="text/css" />
-<link
-	href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css" />
-<link
-	href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css"
-	rel="stylesheet" type="text/css" />
-<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet" type="text/css" />
-<link href="../../assets/global/plugins/uniform/css/uniform.default.css"
-	rel="stylesheet" type="text/css" />
-<link
-	href="../../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css"
-	rel="stylesheet" type="text/css" />
-<!-- END GLOBAL MANDATORY STYLES -->
-<!-- BEGIN PAGE LEVEL STYLES -->
-<link rel="stylesheet" type="text/css"
-	href="../../assets/global/plugins/select2/select2.css" />
-<link rel="stylesheet" type="text/css"
-	href="../../assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css" />
-<link rel="stylesheet" type="text/css"
-	href="../../assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css" />
-<link rel="stylesheet" type="text/css"
-	href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" />
-<!-- END PAGE LEVEL STYLES -->
-<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
-<link
-	href="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css"
-	rel="stylesheet" type="text/css" />
-<link
-	href="../../assets/global/plugins/fullcalendar/fullcalendar.min.css"
-	rel="stylesheet" type="text/css" />
-<link href="../../assets/global/plugins/jqvmap/jqvmap/jqvmap.css"
-	rel="stylesheet" type="text/css" />
-<!-- END PAGE LEVEL PLUGIN STYLES -->
-<!-- BEGIN PAGE STYLES -->
-<link href="../../assets/admin/pages/css/tasks.css" rel="stylesheet"
-	type="text/css" />
-<!-- END PAGE STYLES -->
-<!-- BEGIN THEME STYLES -->
-<!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->
-<link href="../../assets/global/css/components.css"
-	id="style_components" rel="stylesheet" type="text/css" />
-<link href="../../assets/global/css/plugins.css" rel="stylesheet"
-	type="text/css" />
-<link href="../../assets/admin/layout2/css/layout.css" rel="stylesheet"
-	type="text/css" />
-<link href="../../assets/admin/layout2/css/themes/grey.css"
-	rel="stylesheet" type="text/css" id="style_color" />
-<link href="../../assets/admin/layout2/css/custom.css" rel="stylesheet"
-	type="text/css" />
-<!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico" />
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
 </head>
 </head>
@@ -83,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="order : ${completedOrders.content}">
+            <tr th:each="order : ${completedOrders}">
                 <td th:text="${order.orderId}">Mã đơn</td>
                 <td th:text="${order.orderDate}">Ngày đặt</td>
                 <td th:text="${order.shippingAddress}">Địa chỉ</td>
@@ -97,83 +42,23 @@
             </tr>
         </tbody>
     </table>
+<nav>
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+            <a class="page-link" th:href="@{/Shipper1(page=${currentPage - 1}, size=5)}">Previous</a>
+        </li>
+        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
+            <a class="page-link" th:href="@{/Shipper1(page=${i}, size=5)}" th:text="${i + 1}"></a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+            <a class="page-link" th:href="@{/Shipper1(page=${currentPage + 1}, size=5)}">Next</a>
+        </li>
+    </ul>
+</nav>
 
-    <!-- Phân trang -->
-    <div class="pagination">
-        <ul class="pagination">
-            <li th:classappend="${currentPage == 0} ? 'disabled'">
-                <a th:href="@{/Shipper1(page=0)}">&laquo; Đầu</a>
-            </li>
-            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-                th:classappend="${i == currentPage} ? 'active'">
-                <a th:href="@{/Shipper1(page={i})}" th:text="${i + 1}">1</a>
-            </li>
-            <li th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-                <a th:href="@{/Shipper1(page=${totalPages - 1})}">Cuối &raquo;</a>
-            </li>
-        </ul>
-    </div>
 </div>
 
     <script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-	<script src="../../assets/global/plugins/jquery.min.js"
-		type="text/javascript"></script>
-	<script src="../../assets/global/plugins/jquery-migrate.min.js"
-		type="text/javascript"></script>
-	<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-	<script
-		src="../../assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js"
-		type="text/javascript"></script>
-	<script src="../../assets/global/plugins/bootstrap/js/bootstrap.min.js"
-		type="text/javascript"></script>
-	<script
-		src="../../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
-		type="text/javascript"></script>
-	<script
-		src="../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
-		type="text/javascript"></script>
-	<script src="../../assets/global/plugins/jquery.blockui.min.js"
-		type="text/javascript"></script>
-	<script src="../../assets/global/plugins/jquery.cokie.min.js"
-		type="text/javascript"></script>
-	<script src="../../assets/global/plugins/uniform/jquery.uniform.min.js"
-		type="text/javascript"></script>
-	<script
-		src="../../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"
-		type="text/javascript"></script>
-	<!-- END CORE PLUGINS -->
-	<!-- BEGIN PAGE LEVEL PLUGINS -->
-	<script type="text/javascript"
-		src="../../assets/global/plugins/select2/select2.min.js"></script>
-	<script type="text/javascript"
-		src="../../assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript"
-		src="../../assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
-	<script type="text/javascript"
-		src="../../assets/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
-	<script type="text/javascript"
-		src="../../assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
-	<script type="text/javascript"
-		src="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
-	<!-- END PAGE LEVEL PLUGINS -->
-	<!-- BEGIN PAGE LEVEL SCRIPTS -->
-	<script src="../../assets/global/scripts/metronic.js"
-		type="text/javascript"></script>
-	<script src="../../assets/admin/layout2/scripts/layout.js"
-		type="text/javascript"></script>
-	<script src="../../assets/admin/layout2/scripts/demo.js"
-		type="text/javascript"></script>
-	<script src="../../assets/admin/pages/scripts/table-advanced.js"></script>
-	<script>
-		jQuery(document).ready(function() {
-			Metronic.init(); // init metronic core components
-			Layout.init(); // init current layout
-			Demo.init(); // init demo features
-			TableAdvanced.init();
-		});
-	</script>
-	<!--  END JAVASCRIPT -->
 </body>
 </html>

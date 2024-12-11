@@ -18,7 +18,7 @@ import vn.iotstar.enums.OrderStatus;
 @Repository
 public interface IOrderRepository extends JpaRepository<Order, Integer>  {
 
-	List<Order> findByDelivery_DeliveryIdAndOrderStatus(int deliveryId, OrderStatus orderStatus);
+	Page<Order> findByDelivery_DeliveryIdAndOrderStatus(int deliveryId, OrderStatus status, Pageable pageable);
     Page<Order> findByOrderStatus(OrderStatus status, Pageable pageable);
 
     long countByOrderStatus(OrderStatus status);
