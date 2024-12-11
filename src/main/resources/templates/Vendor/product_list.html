@@ -76,12 +76,29 @@
                         <td th:text="${product.price}"></td>
                         <td th:text="${product.stock}"></td>
                         <td th:text="${product.category.categoryName}"></td>
-                        <td th:text="${product.description}"></td>
+                        <td><span class="text-truncate d-inline-block"
+						style="max-width: 80px;" th:title="${product.description}">
+							<span
+							th:text="${product.description.length() > 40 ? #strings.substring(product.description, 0, 40) + '...' : product.description}"></span>
+					</span></td>
+                        
                         <td th:text="${product.volumeOrWeight}"></td>
                         <td th:text="${product.manufactureDate}"></td>
                         <td th:text="${product.expirationDate}"></td>
-                        <td th:text="${product.ingredient}"></td>
-                        <td th:text="${product.instruction}"></td>
+                        <td>
+    <span class="text-truncate d-inline-block" style="max-width: 80px;" th:title="${product.ingredient}">
+        <span th:text="${product.ingredient != null && product.ingredient.length() > 40 ? #strings.substring(product.ingredient, 0, 40) + '...' : product.ingredient}"></span>
+    </span>
+</td>
+
+
+                        <td>
+    <span class="text-truncate d-inline-block" style="max-width: 80px;" th:title="${product.instruction}">
+        <span th:text="${product.instruction != null && product.instruction.length() > 40 ? #strings.substring(product.instruction, 0, 40) + '...' : product.instruction}"></span>
+    </span>
+</td>
+
+                        
                         <td th:text="${product.brand}"></td>
                         <td th:text="${product.brandOrigin}"></td>
                         <td th:text="${product.warehouseDateFirst}"></td>

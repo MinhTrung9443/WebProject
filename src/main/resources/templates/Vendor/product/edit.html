@@ -90,7 +90,7 @@ label {
 
 					<div class="form-group mb-3">
 						<label for="price" class="form-label">Giá</label> <input
-							type="number" class="form-control" id="price" name="price"
+							type="number" class="form-control" id="price" name="price" min="1000"
 							placeholder="Nhập giá sản phẩm"
 							th:value="${productRequestDTO.price}">
 					</div>
@@ -152,7 +152,7 @@ label {
 
 					<div class="form-group mb-3">
 						<label for="stock" class="form-label">Số lượng trong kho</label> <input
-							type="number" class="form-control" id="stock" name="stock"
+							type="number" class="form-control" id="stock" name="stock" min="1"
 							placeholder="Nhập số lượng trong kho"
 							th:value="${productRequestDTO.stock}">
 					</div>

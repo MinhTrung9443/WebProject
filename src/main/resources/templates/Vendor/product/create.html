@@ -76,7 +76,7 @@
 				</div>
 				<div class="mb-3">
 					<label for="price" class="form-label">Giá</label> <input
-						type="number" class="form-control" id="price" th:field="*{price}"
+						type="number" class="form-control" id="price" th:field="*{price}" min="1000"
 						required>
 				</div>
 				<br>
@@ -141,7 +141,7 @@
 				
 				<div class="mb-3">
 					<label for="stock" class="form-label">Số lượng</label> <input
-						type="number" class="form-control" id="stock" th:field="*{stock}"
+						type="number" class="form-control" id="stock" th:field="*{stock}" min="1"
 						required>
 				</div>
 				<div class="mb-3">
