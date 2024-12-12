@@ -169,6 +169,8 @@
 										<div class="col-md-9">
 											<input type="text" id="salary" name="salary" th:value="${vendor.salary}"
 												class="form-control">
+												<div th:if="${valid}" class="alert alert-info">
+												<span th:text="${valid}"></span>
 										</div>
 									</div>
 

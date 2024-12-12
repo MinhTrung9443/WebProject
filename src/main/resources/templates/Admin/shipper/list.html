@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/Admin/index.html}">
-<html lang="en">
 
 <head>
 	<meta charset="utf-8" />
@@ -14,8 +13,7 @@
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
 		type="text/css" />
 	<link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-	<link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet"
-		type="text/css" />
+	<link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
 	<link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link href="/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
 	<link href="/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet"
@@ -84,8 +82,6 @@
 						<div class="caption">
 							<i class="fa fa-globe"></i>DANH SÁCH NGƯỜI GIAO HÀNG
 						</div>
-
-
 					</div>
 					<div class="portlet-body">
 						<div class="table-toolbar">
@@ -96,6 +92,20 @@
 											Add New <i class="fa fa-plus"></i>
 										</a>
 									</div>
+								</div>
+
+								<div class="col-md-6">
+									<form class="search-form search-form-expanded" action="/Admin/shipper/searchShipper"
+										method="GET">
+										<div class="input-group">
+											<input type="text" name="fullname" class="form-control"
+												placeholder="Tìm kiếm người giao hàng.....">
+											<span class="input-group-btn">
+												<button type="submit" class="btn submit"><i
+														class="icon-magnifier"></i></a>
+											</span>
+										</div> <br>
+									</form>
 								</div>
 
 							</div>
@@ -127,7 +137,9 @@
 
 									<td th:text="${shipper.deliveryArea}"></td>
 
-									<td th:text="${shipper.delivery != null ? shipper.delivery.deliveryName : 'Chưa có nhà vận chuyển'}"></td>
+									<td
+										th:text="${shipper.delivery != null ? shipper.delivery.deliveryName : 'Chưa có nhà vận chuyển'}">
+									</td>
 
 									<div th:if="${shipper.account != null}">
 										<td th:switch="${shipper.account.active}">
@@ -208,13 +220,11 @@
 		<script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 		<script src="/assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
 		<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-		<script src="/assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js"
-			type="text/javascript"></script>
+		<script src="/assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
 		<script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 		<script src="/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
 			type="text/javascript"></script>
-		<script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
-			type="text/javascript"></script>
+		<script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 		<script src="/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
 		<script src="/assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
 		<script src="/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>

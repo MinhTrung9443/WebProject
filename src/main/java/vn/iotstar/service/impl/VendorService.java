@@ -78,7 +78,7 @@ public class VendorService implements IVendorService {
 	}
 
 	@Override
-	public Optional<Vendor> findByFullnameContaining(String fullname) {
+	public List<Vendor> findByFullnameContaining(String fullname) {
 		return venRepository.findByFullnameContaining(fullname);
 	}
 	

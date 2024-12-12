@@ -31,5 +31,5 @@ public interface IVendorService {
 
 	Account findByUsername(String username);
 	
-	Optional <Vendor> findByFullnameContaining(String fullname);
+	List <Vendor> findByFullnameContaining(String fullname);
 }

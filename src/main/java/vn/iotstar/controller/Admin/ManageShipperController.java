@@ -1,5 +1,6 @@
 package vn.iotstar.controller.Admin;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,7 @@ import vn.iotstar.entity.Account;
 import vn.iotstar.entity.Delivery;
 import vn.iotstar.entity.Role;
 import vn.iotstar.entity.Shipper;
+import vn.iotstar.entity.User;
 import vn.iotstar.entity.Vendor;
 import vn.iotstar.service.IDeliveryService;
 import vn.iotstar.service.IShipperService;
@@ -74,6 +77,23 @@ public class ManageShipperController {
 		model.addAttribute("pageNumbers", pageNumbers);
 		return "Admin/shipper/list";
 	}
+	
+	 @GetMapping("/searchShipper")
+	   	public String search(Model model, @RequestParam(value = "fullname", required = false) String fullname) {
+	       	
+	       	List<Shipper> list = new ArrayList<>();
+	   		if (StringUtils.hasText(fullname)) {
+	   			List<Shipper> shipper = shipperService.findByFullnameContaining(fullname);
+	   			if (!shipper.isEmpty()) {
+	   				list = shipper;			
+	   			}
+	   			else {
+	   				model.addAttribute("message", "KHÔNG CÓ KẾT QUẢ NÀO ĐƯỢC TÌM THẤY");
+	   			}		
+	   		}
+	   		model.addAttribute("list",list);
+	   		return "Admin/shipper/search";
+	   	}
 
 	@GetMapping("/detail/{id}")
 	public String viewUserDetail(@PathVariable("id") int id, Model model) {
@@ -252,6 +272,7 @@ public class ManageShipperController {
 		shipper.setDelivery(delivery);
 
 		Account oldAccount = oldShipper.getAccount();
+		oldAccount.setActive(account.getActive());
 		BeanUtils.copyProperties(shipper, oldShipper);
 		oldShipper.setAccount(oldAccount);
 
@@ -279,5 +300,4 @@ public class ManageShipperController {
 		}
 		return new ModelAndView("forward:/Admin/shipper", model);
 	}
-
 }

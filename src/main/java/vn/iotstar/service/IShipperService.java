@@ -31,6 +31,6 @@ public interface IShipperService {
 
 	Shipper findByEmail(String email);
 	
-	Optional<Shipper> findByFullnameContaining(String fullname);
+	List<Shipper> findByFullnameContaining(String fullname);
 
 }

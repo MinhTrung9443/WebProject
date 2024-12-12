@@ -18,7 +18,6 @@ public class Category {
 	
 	@Column(name = "category_name", columnDefinition = "NVARCHAR(255)")
 	private String categoryName;
-	private String images;
 	private int active;
 	
 	@OneToMany(mappedBy = "category")

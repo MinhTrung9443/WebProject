@@ -78,7 +78,7 @@ public class ShipperService implements IShipperService{
 	}
 
 	@Override
-	public Optional<Shipper> findByFullnameContaining(String fullname) {
+	public List<Shipper> findByFullnameContaining(String fullname) {
 		return shipperRepository.findByFullnameContaining(fullname);
 	}
 	

@@ -148,15 +148,6 @@ public class ManageVoucherController {
 		return false;
 	}
 
-//	// Kiểm tra trị giá voucher
-//	public boolean checkValue(ModelMap model, VoucherDTO voucherDTO) {
-//		if (voucherDTO.getVoucherValue() < 1000) {
-//			model.addAttribute("value", "GIÁ TRỊ VOUCHER PHẢI LỚN HƠN 1000 VND");
-//			return true;
-//		}
-//		return false;
-//	}
-
 	@PostMapping("/save")
 	public ModelAndView addOrEdit(ModelMap model, @Valid @ModelAttribute Voucher voucher,
 			@Valid @ModelAttribute VoucherDTO voucherDTO, BindingResult result) {

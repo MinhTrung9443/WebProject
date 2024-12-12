@@ -1,5 +1,6 @@
 package vn.iotstar.controller.Admin;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -64,6 +66,23 @@ public class ManageUserController {
 		model.addAttribute("pageNumbers", pageNumbers);	
 		return "Admin/user/list";
 	}
+	 @GetMapping("/searchUser")
+		public String search(Model model, @RequestParam(value = "fullname", required = false) String fullname) {
+	    	
+	    	List<User> list = new ArrayList<>();
+			if (StringUtils.hasText(fullname)) {
+				List<User> user = userService.findByFullnameContaining(fullname);
+				if (!user.isEmpty()) {
+					list = user;			
+				}
+				else {
+					model.addAttribute("message", "KHÔNG CÓ KẾT QUẢ NÀO ĐƯỢC TÌM THẤY");
+				}		
+			}
+			model.addAttribute("list",list);
+			return "Admin/user/search";
+		}
+	    
 
 	@PostMapping("/save")
 	public ModelAndView save(ModelMap model, @Valid @ModelAttribute User user, BindingResult result, @Valid @ModelAttribute Account account) {
