@@ -32,6 +32,7 @@ import vn.iotstar.service.impl.UserServiceImpl;
 @EnableMethodSecurity
 public class SecurityConfig{
 	@Autowired
+	
 	private CustomerUserDetailsService userDetailsService;
 	@Bean
 	public UserDetailsService userDetailsService() {

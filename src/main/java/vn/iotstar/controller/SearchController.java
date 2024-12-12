@@ -54,7 +54,7 @@ public class SearchController {
 		            && (brandOrigin == null || brandOrigin.isEmpty()) 
 		            && (categoryName == null || categoryName.isEmpty())) {
 		        productPage = productService.getAllProducts(pageable); // Lấy tất cả sản phẩm nếu không có bộ lọc
-		    } else {
+		    } else {	    
 		        // Trường hợp có bộ lọc
 		        if (minPrice != null && maxPrice == null) {
 		            productPage = productService.getProductsByPriceRange(minPrice, Integer.MAX_VALUE, pageable);

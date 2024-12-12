@@ -22,4 +22,14 @@ public class EmailServiceImpl  implements IEmailService {
 	        // Gửi email
 	        javaMailSender.send(message);
 	    }
+	    @Override
+	    public void sendRegisterOtp(String email, String otp) {
+	        SimpleMailMessage message = new SimpleMailMessage();
+	        message.setTo(email);
+	        message.setSubject("Xác nhận đăng kí tài khoản của website bán mỹ phẩm MOLLA");
+	        message.setText("Your OTP code is: " + otp);
+	        
+	        // Gửi email
+	        javaMailSender.send(message);
+	    }
 }

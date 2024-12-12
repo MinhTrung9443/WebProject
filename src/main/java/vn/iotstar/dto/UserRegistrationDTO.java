@@ -16,7 +16,7 @@ public class UserRegistrationDTO {
 	private String username;
 	private String password;
 	private String email;
-	private String fullName;
+	private String fullname;
 	private String gender;
 	private String phone;
 	private LocalDate birthday;
