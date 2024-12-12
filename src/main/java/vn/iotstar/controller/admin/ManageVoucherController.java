@@ -140,10 +140,9 @@ public class ManageVoucherController {
 		return false;
 	}
 
-	// Kiểm tra trị giá voucher
-	public boolean checkValue(ModelMap model, VoucherDTO voucherDTO) {
-		if (voucherDTO.getVoucherValue() < 1000) {
-			model.addAttribute("value", "GIÁ TRỊ VOUCHER PHẢI LỚN HƠN 1000 VND");
+	public boolean checkMinimumCost(ModelMap model, VoucherDTO voucherDTO) {
+		if (voucherDTO.getMinimumCost() < 0) {
+			model.addAttribute("checkMininumCost", "GIÁ TRỊ ĐƠN HÀNG PHẢI LỚN HƠN 0!!!");
 			return true;
 		}
 		return false;
@@ -169,8 +168,7 @@ public class ManageVoucherController {
 
 			Voucher entity = optionalEntity.get();
 
-			if (existCode(model, voucherDTO, voucher.getVoucherId()) || isValidDate(model, voucherDTO)
-					|| checkValue(model, voucherDTO)) {
+			if (existCode(model, voucherDTO, voucher.getVoucherId()) || isValidDate(model, voucherDTO)) {
 				check = true;
 			}
 
@@ -187,6 +185,7 @@ public class ManageVoucherController {
 				mgg.setVoucherCode(voucher.getVoucherCode());
 				mgg.setVoucherType(voucher.getVoucherType());
 				mgg.setVoucherValue(voucher.getVoucherValue());
+				mgg.setMinimumCost(voucher.getMinimumCost());
 				mgg.setStartDate(voucher.getStartDate());
 				mgg.setEndDate(voucher.getEndDate());
 				mgg.setActive(voucher.getActive());
@@ -196,7 +195,7 @@ public class ManageVoucherController {
 			int quantity = voucherDTO.getQuantity();
 
 			if (existCode(model, voucherDTO, voucherDTO.getVoucherId()) || checkQuantity(model, voucherDTO)
-					|| isValidDate(model, voucherDTO) || checkValue(model, voucherDTO)) {
+					|| isValidDate(model, voucherDTO) || checkMinimumCost(model, voucherDTO)) {
 				check = true;
 			}
 

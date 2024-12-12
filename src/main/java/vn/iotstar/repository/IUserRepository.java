@@ -1,6 +1,6 @@
 package vn.iotstar.repository;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,5 +14,5 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 	@Query("SELECT u FROM User u WHERE u.account.username = :username")
     User findByAccountUsername(@Param("username") String username);
 		
-	Optional<User> findByFullnameContaining(String fullname);
+	List<User> findByFullnameContaining(String fullname);
 }

@@ -45,7 +45,7 @@ public class UserService implements IUserService{
 		userRepository.delete(entity);
 	}
 	@Override
-	public Optional<User> findByFullnameContaining(String fullname) {
+	public List<User> findByFullnameContaining(String fullname) {
 		return userRepository.findByFullnameContaining(fullname);
 	}
 	@Autowired

@@ -16,6 +16,7 @@ public class VoucherDTO {
 	private String voucherType;
 	private String voucherCode;
 	private int voucherValue;	
+	private int minimumCost;
 	private LocalDateTime startDate;	
 	private LocalDateTime endDate;	
 	private int active;

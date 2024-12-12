@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,9 +28,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.validation.Valid;
+import vn.iotstar.dto.VoucherDTO;
 import vn.iotstar.entity.Account;
 import vn.iotstar.entity.Address;
 import vn.iotstar.entity.Role;
+import vn.iotstar.entity.Shipper;
 import vn.iotstar.entity.Vendor;
 import vn.iotstar.service.IVendorService;
 
@@ -71,6 +74,22 @@ public class ManageVendorController {
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("pageNumbers", pageNumbers);
 		return "Admin/vendor/list";
+	}
+
+	@GetMapping("/searchVendor")
+	public String search(Model model, @RequestParam(value = "fullname", required = false) String fullname) {
+
+		List<Vendor> list = new ArrayList<>();
+		if (StringUtils.hasText(fullname)) {
+			List<Vendor> vendor = vendorService.findByFullnameContaining(fullname);
+			if (!vendor.isEmpty()) {
+				list = vendor;
+			} else {
+				model.addAttribute("message", "KHÔNG CÓ KẾT QUẢ NÀO ĐƯỢC TÌM THẤY");
+			}
+		}
+		model.addAttribute("list", list);
+		return "Admin/vendor/search";
 	}
 
 	@GetMapping("/detail/{id}")
@@ -158,6 +177,14 @@ public class ManageVendorController {
 		return false;
 	}
 
+	public boolean checkSalary(ModelMap model, Vendor vendor) {
+		if (vendor.getSalary() < 0) {
+			model.addAttribute("valid", "NHẬP VÀO MỘT SỐ LỚN HƠN 0!");
+			return true;
+		}
+		return false;
+	}
+
 	@PostMapping("/create")
 	public ModelAndView createVendor(ModelMap model, @Valid @ModelAttribute("vendor") Vendor vendor, BindingResult result,
 			@Valid @ModelAttribute("account") Account account) {
@@ -174,7 +201,8 @@ public class ManageVendorController {
 
 		boolean check = false;
 		if (checkExistPhone(model, vendor, id) || checkExistEmail(model, vendor, id)
-				|| checkExistUsername(model, account, id) || checkPhoneValid(model, vendor)) {
+				|| checkExistUsername(model, account, id) || checkPhoneValid(model, vendor)
+				|| checkSalary(model, vendor)) {
 			check = true;
 		}
 		if (check) {
@@ -201,7 +229,8 @@ public class ManageVendorController {
 	}
 
 	@PostMapping("/edit")
-	public ModelAndView editVendor(ModelMap model, @Valid @ModelAttribute("vendor") Vendor vendor, BindingResult result) {
+	public ModelAndView editVendor(ModelMap model, @Valid @ModelAttribute Vendor vendor,
+			@Valid @ModelAttribute Account account, BindingResult result) {
 		if (result.hasErrors()) {
 			model.addAttribute("vendor", vendor);
 			return new ModelAndView("Admin/vendor/edit", model);
@@ -210,8 +239,8 @@ public class ManageVendorController {
 
 		Vendor oldvendor = vendorService.findById(id).get();
 		boolean check = false;
-		if (checkExistPhone(model, vendor, id) || checkExistEmail(model, vendor, id)
-				|| checkPhoneValid(model, vendor)) {
+		if (checkExistPhone(model, vendor, id) || checkExistEmail(model, vendor, id) || checkPhoneValid(model, vendor)
+				|| checkSalary(model, vendor)) {
 			check = true;
 		}
 
@@ -225,6 +254,7 @@ public class ManageVendorController {
 
 		}
 		Account oldAccount = oldvendor.getAccount();
+		oldAccount.setActive(account.getActive());
 		BeanUtils.copyProperties(vendor, oldvendor);
 		oldvendor.setAccount(oldAccount);
 		vendorService.save(oldvendor);

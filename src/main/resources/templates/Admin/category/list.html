@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/Admin/index.html}">
-<html lang="en">
 
 <head>
 	<meta charset="utf-8" />
@@ -105,7 +104,6 @@
 								<th>STT</th>
 								<th>ID</th>
 								<th>Tên danh mục</th>
-								<th>Hình ảnh</th>
 								<th>Trạng thái</th>
 								<th>Edit</th>
 								<th>Delete</th>
@@ -119,11 +117,6 @@
 								<td th:text="${cate.categoryId}"></td>
 
 								<td th:text="${cate.categoryName}"></td>
-
-								<td>
-									<img th:src="${cate.images}" alt="Category Image"
-										style="width: 100px; height: 100px;">
-								</td>
 
 								<td th:switch="${cate.active}">
 									<span th:case="'1'">Hoạt động</span>

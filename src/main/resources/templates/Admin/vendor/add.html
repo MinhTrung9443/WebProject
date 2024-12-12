@@ -152,43 +152,46 @@
 										<div class="col-md-9">
 											<input type="text" id="salary" name="salary" th:value="${vendor.salary}"
 												class="form-control">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="control-label col-md-3">Trạng thái</label>
-										<div class="col-md-9">
-											<div class="radio-list">
-												<label>
-													<input type="radio" id="active" name="active" th:value="1"
-														th:checked="${vendor?.account?.active == 1}" />
-													Mở Khoá
-												</label>
-												<label>
-													<input type="radio" id="inactive" name="active" th:value="0"
-														th:checked="${vendor?.account?.active == 0}" />
-													Khoá
-												</label>
+											<div th:if="${valid}" class="alert alert-info">
+												<span th:text="${valid}"></span>
 											</div>
 										</div>
+
+										<div class="form-group">
+											<label class="control-label col-md-3">Trạng thái</label>
+											<div class="col-md-9">
+												<div class="radio-list">
+													<label>
+														<input type="radio" id="active" name="active" th:value="1"
+															th:checked="${vendor.account.active == 1}" />
+														Mở Khoá
+													</label>
+													<label>
+														<input type="radio" id="inactive" name="active" th:value="0"
+															th:checked="${vendor.account.active == 0}" />
+														Khoá
+													</label>
+												</div>
+											</div>
+										</div>
+
+
 									</div>
-
-
-								</div>
-								<div class="form-actions">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="row">
-												<div class="col-md-offset-3 col-md-9">
-													<button type="submit" class="btn green"><i class="fa fa-check"></i>
-														Submit</button>
-													<button type="button" class="btn default"
-														onclick="window.history.back()">Cancel</button>
+									<div class="form-actions">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" class="btn green"><i
+																class="fa fa-check"></i>
+															Submit</button>
+														<button type="button" class="btn default"
+															onclick="window.history.back()">Cancel</button>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
 							</form>
 							<!-- END FORM-->
 						</div>

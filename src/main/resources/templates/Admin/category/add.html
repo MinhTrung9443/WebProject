@@ -89,30 +89,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Link hình ảnh</label>
-										<div class="col-md-9">
-											<input type="text" id="images" name="images" th:value="${cate.images}"
-												class="form-control">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Trạng thái</label>
-										<div class="col-md-9">
-											<div class="radio-list">
-												<label>
-													<input type="radio" id="active" name="active" th:value="1"
-														th:checked="${cate.active == 1}" />
-													Mở Khoá
-												</label>
-												<label>
-													<input type="radio" id="inactive" name="active" th:value="0"
-														th:checked="${cate.active == 0}" />
-													Khoá
-												</label>
-											</div>
-										</div>
-									</div>
+									
+									<input type="text" id="active" name="active" th:value="1" hidden />
 
 								</div>
 								<div class="form-actions">

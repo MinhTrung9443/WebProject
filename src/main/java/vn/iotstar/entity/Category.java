@@ -28,7 +28,6 @@ public class Category {
 	private int categoryId;
 	@Column(columnDefinition = "nvarchar(max)")
 	private String categoryName;
-	private String images;
 	private int active;
 	
 	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
