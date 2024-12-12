@@ -31,7 +31,7 @@ import vn.iotstar.service.IOrderService;
 import vn.iotstar.service.IProductService;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -64,7 +64,6 @@ public class UserOrderController {
         	 customerId = u.getId();
         }
 
-        
         Page<Order> orders;
         int pageSize = 10;
         Pageable page = PageRequest.of(pageNo-1, pageSize,Sort.by(Sort.Order.desc("orderId")));
@@ -89,10 +88,6 @@ public class UserOrderController {
             case "don-huy":
                 orders = orderService.findByOrderStatus(customerId, OrderStatus.CANCELLED,page );
                 count=orderService.countByOrderStatus(customerId, OrderStatus.CANCELLED);
-                break;
-            case "don-hoan-tra":
-            	orders =orderService.findByOrderStatus(customerId, OrderStatus.REFUNDED,page);
-            	count=orderService.countByOrderStatus(customerId, OrderStatus.REFUNDED);
                 break;
             default:
             	orders = orderService.findByOrderStatus(customerId, OrderStatus.PENDING,page ); 
@@ -132,24 +127,9 @@ public class UserOrderController {
 			
 			orderService.save(order);
 			
-			return new ResponseEntity<>("HỦy đơn thành công",HttpStatus.OK);
+			return new ResponseEntity<>("Hủy đơn thành công",HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>("Hủy đơn khong thành công",HttpStatus.BAD_REQUEST);
-		}
-	}
-	@PostMapping("/return")
-	public ResponseEntity<?> returnOrder(ModelMap model, HttpSession session, @RequestParam int orderId) {
-		
-		try {
-			Order order = orderService.findById(orderId).get();
-			
-			order.setOrderStatus(OrderStatus.REFUNDED);
-			
-			orderService.save(order);
-			
-			return new ResponseEntity<>("Yêu cầu trả hàng thành công",HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>("Yêu cầu trả hàng gặp lỗi",HttpStatus.BAD_REQUEST);
 		}
 	}
 }

@@ -19,16 +19,20 @@ public class UserVoucherController {
 	private IVoucherRepository voucherService;
 	
 	@PostMapping("")
-	public ResponseEntity<?> checkVoucher(@RequestParam String voucherCode) {
+	public ResponseEntity<?> checkVoucher(@RequestParam String voucherCode,@RequestParam long totalPrice) {
 
         List<Voucher> listVoucher = voucherService.findValidVoucher(voucherCode);
 
         if (listVoucher.size() == 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Mã không tồn tại",HttpStatus.BAD_REQUEST);
         }
         
         Voucher voucher = listVoucher.get(0);
         
+        if (voucher.getMinimumCost() > totalPrice)
+        {
+        	return new ResponseEntity<>("Mã không đủ điều kiện áp dụng",HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(voucher, HttpStatus.OK);
     }

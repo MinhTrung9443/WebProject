@@ -34,6 +34,11 @@ public class ProductFeedbackService implements IProductFeedbackService{
 	public List<ProductFeedback> findByUserIdAndProduct_ProductId(int id, int productId) {
 		return feedbackRepo.findByUserIdAndProduct_ProductId(id, productId);
 	}
+
+	@Override
+	public Double findAverageRatingByProductId(Long productId) {
+		return feedbackRepo.findAverageRatingByProductId(productId);
+	}
 	
 	
 }

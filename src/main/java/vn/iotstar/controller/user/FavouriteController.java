@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -59,19 +60,10 @@ public class FavouriteController {
     			userService.save(u);
     		}
         }
-        
-        
 
-		
-		
 		Optional<Favourite> favourite = favouriteService.findByUserId(user.getId(),productId);
 		
-		if (favourite.isPresent())
-		{
-			favouriteService.deleteById(favourite.get().getFavouriteId().intValue());
-			return ResponseEntity.ok("Bỏ yêu thích thành công");
-		}
-		else 
+		if (!favourite.isPresent())
 		{
 			Favourite newfavou = new Favourite();
 			newfavou.setProduct(productService.findById(productId).get());
@@ -80,5 +72,22 @@ public class FavouriteController {
 		}
 		
 		return ResponseEntity.ok("Thêm yêu thích thành công");
+	}
+	@PostMapping("/removelove")
+	public ResponseEntity<String> removelove(ModelMap model, HttpSession session, @RequestParam int productId)
+	{
+		Person user = (Person) session.getAttribute("user");
+        
+
+		Optional<Favourite> favourite = favouriteService.findByUserId(user.getId(),productId);
+		System.out.println(favourite.get().getProduct().getProductName());
+		if (favourite.isPresent())
+		{
+			Favourite favou = favourite.get();
+			favouriteService.deleteById(favou.getFavouriteId().intValue());
+			return ResponseEntity.ok("Đã bỏ yêu thích");
+		}
+		
+		return ResponseEntity.ok("Có lỗi");
 	}
 }

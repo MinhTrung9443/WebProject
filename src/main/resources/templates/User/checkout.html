@@ -218,12 +218,14 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
         event.preventDefault(); // Ngăn form reload trang
 
         const voucherCode = document.getElementById('checkout-discount-input').value;
-
+        let totalPrice = parseFloat(document.querySelector('.summary-subtotal td:nth-child(2)').textContent.trim().replace('$', '').trim());
+        
         $.ajax({
             url: '/api/voucher/check', // URL để xử lý yêu cầu
             type: 'POST',
             data: {
             	voucherCode: voucherCode,
+            	totalPrice: totalPrice
             },
             success: function (data) {
             	document.getElementById('voucherValueApply').textContent = data.voucherValue;
@@ -232,8 +234,8 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
             	updateTotal();
             	alert('Áp dụng mã giảm giá thành công.')
             },
-            error: function () {
-                alert('Mã code không tồn tại. Mời kiểm tra lại.');
+            error: function (data) {
+                alert(data.responseText);
             }
         });
     });
@@ -259,7 +261,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
         	}
         if (typeVoucher == 'PRODUCT')
     	{
-        	totalPrice = totalPrice - valueVoucher;
+        	totalPrice = totalPrice - (valueVoucher*totalPrice)/100;
     	}
         
         const totalAmount = totalPrice + deliveryPrice;

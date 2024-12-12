@@ -83,7 +83,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 								<form th:action="@{/User/add-to-cart}" method="post">
 										<input type="hidden" name="productId" th:value="${favou.product.productId}" />
 										<input type="hidden" name="quantity" th:value="1" />
-										<button type="submit" class="btn btn-block btn-outline-primary-2">Thêm vào giỏ hàng</button>
+										<button th:disabled="${favou.product.stock == 0}" type="submit" class="btn btn-block btn-outline-primary-2">Thêm vào giỏ hàng</button>
 									</form>
 									
 								</td>
@@ -175,7 +175,7 @@ function removeLove(productId) {
 
     // Gửi dữ liệu đến server thông qua AJAX
     $.ajax({
-        url: '/User/addlove',
+        url: '/User/removelove',
         type: 'POST',
         data: {
         	productId: productId,
@@ -184,8 +184,8 @@ function removeLove(productId) {
             alert(response);
             window.location.href = '/User/wishlist'; 
         },
-        error: function () {
-            alert('Có lỗi xảy ra!');
+        error: function (response) {
+            alert(response);
         }
     });
 }

@@ -28,7 +28,8 @@ public class ProductService implements IProductService {
     private ICategoryRepository categoryRepository;
 	@Override
 	public List<Product> findTop20ByOrderByWarehouseDateFirstDesc() {
-		return productRepository.findTop20ByOrderByWarehouseDateFirstDesc();
+		Pageable page = PageRequest.of(0, 20);
+		return productRepository.findTop20ByOrderByWarehouseDateFirstDescWithStock(page);
 	}
 
 	@Override
@@ -39,12 +40,14 @@ public class ProductService implements IProductService {
 
 	@Override
 	public List<Product> findTop20ByFavouriteCount() {
-		return productRepository.findTop20ByFavouriteCount();
+		Pageable page = PageRequest.of(0, 20);
+		return productRepository.findTop20ByFavouriteCount(page);
 	}
 
 	@Override
 	public List<Product> findTop20BySalesQuantity() {
-		return productRepository.findTop20BySalesQuantity();
+		Pageable page = PageRequest.of(0, 20);
+		return productRepository.findTop20BySalesQuantity(page);
 	}
 
 	@Override
@@ -162,7 +165,8 @@ public class ProductService implements IProductService {
 
 	@Override
 	public List<Product> getTop10BestSellingProducts() {
-		return productRepository.findTop20BySalesQuantity();
+		Pageable page = PageRequest.of(0, 20);
+		return productRepository.findTop20BySalesQuantity(page);
 	}
 	
 	public Page<Product> findAllAvailable(Pageable pageable) {

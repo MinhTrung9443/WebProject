@@ -17,4 +17,6 @@ public interface IProductFeedbackService {
 
 	List<ProductFeedback> findByProduct_ProductId(int productId);
 
+	Double findAverageRatingByProductId(Long productId);
+
 }

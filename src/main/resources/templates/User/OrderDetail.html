@@ -182,13 +182,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 	                						</tr><!-- End .summary-subtotal -->
    	                					</tbody>
 	                				</table><!-- End .table table-summary -->
-	                				<div style="display: flex;">
-										<div class="col-6 col-lg-4 col-xl-2" th:if="${order.orderStatus.name() == 'COMPLETED' }" >
-									   		<div class="btn-wrap">
-									    		<a href="#" onclick="returnOrder()" class="btn btn-outline-primary btn-rounded">Trả đơn hàng</a>
-									    	</div> <!-- End .btn-wrap -->
-									    </div><!-- End .col-md-4 col-lg-2 -->
-									</div>
+	
 	                			</div><!-- End .summary -->
 	                		</aside><!-- End .col-lg-3 -->
 	                	</div><!-- End .row -->
@@ -322,33 +316,7 @@ function cancelOrder()
         });
 	}
 	}
-function returnOrder()
-{
-	const orderId = document.getElementById('orderId').value;
-	
-	const userConfirmed = confirm('Bạn có chắc chắn muốn trả lại đơn hàng này?');
 
-	
-	if (userConfirmed) {
-		
-		// Thực hiện lưu dữ liệu (gửi dữ liệu đến server thông qua AJAX)
-        $.ajax({
-            url: '/User/Order/return', // URL để xử lý yêu cầu
-            type: 'POST',
-            data: {
-            	orderId: orderId,
-            },
-            success: function () {
-                alert('Đã gửi yêu cầu trả đơn hàng!'); 
-                window.location.href = '/User/Order/detail/' + orderId;
-            },
-            error: function (response) {
-                alert(response);
-                window.location.href = '/User/Order/detail/' + orderId;
-            }
-        });
-	}
-	}
 </script>
 
 </body>

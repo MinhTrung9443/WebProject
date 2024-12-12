@@ -12,32 +12,26 @@ import org.springframework.stereotype.Repository;
 import io.lettuce.core.dynamic.annotation.Param;
 import vn.iotstar.entity.Product;
 
-
-
-
 @Repository
 public interface IProductRepository extends JpaRepository<Product, Integer> {
-	List<Product> findTop20ByOrderByWarehouseDateFirstDesc();
+	@Query("SELECT p FROM Product p " + "WHERE p.stock > 0 " + "ORDER BY p.warehouseDateFirst DESC")
+	List<Product> findTop20ByOrderByWarehouseDateFirstDescWithStock(Pageable pageable);
 
-	@Query("SELECT p FROM Product p " +
-		       "LEFT JOIN p.feedbacks f " +
-		       "GROUP BY p " +
-		       "ORDER BY COALESCE(AVG(f.rating), 0) DESC")
+	@Query("SELECT p FROM Product p " + "LEFT JOIN p.feedbacks f " + "WHERE p.stock > 0 " + "GROUP BY p "
+			+ "ORDER BY COALESCE(AVG(f.rating), 0) DESC")
 	Page<Product> findTopProductsByAverageRating(Pageable pageable);
 
-	@Query("SELECT p FROM Product p " + "LEFT JOIN p.favourite f " + "GROUP BY p " + "ORDER BY COUNT(f) DESC")
-	List<Product> findTop20ByFavouriteCount();
+	@Query("SELECT p FROM Product p " + "LEFT JOIN p.favourite f " + "WHERE p.stock > 0 " + "GROUP BY p "
+			+ "ORDER BY COUNT(f) DESC")
+	List<Product> findTop20ByFavouriteCount(Pageable pageable);
 
-	@Query("SELECT ol.product FROM OrderLine ol " + "GROUP BY ol.product " + "ORDER BY SUM(ol.quantity) DESC")
-	List<Product> findTop20BySalesQuantity();
-	
-	@Query("SELECT p FROM Product p " +
-		       "LEFT JOIN p.favourite f " +
-		       "WHERE p.category.categoryId = :categoryId " +
-		       "GROUP BY p " +
-		       "ORDER BY COUNT(f) DESC")
-		List<Product> findTopProductsByCategory(@Param("categoryId") Long categoryId, Pageable pageable);
+	@Query("SELECT ol.product FROM OrderLine ol " + "WHERE ol.product.stock > 0 " + "GROUP BY ol.product "
+			+ "ORDER BY SUM(ol.quantity) DESC")
+	List<Product> findTop20BySalesQuantity(Pageable pageable);
 
+	@Query("SELECT p FROM Product p " + "LEFT JOIN p.favourite f "
+			+ "WHERE p.category.categoryId = :categoryId AND p.stock > 0 " + "GROUP BY p " + "ORDER BY COUNT(f) DESC")
+	List<Product> findTopProductsByCategory(@Param("categoryId") Long categoryId, Pageable pageable);
 
 	// Lọc theo khoảng giá
 	@Query("SELECT p FROM Product p WHERE p.price BETWEEN :minPrice AND :maxPrice")
@@ -69,18 +63,13 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 
 	public Page<Product> findByProductNameContaining(String keyword, Pageable pageable);
 
-	 @Query("SELECT p FROM Product p " +
-	           "JOIN p.category c " +
-	           "WHERE (:minPrice IS NULL OR p.price >= :minPrice) " +
-	           "AND (:maxPrice IS NULL OR p.price <= :maxPrice) " +
-	           "AND (:brandOrigin IS NULL OR p.brandOrigin LIKE CONCAT('%', :brandOrigin, '%')) " +
-	           "AND (:brand IS NULL OR p.brand LIKE CONCAT('%', :brand, '%')) " +
-	           "AND (:categoryName IS NULL OR c.categoryName LIKE CONCAT('%', :categoryName, '%'))")
-	    Page<Product> findByFilters(@Param("minPrice") Integer minPrice,
-	                                @Param("maxPrice") Integer maxPrice,
-	                                @Param("brandOrigin") String brandOrigin,
-	                                @Param("brand") String brand,
-	                                @Param("categoryName") String categoryName,
-	                                Pageable pageable);
+	@Query("SELECT p FROM Product p " + "JOIN p.category c " + "WHERE (:minPrice IS NULL OR p.price >= :minPrice) "
+			+ "AND (:maxPrice IS NULL OR p.price <= :maxPrice) "
+			+ "AND (:brandOrigin IS NULL OR p.brandOrigin LIKE CONCAT('%', :brandOrigin, '%')) "
+			+ "AND (:brand IS NULL OR p.brand LIKE CONCAT('%', :brand, '%')) "
+			+ "AND (:categoryName IS NULL OR c.categoryName LIKE CONCAT('%', :categoryName, '%'))")
+	Page<Product> findByFilters(@Param("minPrice") Integer minPrice, @Param("maxPrice") Integer maxPrice,
+			@Param("brandOrigin") String brandOrigin, @Param("brand") String brand,
+			@Param("categoryName") String categoryName, Pageable pageable);
 
 }

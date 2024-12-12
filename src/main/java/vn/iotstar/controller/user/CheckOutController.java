@@ -99,33 +99,39 @@ public class CheckOutController {
 	public String checkoutSingleProduct(ModelMap model, HttpSession session, @PathVariable("productId") int productId)
 	{
 
-		Account acc = (Account) session.getAttribute("account");
-		int roleid = acc.getRole().getRoleId();
-		int id = 0;
-		if (roleid == 2) {
-			User customer = (User) userService.findByAccountUsername(acc.getUsername());
-			id = customer.getId();
-			session.setAttribute("user", customer);
-		} else if (roleid == 3) {
-			Vendor employee = (Vendor) userService.findByAccountUsername(acc.getUsername());
-			id = employee.getId();
-			session.setAttribute("user", employee);
+		try {
+			Account acc = (Account) session.getAttribute("account");
+			int roleid = acc.getRole().getRoleId();
+			int id = 0;
+			if (roleid == 2) {
+				User customer = (User) userService.findByAccountUsername(acc.getUsername());
+				id = customer.getId();
+				session.setAttribute("user", customer);
+			} else if (roleid == 3) {
+				Vendor employee = (Vendor) userService.findByAccountUsername(acc.getUsername());
+				id = employee.getId();
+				session.setAttribute("user", employee);
+			}
+			
+			Product product = productService.findById(productId).get();
+			
+			if (product.getStock() < 1)
+			{
+				return "redirect:/User/productDetail/" + productId;
+			}
+			
+			List<Delivery> listDeli = deliveryService.findAll();
+			
+					
+			model.addAttribute("product", product);
+			model.addAttribute("listdeli", listDeli);		
+					
+			return "/User/checkoutSingleProduct";
 		}
-		
-		Product product = productService.findById(productId).get();
-		
-		if (product.getStock() < 1)
-		{
-			return "/User/productDetail/" + productId;
+		catch (Exception e) {
+			e.printStackTrace();// TODO: handle exception
+			return "redirect:/User/productDetail/" + productId;
 		}
-		
-		List<Delivery> listDeli = deliveryService.findAll();
-		
-				
-		model.addAttribute("product", product);
-		model.addAttribute("listdeli", listDeli);		
-				
-		return "/User/checkoutSingleProduct";
 	}
 	
 	

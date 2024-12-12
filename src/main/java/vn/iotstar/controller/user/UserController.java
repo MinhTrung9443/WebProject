@@ -1,7 +1,9 @@
 package vn.iotstar.controller.user;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +92,7 @@ public class UserController {
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
-		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(Sort.Order.desc("favouriteId")));
 
 		Person person = (Person) session.getAttribute("user");
         
@@ -122,7 +124,7 @@ public class UserController {
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
-		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(Sort.Order.desc("viewHistoryId")));
 
 		Person person = (Person) session.getAttribute("user");
         
@@ -187,21 +189,30 @@ public class UserController {
 		if (opProduct.isPresent()) {
 			Product product = opProduct.get();
 			List<ProductFeedback> feedback = feedbackService.findByProduct_ProductId(productId);
+			Double rating = feedbackService.findAverageRatingByProductId((long) productId);
+			double finalRating = (rating != null) ? rating : 0.0;
+			Integer review = product.getFeedbacks().size();
+			int numReview = (review != null) ? review : 0;
+			model.addAttribute("numReview", numReview);
+			model.addAttribute("rating", finalRating);
 			model.addAttribute("product", product);
 			model.addAttribute("feedback", feedback);
 
 
-			ViewHistory newView = viewService.findByUserIdAndProduct_ProductId(Id, productId);
-			if (newView == null)
-			{
-				newView = new ViewHistory();
-				newView.setProduct(product);
-				newView.setUser(person);
-				viewService.save(newView);
-			}
+			ViewHistory newView = new ViewHistory();
+			newView.setProduct(product);
+			newView.setUser(person);
+			viewService.save(newView);
 			
 			List<Product> top5 = productService.findTop5ByFavouriteCount(product.getCategory().getCategoryId());
-			model.addAttribute("top5",top5);
+			Map<Product, Double> top5Product = new HashMap<>();
+			for (Product pro : top5)
+			{
+				Double rate = feedbackService.findAverageRatingByProductId((long) productId);
+				double rate2 = (rate != null) ? rating : 0.0;
+				top5Product.put(pro, rate2);
+			}
+			model.addAttribute("top5",top5Product);
 			
 			return "/User/product";
 		}
