@@ -117,7 +117,67 @@
 								</div>
 							</div>
 
+
 							<div class="form-group has-success">
+								<label class="control-label col-md-3" for="voucherValue">Giá trị voucher</label>
+								<div class="col-md-4">
+									<div id="moneyField">
+										<select class="form-control" id="moneyVoucherValue" name="voucherValue">
+											<option value="10000" th:selected="${voucher.voucherValue == '10000'}">
+												10K
+											</option>
+											<option value="15000" th:selected="${voucher.voucherValue == '15000'}">
+												15K
+											</option>
+											<option value="20000" th:selected="${voucher.voucherValue == '20000'}">
+												20K
+											</option>
+											<option value="25000" th:selected="${voucher.voucherValue == '25000'}">
+												25K
+											</option>
+											<option value="50000" th:selected="${voucher.voucherValue == '50000'}">
+												50K
+											</option>
+										</select>
+									</div>
+
+									<div id="percentField" style="display: none;">
+										<select class="form-control" id="percentVoucherValue" name="voucherValue">
+											<option value="5" th:selected="${voucher.voucherValue == '5'}">5%
+
+											</option>
+											<option value="10" th:selected="${voucher.voucherValue == '10'}">
+												10%
+											</option>
+											<option value="15" th:selected="${voucher.voucherValue == '15'}">
+												15%
+											</option>
+											<option value="20" th:selected="${voucher.voucherValue == '20'}">
+												20%
+											</option>
+										</select>
+
+									</div>
+
+								</div>
+							</div>
+
+							<div class="form-group has-success">
+								<label class="control-label col-md-3" for="minimumCost">Giá trị đơn hàng tối
+									thiểu</label>
+								<div class="col-md-4">
+									<input type="text" class="form-control" id="minimumCost" name="minimumCost"
+										th:value="${voucher.minimumCost}" />
+									<span class="input-group-addon">VND</span>
+
+									<div th:if="${checkMininumCost}" class="alert alert-info">
+										<span th:text="${checkMininumCost}"></span>
+									</div>
+
+								</div>
+							</div>
+
+							<!--				<div class="form-group has-success">
 								<label class="control-label col-md-3" for="voucherValue">Giá trị voucher</label>
 								<div class="col-md-4">
 									<input type="text" class="form-control" id="voucherValue" name="voucherValue"
@@ -128,7 +188,7 @@
 										<span th:text="${value}"></span>
 									</div>
 								</div>
-							</div>
+							</div>-->
 
 							<h3 class="form-section">Thời hạn của mã giảm giá</h3>
 							<div class="form-group has-warning">
@@ -157,27 +217,7 @@
 
 							</div>
 						</div>
-						<h3 class="form-section">Trạng thái mã giảm giá</h3>
-						<div class="form-group has-success">
-							<label class="control-label col-md-3">Tình trạng</label>
-							<div class="col-md-4">
-								<div class="input-icon right">
-
-									<div class="radio-list">
-										<label>
-											<input type="radio" id="active" name="active" th:value="1"
-												th:checked="${voucher.active == 1}" />
-											Chưa được sử dụng
-										</label>
-										<label>
-											<input type="radio" id="inactive" name="active" th:value="0"
-												th:checked="${voucher.active == 0}" />
-											Đã được sử dụng
-										</label>
-									</div>
-								</div>
-							</div>
-						</div>
+						<input type="hidden" id="active" name="active" th:value="${voucher.active}" />
 				</div>
 				<div class="form-actions">
 					<div class="row">
@@ -201,6 +241,33 @@
 		<footer th:replace="~{Admin/fragments/footer::footer}"></footer>
 		<!-- END FOOTER -->
 	</div>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const voucherType = document.getElementById("voucherType");
+			const moneyField = document.getElementById("moneyField");
+			const percentField = document.getElementById("percentField");
+			const moneyVoucherValue = document.getElementById("moneyVoucherValue");
+			const percentVoucherValue = document.getElementById("percentVoucherValue");
+
+			function toggleVoucherField() {
+				if (voucherType.value === "SHIP") {
+					moneyField.style.display = "block";
+					percentField.style.display = "none";
+					percentVoucherValue.disabled = true;
+					moneyVoucherValue.disabled = false;
+				} else if (voucherType.value === "PRODUCT") {
+					moneyField.style.display = "none";
+					percentField.style.display = "block";
+					moneyVoucherValue.disabled = true;
+					percentVoucherValue.disabled = false;
+				}
+			}
+			toggleVoucherField();
+			voucherType.addEventListener("change", toggleVoucherField);
+		});
+
+	</script>
 
 	<script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 	<script src="/assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>

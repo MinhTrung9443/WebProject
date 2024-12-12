@@ -42,6 +42,7 @@ public class Voucher implements Serializable{/**
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 	private int active;
+	private int minimumCost;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "orderId")
