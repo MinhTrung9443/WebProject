@@ -2,6 +2,8 @@ package vn.iotstar.entity;
 
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringExclude;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -31,6 +33,7 @@ public class Category {
 	private int active;
 	
 	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
+	@ToStringExclude
 	@JsonManagedReference
 	private List<Product> product;
 }

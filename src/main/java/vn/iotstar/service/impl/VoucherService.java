@@ -62,6 +62,11 @@ public class VoucherService implements IVoucherService {
 	public boolean existsByVoucherCode(String voucherCode) {
 		return voucherRepository.existsByVoucherCode(voucherCode);
 	}
+
+	@Override
+	public Voucher findRandomValidActiveVoucher() {
+		return voucherRepository.findRandomValidActiveVoucher();
+	}
 	
 	
 	

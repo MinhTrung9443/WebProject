@@ -33,7 +33,7 @@
 
   <body>
     <div class="page-wrapper">
-	<header th:replace="~{User/fragments/header::header}"></header>
+	<header th:replace="~{Guest/fragments/header::header}"></header>
       <main class="main">
         <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
           <div class="container d-flex align-items-center">
@@ -81,11 +81,11 @@
 
                     <div class="ratings-container">
                       <div class="ratings">
-                        <div class="ratings-val" style="width: 80%"></div>
+                       <div class="ratings-val" th:style="'width: ' + ${(rating / 5) * 100} + '%'"></div>
                         <!-- End .ratings-val -->
                       </div>
                       <!-- End .ratings -->
-                      <a class="ratings-text" href="#product-review-link" id="review-link"
+                      <a class="ratings-text" href="#product-review-link" id="review-link" th:text="${numReview} + ' Reviews'"
                         >( 2 Reviews )</a
                       >
                     </div>
@@ -110,12 +110,12 @@
                     </div>
                     <!-- End .details-filter-row -->
 
-                    <div class="details-filter-row details-row-size">
+                    <div class="details-filter-row details-row-size" >
                     <form th:action="@{/User/add-to-cart}" method="post">
 					<input type="hidden" name="productId" th:value="${product.productId}" />						
 									
                       <label for="qty">Số lượng:</label> 
-                      <div class="product-details-quantity">
+                      <div class="product-details-quantity" >
                         <input name="quantity"
                           type="number"
                           id="qty"
@@ -128,11 +128,14 @@
                           required
                         />
                       </div>
+                      <div style="display: flex;">
+                      	<label>Còn lại: <span th:text="${product.stock}"></span> </label> 
+                      </div>
                       <!-- End .product-details-quantity -->
                     </div>
                     <!-- End .details-filter-row -->
 						 <div class="product-details-action">
-                     <button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
+                     <button th:disabled="${product.stock == 0}" type="submit" class="btn-product btn-cart" ><span>Thêm vào giỏ hàng</span></button>
 
                       <div class="details-action-wrapper">
                         <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product btn-wishlist" title="Wishlist"
@@ -141,7 +144,7 @@
 
                       </div>
                       <div class="details-action-wrapper">
-                        <a th:href="'/User/checkout/product/' + ${product.productId}"  class="btn-product" 
+                        <a  th:href="'/User/checkout/product/' + ${product.productId}"  class="btn-product" 
                           ><span>Mua ngay</span></a
                         >
 
@@ -211,18 +214,7 @@
                     >Thành phần</a
                   >
                 </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    id="product-shipping-link"
-                    data-toggle="tab"
-                    href="#product-shipping-tab"
-                    role="tab"
-                    aria-controls="product-shipping-tab"
-                    aria-selected="false"
-                    >Điều khoản vận chuyển hàng</a
-                  >
-                </li>
+                
                 <li class="nav-item">
                   <a
                     class="nav-link"
@@ -268,25 +260,7 @@
                   <!-- End .product-desc-content -->
                 </div>
                 <!-- .End .tab-pane -->
-                <div
-                  class="tab-pane fade"
-                  id="product-shipping-tab"
-                  role="tabpanel"
-                  aria-labelledby="product-shipping-link"
-                >
-                  <div class="product-desc-content">
-                    <h3>Delivery & returns</h3>
-                    <p>
-                      We deliver to over 100 countries around the world. For full details of the
-                      delivery options we offer, please view our <a href="#">Delivery information</a
-                      ><br />
-                      We hope you’ll love every purchase, but if you ever need to return an item you
-                      can do so within a month of receipt. For full details of how to make a return,
-                      please view our <a href="#">Returns information</a>
-                    </p>
-                  </div>
-                  <!-- End .product-desc-content -->
-                </div>
+
                 <!-- .End .tab-pane -->
                 <div
                   class="tab-pane fade"
@@ -366,49 +340,50 @@
             >
               <div class="product product-7 text-center" th:each="product : ${top5}">
                 <figure class="product-media">
-                  <a th:href="'/User/productDetail/' + ${product.productId}">
+                  <a th:href="'/User/productDetail/' + ${product.key.productId}">
                     <img
-                      th:src="${product.images[0].imageUrl}"
+                      th:src="${product.key.images[0].imageUrl}"
                       alt="Product image"
                       class="product-image"
                     />
                   </a>
 
-                  
-                  <div class="product-action">
-                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                  </div>
-                  <!-- End .product-action -->
+					<div class="product-action" style="display: flex; justify-content: center">
+                               <form th:action="@{/User/add-to-cart}" method="post">
+					<input type="hidden" name="productId" th:value="${product.key.productId}" />
+					<input type="hidden" name="quantity" th:value="1" />
+					<button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
+				</form>
+                           </div><!-- End .product-action -->
+					<!-- End .product-action -->
                 </figure>
                 <!-- End .product-media -->
 
                 <div class="product-body">
                   <h3 class="product-title">
-                    <a th:href="'/User/productDetail/' + ${product.productId}" th:text = "${product.productName}">Brown paperbag waist <br />pencil skirt</a>
+                    <a th:href="'/User/productDetail/' + ${product.key.productId}" th:text = "${product.key.productName}">Brown paperbag waist <br />pencil skirt</a>
                   </h3>
                   <!-- End .product-title -->
-                  <div class="product-price" th:text = "${product.price} + ' đ'">$60.00</div>
+                  <div class="product-price" th:text = "${product.key.price} + ' đ'">$60.00</div>
                   <!-- End .product-price -->
                   <div class="ratings-container">
                     <div class="ratings">
-                      <div class="ratings-val" style="width: 20%"></div>
+                      <div class="ratings-val" th:style="'width: ' + ${(product.value / 5) * 100} + '%'"></div>
                       <!-- End .ratings-val -->
                     </div>
-                    <!-- End .ratings -->
-                    <span class="ratings-text">( 2 Reviews )</span>
                   </div>
                   <!-- End .rating-container -->
 
                   <div class="product-nav product-nav-thumbs">
                     <a href="#" class="active">
-                      <img th:if="${product.images[1]}" th:src="${product.images[1].imageUrl}" alt="product desc" />
+                      <img th:if="${product.key.images[1]}" th:src="${product.key.images[1].imageUrl}" alt="product desc" />
                     </a>
                     <a href="#">
-                      <img th:if="${product.images[2]}" th:src="${product.images[2].imageUrl}" alt="product desc" />
+                      <img th:if="${product.key.images[2]}" th:src="${product.key.images[2].imageUrl}" alt="product desc" />
                     </a>
 
                     <a href="#">
-                      <img th:if="${product.images[3]}" th:src="${product.images[3].imageUrl}" alt="product desc" />
+                      <img th:if="${product.key.images[3]}" th:src="${product.key.images[3].imageUrl}" alt="product desc" />
                     </a>
                   </div>
                   <!-- End .product-nav -->
@@ -426,7 +401,7 @@
         <!-- End .page-content -->
       </main>
       <!-- End .main -->
-	<header th:replace="~{User/fragments/footer::footer}"></header>
+	<header th:replace="~{Guest/fragments/footer::footer}"></header>
 
     </div>
     <!-- End .page-wrapper -->

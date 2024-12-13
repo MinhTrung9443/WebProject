@@ -1,6 +1,8 @@
 package vn.iotstar.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
-import vn.iotstar.entity.Category;
 import vn.iotstar.entity.Product;
 import vn.iotstar.entity.ProductFeedback;
-import vn.iotstar.entity.ViewHistory;
-import vn.iotstar.repository.ICategoryRepository;
 import vn.iotstar.service.ICategoryService;
 import vn.iotstar.service.IProductFeedbackService;
 import vn.iotstar.service.IProductService;
@@ -30,7 +29,7 @@ public class SearchController {
 	private ICategoryService categoryService;
 
 	// Lọc sản phẩm theo các điều kiện
-	@GetMapping("/search")
+	@GetMapping({"/search"})
 	public String listProducts(@RequestParam(value = "keyword", required = false) String keyword,
 			@RequestParam(value = "minPrice", required = false) Integer minPrice,
 			@RequestParam(value = "maxPrice", required = false) Integer maxPrice,
@@ -100,11 +99,25 @@ public class SearchController {
 		if (opProduct.isPresent()) {
 			Product product = opProduct.get();
 			List<ProductFeedback> feedback = feedbackService.findByProduct_ProductId(productId);
+			Double rating = feedbackService.findAverageRatingByProductId((long) productId);
+			double finalRating = (rating != null) ? rating : 0.0;
+			Integer review = product.getFeedbacks().size();
+			int numReview = (review != null) ? review : 0;
+			model.addAttribute("numReview", numReview);
+			model.addAttribute("rating", finalRating);
 			model.addAttribute("product", product);
 			model.addAttribute("feedback", feedback);
 
+
 			List<Product> top5 = productService.findTop5ByFavouriteCount(product.getCategory().getCategoryId());
-			model.addAttribute("top5",top5);
+			Map<Product, Double> top5Product = new HashMap<>();
+			for (Product pro : top5)
+			{
+				Double rate = feedbackService.findAverageRatingByProductId((long) productId);
+				double rate2 = (rate != null) ? rating : 0.0;
+				top5Product.put(pro, rate2);
+			}
+			model.addAttribute("top5",top5Product);
 
 		return "product-details"; // Tên của trang HTML chi tiết sản phẩm (product-details.html)
 		}

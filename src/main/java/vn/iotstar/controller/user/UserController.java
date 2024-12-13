@@ -32,7 +32,9 @@ public class UserController {
 	@Autowired
 	private IViewHistoryService viewService;
 	@Autowired
-	private IOrderService orderService;
+	private ICategoryService categoryService;
+	@Autowired
+	private IVoucherService voucherService;
 
 	@GetMapping("")
 	public String home(HttpSession session, ModelMap model) {
@@ -53,6 +55,8 @@ public class UserController {
 		  Page<Product> productRate = productService.findTop20ByAverageRating();
 //		  danh sách yêu thích
 		  List<Product> productFavou = productService.findTop20ByFavouriteCount();
+		  List<Category> listCate = categoryService.findAll();
+	        session.setAttribute("listCate", listCate);
 		model.addAttribute("productNew", productNew);
 		  model.addAttribute("productSale",productSale);
 		  model.addAttribute("productRate",productRate);
@@ -214,8 +218,12 @@ public class UserController {
 			}
 			model.addAttribute("top5",top5Product);
 			
+//			Voucher voucher = voucherService.findRandomValidActiveVoucher();
+//			
+//			model.addAttribute("voucher", voucher);
 			return "/User/product";
 		}
 		return "redirect/User";
 	}
+	
 }

@@ -28,4 +28,6 @@ public interface IVoucherService {
 	
 	boolean existsByVoucherCode(String voucherCode);
 
+	Voucher findRandomValidActiveVoucher();
+
 }
