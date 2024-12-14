@@ -73,6 +73,8 @@ label {
 				<h3 class="mb-0">Chỉnh sửa sản phẩm</h3>
 			</div>
 			<div class="card-body">
+			<div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+			
 				<form
 					th:action="@{/Vendor/products/edit/{id}(id=${productRequestDTO.productId})}"
 					method="post">
@@ -85,26 +87,26 @@ label {
 						<label for="productName" class="form-label ">Tên sản phẩm</label>
 						<input type="text" class="form-control" id="productName"
 							name="productName" placeholder="Nhập tên sản phẩm"
-							th:value="${productRequestDTO.productName}">
+							th:value="${productRequestDTO.productName}" required>
 					</div>
 
 					<div class="form-group mb-3">
 						<label for="price" class="form-label">Giá</label> <input
 							type="number" class="form-control" id="price" name="price" min="1000"
 							placeholder="Nhập giá sản phẩm"
-							th:value="${productRequestDTO.price}">
+							th:value="${productRequestDTO.price}" required>
 					</div>
 
 					<div class="form-group mb-3">
 						<label for="description" class="form-label">Mô tả</label>
 						<textarea class="form-control" id="description" name="description"
 							rows="3" placeholder="Nhập mô tả sản phẩm"
-							th:text="${productRequestDTO.description}"></textarea>
+							th:text="${productRequestDTO.description}" required></textarea>
 					</div>
 
 					<div class="form-group mb-3">
 						<label for="categoryId" class="form-label">Thể loại</label> <select
-							class="form-select" id="categoryId" name="categoryId">
+							class="form-select" id="categoryId" name="categoryId" required>
 							<option th:each="category : ${categories}"
 								th:value="${category.categoryId}"
 								th:text="${category.categoryName}"
@@ -117,14 +119,14 @@ label {
 						<label for="brand" class="form-label">Thương hiệu</label> <input
 							type="text" class="form-control" id="brand" name="brand"
 							placeholder="Nhập thương hiệu"
-							th:value="${productRequestDTO.brand}">
+							th:value="${productRequestDTO.brand}" required>
 					</div>
 
 					<div class="form-group mb-3">
 						<label for="ingredient" class="form-label">Thành phần</label>
 						<textarea class="form-control" id="ingredient" name="ingredient"
 							rows="2" placeholder="Nhập thành phần sản phẩm"
-							th:text="${productRequestDTO.ingredient}"></textarea>
+							th:text="${productRequestDTO.ingredient}" required></textarea>
 					</div>
 
 					<div class="form-group mb-3">
@@ -132,7 +134,7 @@ label {
 							dụng</label>
 						<textarea class="form-control" id="instruction" name="instruction"
 							rows="2" placeholder="Nhập hướng dẫn sử dụng"
-							th:text="${productRequestDTO.instruction}"></textarea>
+							th:text="${productRequestDTO.instruction}" required></textarea>
 					</div>
 
 					<div class="form-group mb-3">
@@ -140,41 +142,41 @@ label {
 							tích/Trọng lượng</label> <input type="text" class="form-control"
 							id="volumeOrWeight" name="volumeOrWeight"
 							placeholder="Nhập dung tích hoặc trọng lượng"
-							th:value="${productRequestDTO.volumeOrWeight}">
+							th:value="${productRequestDTO.volumeOrWeight}" required>
 					</div>
 
 					<div class="form-group mb-3">
 						<label for="brandOrigin" class="form-label">Xuất xứ thương
 							hiệu</label> <input type="text" class="form-control" id="brandOrigin"
 							name="brandOrigin" placeholder="Nhập xuất xứ thương hiệu"
-							th:value="${productRequestDTO.brandOrigin}">
+							th:value="${productRequestDTO.brandOrigin}" required>
 					</div>
 
 					<div class="form-group mb-3">
 						<label for="stock" class="form-label">Số lượng trong kho</label> <input
 							type="number" class="form-control" id="stock" name="stock" min="1"
 							placeholder="Nhập số lượng trong kho"
-							th:value="${productRequestDTO.stock}">
+							th:value="${productRequestDTO.stock}" required>
 					</div>
 					<div class="form-group mb-3">
 						<label for="manufactureDate" class="form-label">Ngày sản
 							xuất</label> <input type="date" class="form-control" id="manufactureDate"
 							name="manufactureDate"
-							th:value="${productRequestDTO.manufactureDate}">
+							th:value="${productRequestDTO.manufactureDate}" required>
 					</div>
 
 					<div class="form-group mb-3">
 						<label for="expirationDate" class="form-label">Ngày hết
 							hạn</label> <input type="date" class="form-control" id="expirationDate"
 							name="expirationDate"
-							th:value="${productRequestDTO.expirationDate}">
+							th:value="${productRequestDTO.expirationDate}" required>
 					</div>
 
 					<div class="form-group mb-3">
 						<label for="warehouse_date_first" class="form-label">Ngày nhập
 							kho</label> <input type="date" class="form-control" id="warehouse_date_first"
 							name="warehouse_date_first"
-							th:value="${productRequestDTO.warehouse_date_first}">
+							th:value="${productRequestDTO.warehouse_date_first}" required>
 					</div>
 
 					<button type="submit" class="btn btn-success w-100">Cập
@@ -184,6 +186,21 @@ label {
 		</div>
 	</div>
 	<!--  BEGIN JAVASCRIPT -->
+	<script>
+document.querySelector("form").addEventListener("submit", function (e) {
+    const manufactureDate = new Date(document.getElementById("manufactureDate").value);
+    const expirationDate = new Date(document.getElementById("expirationDate").value);
+    const warehouseDate = new Date(document.getElementById("warehouse_date_first").value);
+
+    if (manufactureDate >= expirationDate) {
+        alert("Ngày sản xuất phải trước ngày hết hạn.");
+        e.preventDefault();
+    } else if (warehouseDate < manufactureDate || warehouseDate > expirationDate) {
+        alert("Ngày nhập kho phải nằm giữa ngày sản xuất và ngày hết hạn.");
+        e.preventDefault();
+    }
+});
+</script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 

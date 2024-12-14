@@ -59,6 +59,18 @@ public class ProductController {
 
     @PostMapping("/create")
     public String createProduct(ProductRequestDTO productRequestDTO, Model model) {
+    	if (productRequestDTO.getManufactureDate().isAfter(productRequestDTO.getExpirationDate())) {
+            model.addAttribute("errorMessage", "Ngày sản xuất phải trước ngày hết hạn.");
+            model.addAttribute("categories", categoryService.getActiveCategories());
+            return "Vendor/product/create";
+        }
+        if (productRequestDTO.getWarehouse_date_first().isBefore(productRequestDTO.getManufactureDate()) || 
+            productRequestDTO.getWarehouse_date_first().isAfter(productRequestDTO.getExpirationDate())) {
+            model.addAttribute("errorMessage", "Ngày nhập kho phải nằm giữa ngày sản xuất và ngày hết hạn.");
+            model.addAttribute("categories", categoryService.getActiveCategories());
+            return "Vendor/product/create";
+        }
+        
         productService.createProduct(productRequestDTO);
         return "redirect:/Vendor/products"; // Chuyển hướng đến danh sách sản phẩm sau khi thêm
     }
@@ -70,6 +82,7 @@ public class ProductController {
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
             ProductRequestDTO productRequestDTO = new ProductRequestDTO();
+            productRequestDTO.setProductId(product.getProductId());
             productRequestDTO.setProductName(product.getProductName());
             productRequestDTO.setPrice(product.getPrice());
             productRequestDTO.setDescription(product.getDescription());
@@ -96,7 +109,19 @@ public class ProductController {
     
     
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Integer id, @ModelAttribute ProductRequestDTO productRequestDTO) {
+    public String updateProduct(@PathVariable Integer id, @ModelAttribute ProductRequestDTO productRequestDTO , Model model) {
+    	if (productRequestDTO.getManufactureDate().isAfter(productRequestDTO.getExpirationDate())) {
+            model.addAttribute("errorMessage", "Ngày sản xuất phải trước ngày hết hạn.");
+            model.addAttribute("categories", categoryService.getActiveCategories());
+            return "Vendor/product/edit";
+        }
+        if (productRequestDTO.getWarehouse_date_first().isBefore(productRequestDTO.getManufactureDate()) || 
+            productRequestDTO.getWarehouse_date_first().isAfter(productRequestDTO.getExpirationDate())) {
+            model.addAttribute("errorMessage", "Ngày nhập kho phải nằm giữa ngày sản xuất và ngày hết hạn.");
+            model.addAttribute("categories", categoryService.getActiveCategories());
+            return "Vendor/product/edit";
+        }
+        
         try {
             productService.updateProduct(id, productRequestDTO);
             return "redirect:/Vendor/products";  // Chuyển hướng đến trang danh sách sản phẩm sau khi cập nhật thành công
