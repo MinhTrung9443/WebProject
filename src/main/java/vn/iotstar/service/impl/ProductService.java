@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 
 import vn.iotstar.dto.ProductRequestDTO;
 import vn.iotstar.entity.Category;
@@ -255,6 +253,9 @@ public class ProductService implements IProductService {
 		
 	}
 
-
+	@Override
+	public List<Product> getTop10BestSellingProducts() {
+		return productRepository.findTop20BySalesQuantity();
+	}
 
 }
