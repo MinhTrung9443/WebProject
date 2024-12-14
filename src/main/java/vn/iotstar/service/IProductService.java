@@ -56,5 +56,4 @@ public interface IProductService {
 	Page<Product> getProductsByPriceRange(int minPrice, int maxPrice, Pageable pageable);
 	Page<Product> getProductsByBrandOrigin(String brandOrigin, Pageable pageable);
 	List<Product> getTop10BestSellingProducts();
-	List<Product> getTop10BestSellingProducts();
 }

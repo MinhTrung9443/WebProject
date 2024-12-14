@@ -253,9 +253,4 @@ public class ProductService implements IProductService {
 		
 	}
 
-	@Override
-	public List<Product> getTop10BestSellingProducts() {
-		return productRepository.findTop20BySalesQuantity();
-	}
-
 }
