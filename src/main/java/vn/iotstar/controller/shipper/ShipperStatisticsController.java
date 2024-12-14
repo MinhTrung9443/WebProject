@@ -28,7 +28,6 @@ import vn.iotstar.enums.OrderStatus;
 import vn.iotstar.service.IOrderService;
 import vn.iotstar.service.IShipperService;
 import vn.iotstar.service.impl.OrderAssignmentService;
-import vn.iotstar.service.impl.OrderService;
 
 @Controller
 public class ShipperStatisticsController {
@@ -36,7 +35,7 @@ public class ShipperStatisticsController {
     private IShipperService shipperService;
 
     @Autowired
-    private OrderService orderService;
+    private IOrderService orderService;
 
     @Autowired
     private OrderAssignmentService orderAssignmentService;

@@ -25,5 +25,7 @@ public interface IOrderService {
 	
 	Page<Order> findByDeliveryIdAndStatus(int deliveryId, OrderStatus status, Pageable pageable);
 
+	Page<Order> findByUserIdAndOrderStatusIn(int id, List<OrderStatus> statuses, Pageable page);
+
 	
 }

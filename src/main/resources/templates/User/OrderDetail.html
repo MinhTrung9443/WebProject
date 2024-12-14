@@ -247,6 +247,13 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 	    	</div><!-- End .btn-wrap -->
 	    </div><!-- End .col-md-4 col-lg-2 -->
 	</div>
+	<div style="display: flex; justify-content: center">
+		<div class="col-6 col-lg-4 col-xl-2" th:if="${order.orderStatus.name() == 'COMPLETEDSHIPPER'}" >
+	   		<div class="btn-wrap"  >
+	    		<a  onclick="Complete()"  class="btn btn-outline-primary btn-rounded">Nhận đơn</a>
+	    	</div><!-- End .btn-wrap -->
+	    </div><!-- End .col-md-4 col-lg-2 -->
+	</div>
 
 	
 	
@@ -316,7 +323,27 @@ function cancelOrder()
         });
 	}
 	}
-
+function Complete()
+{
+	const orderId = document.getElementById('orderId').value;
+	
+	// Thực hiện lưu dữ liệu (gửi dữ liệu đến server thông qua AJAX)
+    $.ajax({
+        url: '/User/Order/complete', // URL để xử lý yêu cầu
+        type: 'POST',
+        data: {
+        	orderId: orderId,
+        },
+        success: function () {
+            alert('Cảm ơn bạn đã sử dụng dịch vụ!'); 
+            window.location.href = '/User/Order/detail/' + orderId;
+        },
+        error: function (response) {
+            alert(response);
+            window.location.href = '/User/Order/detail/' + orderId;
+        }
+    });
+}
 </script>
 
 </body>

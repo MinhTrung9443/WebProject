@@ -125,4 +125,11 @@ public class OrderService implements IOrderService{
 	        endOfMonth
 	    );
 	}
+
+	@Override
+	public Page<Order> findByUserIdAndOrderStatusIn(int id, List<OrderStatus> statuses, Pageable page) {
+		return orderRepository.findByUserIdAndOrderStatusIn(id, statuses, page);
+	}
+
+	
 }

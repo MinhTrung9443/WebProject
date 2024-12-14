@@ -1,5 +1,7 @@
 package vn.iotstar.controller.user;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +80,8 @@ public class UserOrderController {
                 count=orderService.countByOrderStatus(customerId, OrderStatus.CONFIRMED);
                 break;
             case "don-dang-van-chuyen":
-                orders = orderService.findByOrderStatus(customerId, OrderStatus.SHIPPING,page ); 
+            	List<OrderStatus> list = Arrays.asList(OrderStatus.SHIPPING, OrderStatus.COMPLETEDSHIPPER);
+                orders = orderService.findByUserIdAndOrderStatusIn(customerId, list,page ); 
                 count=orderService.countByOrderStatus(customerId, OrderStatus.SHIPPING);
                 break;
             case "don-da-giao":
@@ -130,6 +133,21 @@ public class UserOrderController {
 			return new ResponseEntity<>("Hủy đơn thành công",HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>("Hủy đơn khong thành công",HttpStatus.BAD_REQUEST);
+		}
+	}
+	@PostMapping("/complete")
+	public ResponseEntity<?> complete(ModelMap model, HttpSession session, @RequestParam int orderId) {
+		
+		try {
+			Order order = orderService.findById(orderId).get();
+			
+			order.setOrderStatus(OrderStatus.COMPLETED);
+			
+			orderService.save(order);
+			
+			return new ResponseEntity<>("Cảm ơn quý khách đã sử dụng dịch vụ",HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Có lỗi! xin lỗi quý khách vì sự bất tiện này! Mời quý khách quy lại sau!",HttpStatus.BAD_REQUEST);
 		}
 	}
 }
