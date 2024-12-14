@@ -10,8 +10,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import vn.iotstar.entity.Product;
 import vn.iotstar.entity.User;
@@ -73,10 +75,8 @@ public class AdminController {
 
 		List<User> list = new ArrayList<>();
 		if (StringUtils.hasText(fullname)) {
-			Optional<User> user = userService.findByFullnameContaining(fullname);
-			if (user.isPresent()) {
-				list = List.of(user.get());
-			} else {
+			List<User> user = userService.findByFullnameContaining(fullname);
+			if (!(user.size() == 0)){
 				model.addAttribute("message", "KHÔNG CÓ KẾT QUẢ NÀO ĐƯỢC TÌM THẤY");
 			}
 		}
