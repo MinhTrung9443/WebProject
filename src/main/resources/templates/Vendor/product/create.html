@@ -70,7 +70,7 @@
 			<div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
 			
 			<form th:action="@{/Vendor/products/create}"
-				th:object="${productRequestDTO}" method="post">
+				th:object="${productRequestDTO}" method="post" enctype="multipart/form-data">
 				<div class="mb-3">
 					<label for="productName" class="form-label">Tên sản phẩm</label> <input
 						type="text" class="form-control" id="productName"
@@ -147,15 +147,9 @@
 						required>
 				</div>
 				<div class="mb-3">
-					<label for="imageUrls" class="form-label">URL Hình Ảnh</label> <input
-						type="text" class="form-control" id="imageUrls"
-						th:field="*{imageUrls}"
-						placeholder="Nhập URL hình ảnh, cách nhau bằng dấu phẩy" required>
-				</div>
-				<div class="mb-3">
-        <div th:if="${errorMessage}" class="alert alert-danger">
-            <span th:text="${errorMessage}"></span>
-        </div>
+        			<label for="files">Chọn ảnh sản phẩm</label>
+        			<input type="file" id="files" name="files" multiple>
+    			</div>
     </div>
 				<button type="submit" class="btn btn-primary">Lưu</button>
 			</form></div>

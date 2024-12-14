@@ -1,5 +1,8 @@
 package vn.iotstar.controller.vendor;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,15 +22,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import vn.iotstar.dto.ProductRequestDTO;
 import vn.iotstar.entity.Category;
 import vn.iotstar.entity.Product;
-import vn.iotstar.entity.ProductImage;
 import vn.iotstar.service.impl.CategoryService;
-import vn.iotstar.service.impl.ProductImageService;
 import vn.iotstar.service.impl.ProductService;
 
 @Controller
@@ -38,10 +45,12 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
+    @Value("${app.upload.directory}")
+    private String uploadDir;
     
     @GetMapping("")
     public String listProducts(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("warehouseDateFirst")));
         Page<Product> productPage = productService.findAllAvailable(pageable);
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
@@ -58,7 +67,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public String createProduct(ProductRequestDTO productRequestDTO, Model model) {
+    public String createProduct(ProductRequestDTO productRequestDTO, Model model, @RequestParam("files") MultipartFile[] files) {
     	if (productRequestDTO.getManufactureDate().isAfter(productRequestDTO.getExpirationDate())) {
             model.addAttribute("errorMessage", "Ngày sản xuất phải trước ngày hết hạn.");
             model.addAttribute("categories", categoryService.getActiveCategories());
@@ -71,10 +80,40 @@ public class ProductController {
             return "Vendor/product/create";
         }
         
+        List<String> imageUrls = new ArrayList<>();
+        for (MultipartFile file : files) {
+            String fileName = file.getOriginalFilename();
+            File dest = new File(uploadDir + File.separator + fileName);
+
+            try {
+                file.transferTo(dest);  // Lưu file vào thư mục
+                imageUrls.add(fileName);  // Lưu tên ảnh vào danh sách
+            } catch (IOException e) {
+                model.addAttribute("errorMessage", "Lỗi khi tải ảnh lên: " + e.getMessage());
+                return "Vendor/product/create";
+            }
+        }
+
+        // Gọi service để tạo sản phẩm mới
+        productRequestDTO.setImageUrls(imageUrls); // Cập nhật danh sách ảnh vào ProductRequestDTO
         productService.createProduct(productRequestDTO);
-        return "redirect:/Vendor/products"; // Chuyển hướng đến danh sách sản phẩm sau khi thêm
+
+        return "redirect:/Vendor/products?page=0&size=10"; // Chuyển hướng tới danh sách sản phẩm
     }
-    
+    @GetMapping("/uploads/{imageName}")
+    @ResponseBody
+    public ResponseEntity<Resource> getImage(@PathVariable String imageName) {
+        File file = new File(uploadDir + File.separator + imageName);
+        if (file.exists()) {
+            Resource resource = new FileSystemResource(file);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)  // Hoặc MediaType khác tùy vào ảnh
+                    .body(resource);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Integer id, Model model) {
         Optional<Product> productOptional = productService.findById(id);
