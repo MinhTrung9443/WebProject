@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 
 import vn.iotstar.dto.ProductRequestDTO;
 import vn.iotstar.entity.Category;
@@ -36,6 +34,7 @@ public class ProductService implements IProductService {
 		Pageable page = PageRequest.of(0, 20);
 		return productRepository.findTopProductsByAverageRating(page);
 	}
+
 
 	@Override
 	public List<Product> findTop20ByFavouriteCount() {
@@ -250,7 +249,4 @@ public class ProductService implements IProductService {
 		// TODO Auto-generated method stub
 		
 	}
-
-
-
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import vn.iotstar.entity.Product;
 
-
 @Service
 public interface IProductService {
 
@@ -22,15 +21,15 @@ public interface IProductService {
 	List<Product> findTop20ByOrderByWarehouseDateFirstDesc();
 
 	Optional<Product> findById(Integer id);
- 
-
 
 	void decreaseProductStock(int productId);
 
 	List<Product> findTop5ByFavouriteCount(long categoryId);
 
 	<S extends Product> S save(S entity);
+
 	Page<Product> getProductsByCategoryName(String categoryName);
+
 	List<Product> getProductsByName(String Name);
 
 	Page<Product> getProductsByBrand(String brand);
@@ -47,13 +46,21 @@ public interface IProductService {
 			String brandOrigin, String categoryName);
 
 	Product getProductById(int productId);
-	Page<Product> searchProductsWithMultipleKeywords(Integer minPrice, Integer maxPrice, String brand, String brandOrigin, String categoryName,
-			Pageable pageable);
+
+	Page<Product> searchProductsWithMultipleKeywords(Integer minPrice, Integer maxPrice, String brand,
+			String brandOrigin, String categoryName, Pageable pageable);
+
 	Page<Product> getProductsByName(String keyword, Pageable pageable);
+
 	Page<Product> getAllProducts(Pageable pageable);
+
 	Page<Product> getProductsByBrand(String brand, Pageable pageable);
+
 	Page<Product> getProductsByCategoryName(String categoryName, Pageable pageable);
+
 	Page<Product> getProductsByPriceRange(int minPrice, int maxPrice, Pageable pageable);
+
 	Page<Product> getProductsByBrandOrigin(String brandOrigin, Pageable pageable);
+
 	List<Product> getTop10BestSellingProducts();
 }

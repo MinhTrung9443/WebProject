@@ -24,6 +24,6 @@ public class HomeController {
         model.addAttribute("products", topSellingProducts);
 
 		// Trả về tên của trang HTML để Thymeleaf render (ví dụ: guest/index.html)
-		return "Guest/index";
+		return "Admin/home";
 	}
 }

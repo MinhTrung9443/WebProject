@@ -11,7 +11,7 @@ import vn.iotstar.enums.OrderStatus;
 @Repository
 public interface IOrderLineRepository extends JpaRepository<OrderLine, Integer>{
 
-
-
-
+	
+	@Query("SELECT SUM(ol.quantity) FROM OrderLine ol WHERE ol.product.id = :productId")
+	Integer findTotalQuantityByProductId(@Param("productId") Integer productId);
 }
