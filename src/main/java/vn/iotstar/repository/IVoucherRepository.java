@@ -19,6 +19,6 @@ public interface IVoucherRepository  extends JpaRepository<Voucher, Integer>{
 			+ "AND CURRENT_DATE BETWEEN v.startDate AND v.endDate")
 	List<Voucher> findValidVoucher(@Param("voucherCode") String voucherCode);
 	
-	@Query(value = "SELECT * FROM Voucher WHERE active = 1 AND startDate <= GETDATE() AND endDate >= GETDATE() ORDER BY RAND() LIMIT 1", nativeQuery = true)
-    Voucher findRandomValidActiveVoucher();
+	@Query("SELECT v FROM Voucher v WHERE v.active = 1 AND CURRENT_DATE BETWEEN v.startDate AND v.endDate")
+	List<Voucher> findValidActiveVouchers();
 }

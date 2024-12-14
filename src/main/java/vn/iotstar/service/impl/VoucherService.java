@@ -2,6 +2,8 @@ package vn.iotstar.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -65,7 +67,12 @@ public class VoucherService implements IVoucherService {
 
 	@Override
 	public Voucher findRandomValidActiveVoucher() {
-		return voucherRepository.findRandomValidActiveVoucher();
+		List<Voucher> vouchers = voucherRepository.findValidActiveVouchers();
+		if (vouchers.isEmpty()) {
+            return null; 
+        }
+        int randomIndex = new Random().nextInt(vouchers.size());
+        return vouchers.get(randomIndex);
 	}
 	
 	

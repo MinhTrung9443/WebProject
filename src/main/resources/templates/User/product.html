@@ -30,6 +30,58 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link rel="stylesheet" href="/assets/css/plugins/nouislider/nouislider.css" />
+    <style >
+    .voucher-container {
+            display: flex;
+            width: 400px;
+            height: 120px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .voucher-left, .voucher-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .voucher-left {
+            background-color: #f0f8ff;
+            font-size: 13px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .voucher-right {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* SHIPP Type Style */
+        .voucher-right.ship {
+            background-color: #4caf50; /* Xanh lá */
+        }
+
+        /* PRODUCT Type Style */
+        .voucher-right.product {
+        	margin-bottom: -10px;
+            background-color: #ff5722; /* Cam */
+        }
+
+        .minimum-cost {
+            font-size: 13px;
+            font-weight: normal;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+    </style>
   </head>
 
   <body>
@@ -71,6 +123,22 @@
                     </div>
                     <!-- End .row -->
                   </div>
+                  <div class="voucher-container">
+			        <!-- Phần trái: Mã code -->
+			        <div class="voucher-left">
+			            <span>Nhập mã code:</span> <br>
+			            <span th:text="${voucher.voucherCode}"></span>
+			        </div>
+			
+			        <!-- Phần phải: Thông tin loại voucher -->
+			        <div class="voucher-right" th:classappend="${voucher.voucherType == 'SHIP' ? 'ship' : 'product'}">
+			            <span th:text="${voucher.voucherType == 'SHIP' ? 'Giảm phí vận chuyển' : 'Giảm giá đơn hàng'}"></span>
+			            <div class="minimum-cost">
+			                <span>Đơn hàng tối thiểu:</span> 
+			                <span th:text="' ' + ${voucher.minimumCost} + ' VND'"></span>
+			            </div>
+			        </div>
+			    </div>
                   <!-- End .product-gallery -->
                 </div>
                 <!-- End .col-md-6 -->

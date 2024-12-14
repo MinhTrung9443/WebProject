@@ -218,9 +218,10 @@ public class UserController {
 			}
 			model.addAttribute("top5",top5Product);
 			
-//			Voucher voucher = voucherService.findRandomValidActiveVoucher();
-//			
-//			model.addAttribute("voucher", voucher);
+			Voucher voucher = voucherService.findRandomValidActiveVoucher();
+			
+			model.addAttribute("voucher", voucher);
+			System.out.println(voucher.toString());
 			return "/User/product";
 		}
 		return "redirect/User";
