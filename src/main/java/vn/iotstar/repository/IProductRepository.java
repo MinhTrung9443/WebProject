@@ -19,6 +19,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 	@Query("SELECT p FROM Product p " + "LEFT JOIN p.feedbacks f " + "WHERE p.stock > 0 " + "GROUP BY p "
 			+ "ORDER BY COALESCE(AVG(f.rating), 0) DESC")
 	Page<Product> findTopProductsByAverageRating(Pageable pageable);
+	
 
 	@Query("SELECT p FROM Product p " + "LEFT JOIN p.favourite f " + "WHERE p.stock > 0 " + "GROUP BY p "
 			+ "ORDER BY COUNT(f) DESC")

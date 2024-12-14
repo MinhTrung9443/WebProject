@@ -32,6 +32,6 @@ public class HomeController {
         session.setAttribute("listCate", listCate);
 
 		// Trả về tên của trang HTML để Thymeleaf render (ví dụ: guest/index.html)
-		return "Guest/index";
+		return "Admin/home";
 	}
 }

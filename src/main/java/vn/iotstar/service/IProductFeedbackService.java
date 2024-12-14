@@ -16,6 +16,8 @@ public interface IProductFeedbackService {
 	Page<ProductFeedback> findByProduct_ProductId(int productId, Pageable page);
 
 	List<ProductFeedback> findByProduct_ProductId(int productId);
+	
+	Double findAverageRatingByProductId(Long productId);
 
 	Double findAverageRatingByProductId(Long productId);
 

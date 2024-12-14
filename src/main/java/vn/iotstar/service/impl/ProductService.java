@@ -36,6 +36,7 @@ public class ProductService implements IProductService {
 		return productRepository.findTopProductsByAverageRating(page);
 	}
 
+
 	@Override
 	public List<Product> findTop20ByFavouriteCount() {
 		Pageable page = PageRequest.of(0, 20);
