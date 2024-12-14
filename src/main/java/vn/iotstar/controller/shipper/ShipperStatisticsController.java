@@ -64,7 +64,7 @@ public class ShipperStatisticsController {
         // Duyệt qua tất cả các OrderAssignment để thống kê trạng thái của từng đơn hàng
         for (OrderAssignment orderAssignment : orderAssignments) {
             Order order = orderAssignment.getOrder();
-            if (order.getOrderStatus() == OrderStatus.COMPLETED) {
+            if (order.getOrderStatus() == OrderStatus.COMPLETEDSHIPPER) {
                 completedCount++;
             } else if (order.getOrderStatus() == OrderStatus.SHIPPING) {
                 shippingCount++;
@@ -104,7 +104,7 @@ public class ShipperStatisticsController {
         // Lọc các đơn hàng đã giao thành công
         List<Order> completedOrders = orderAssignments.stream()
             .map(OrderAssignment::getOrder)
-            .filter(order -> order.getOrderStatus() == OrderStatus.COMPLETED)
+            .filter(order -> order.getOrderStatus() == OrderStatus.COMPLETEDSHIPPER)
             .collect(Collectors.toList());
 
         // Phân nhóm theo tháng (hoặc ngày, năm)
