@@ -148,6 +148,10 @@ public class ProductService implements IProductService {
 		return null;
 	}
 
+	public Page<Product> searchProducts(String search, Pageable pageable) {
+	    return productRepository.findByProductNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(search, search, pageable);
+	}
+
 	@Override
 	public Page<Product> getProductsByPriceRange(int minPrice, int maxPrice) {
 		// TODO Auto-generated method stub

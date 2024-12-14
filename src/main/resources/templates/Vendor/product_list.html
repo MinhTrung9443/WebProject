@@ -42,15 +42,44 @@
 <!-- END THEME STYLES -->
 
 <link rel="shortcut icon" href="favicon.ico" />
+<style>
+form.d-inline-flex {
+	display: inline-flex;
+	align-items: center;
+	gap: 1rem; /* Khoảng cách giữa input và button */
+}
+
+form.d-inline-flex input {
+	flex-grow: 1; /* Đảm bảo input chiếm không gian còn lại */
+}
+
+h1.h3 {
+	text-align: center; /* Căn giữa */
+	font-weight: bold; /* In đậm */
+	font-size: 3.5rem; /* Tăng kích thước chữ */
+}
+form.d-inline-flex.justify-content-end {
+    justify-content: flex-end; /* Căn lề phải */
+    width: 100%; /* Đảm bảo form chiếm toàn bộ chiều rộng */
+}
+</style>
 </head>
 
 <body>
 	<div layout:fragment="content" class="container my-4">
 		<div class="d-flex justify-content-between align-items-center mb-4">
-			<h1 class="h3">Quản lý sản phẩm</h1>
-			<a href="/Vendor/products/create" class="btn btn-success">Thêm
+			<h1 class="h3">Quản lý sản phẩm</h1> <br>
+			<form th:action="@{/Vendor/products}" method="get"
+				class="d-inline-flex justify-content-end">
+				<input type="text" name="search" class="form-control"
+					placeholder="Tìm kiếm sản phẩm..." th:value="${searchTerm}">
+				<button type="submit" class="btn btn-primary ms-2">Tìm kiếm</button>
+			</form>
+			<br>
+			<br> <a href="/Vendor/products/create" class="btn btn-success">Thêm
 				sản phẩm mới</a>
-		</div>
+
+		</div><br>
 
 		<!-- Bảng sản phẩm với class table-responsive để cuộn ngang khi cần thiết -->
 		<div class="table-responsive">

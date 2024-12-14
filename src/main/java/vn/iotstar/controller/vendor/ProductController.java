@@ -49,9 +49,15 @@ public class ProductController {
     private String uploadDir;
     
     @GetMapping("")
-    public String listProducts(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public String listProducts(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(required = false) String search) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("warehouseDateFirst")));
-        Page<Product> productPage = productService.findAllAvailable(pageable);
+        Page<Product> productPage;
+        if (search != null && !search.isEmpty()) {
+            productPage = productService.searchProducts(search, pageable);
+            model.addAttribute("searchTerm", search); // Để giữ lại giá trị tìm kiếm trong ô nhập liệu
+        } else {
+            productPage = productService.findAllAvailable(pageable);
+        }
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
