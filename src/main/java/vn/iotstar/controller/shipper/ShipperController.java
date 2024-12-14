@@ -110,7 +110,7 @@ public class ShipperController {
 
         Pageable pageable = PageRequest.of(page, size);
         String jpql = "SELECT o FROM Order o WHERE o.delivery.deliveryId = :deliveryId AND o.orderStatus IN :statuses";
-        List<OrderStatus> statuses = Arrays.asList(OrderStatus.CANCELLED, OrderStatus.SHIPPING, OrderStatus.COMPLETED);
+        List<OrderStatus> statuses = Arrays.asList(OrderStatus.SHIPPING, OrderStatus.COMPLETEDSHIPPER);
 
         TypedQuery<Order> query = entityManager.createQuery(jpql, Order.class)
                 .setParameter("deliveryId", deliveryId)
@@ -150,8 +150,8 @@ public class ShipperController {
             return "error";
         }
 
-        if ("COMPLETED".equals(status) && order.getOrderStatus().equals(OrderStatus.SHIPPING)) {
-            order.setOrderStatus(OrderStatus.COMPLETED);
+        if ("COMPLETEDSHIPPER".equals(status) && order.getOrderStatus().equals(OrderStatus.SHIPPING)) {
+            order.setOrderStatus(OrderStatus.COMPLETEDSHIPPER);
             order.setCompletionTime(LocalDateTime.now());
             orderService.save(order);
         }
