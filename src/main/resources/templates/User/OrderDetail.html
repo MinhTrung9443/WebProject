@@ -149,7 +149,8 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 	                					<tbody>
 	                						<tr class="summary-subtotal">
 	                							<td>Giá trị voucher:</td>
-	                							<td th:text="${order.vouchers.voucherValue}">$160.00</td>
+	                							<td th:if="${order.vouchers.voucherType == 'PRODUCT'}" th:text="${order.vouchers.voucherValue} + '%'">$160.00</td>
+	                							<td th:if="${order.vouchers.voucherType == 'SHIP'}" th:text="${order.vouchers.voucherValue} + 'đ'">$160.00</td>
 	                						</tr><!-- End .summary-subtotal -->
    	                					</tbody>
 	                				</table><!-- End .table table-summary -->

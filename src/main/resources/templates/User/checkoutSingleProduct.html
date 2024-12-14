@@ -262,7 +262,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
         	}
         if (typeVoucher == 'PRODUCT')
     	{
-        	totalPrice = totalPrice - (valueVoucher*totalPrice)/100;
+        	totalPrice = totalPrice - ((valueVoucher*totalPrice)/100);
     	}
         
         const totalAmount = totalPrice + deliveryPrice;
