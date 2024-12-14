@@ -115,8 +115,6 @@
 									</select>
 								</div>
 							</div>
-
-
 							<div class="form-group has-success">
 								<label class="control-label col-md-3" for="voucherValue">Giá trị voucher</label>
 								<div class="col-md-4">
@@ -168,26 +166,12 @@
 									<input type="text" class="form-control" id="minimumCost" name="minimumCost"
 										th:value="${voucher.minimumCost}" />
 									<span class="input-group-addon">VND</span>
-
 									<div th:if="${checkMininumCost}" class="alert alert-info">
 										<span th:text="${checkMininumCost}"></span>
 									</div>
 
 								</div>
 							</div>
-
-							<!--				<div class="form-group has-success">
-								<label class="control-label col-md-3" for="voucherValue">Giá trị voucher</label>
-								<div class="col-md-4">
-									<input type="text" class="form-control" id="voucherValue" name="voucherValue"
-										th:value="${voucher.voucherValue}" />
-									<span class="input-group-addon">VND</span>
-
-									<div th:if="${value}" class="alert alert-info">
-										<span th:text="${value}"></span>
-									</div>
-								</div>
-							</div>-->
 
 							<h3 class="form-section">Thời hạn của mã giảm giá</h3>
 							<div class="form-group has-warning">
