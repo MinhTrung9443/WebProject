@@ -1,21 +1,15 @@
 package vn.iotstar.controller;
 
-import vn.iotstar.dto.ChatMessageDTO;
-
-import jakarta.servlet.http.HttpSession;
-
-import vn.iotstar.dto.SessionInfoDTO;
-
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import vn.iotstar.dto.ChatMessageDTO;
+import vn.iotstar.dto.SessionInfoDTO;
 
 @Controller
 public class ChatController {

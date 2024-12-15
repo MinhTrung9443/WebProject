@@ -1,21 +1,23 @@
 package vn.iotstar.controller.shipper;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.entity.Account;
 import vn.iotstar.entity.Order;
@@ -25,7 +27,6 @@ import vn.iotstar.enums.OrderStatus;
 import vn.iotstar.service.IOrderService;
 import vn.iotstar.service.IShipperService;
 import vn.iotstar.service.impl.OrderAssignmentService;
-import vn.iotstar.service.impl.OrderService;
 
 @Controller
 public class ShipperController {

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import vn.iotstar.dto.UserRegistrationDTO;
 import vn.iotstar.entity.Account;
 import vn.iotstar.entity.Address;
-import vn.iotstar.entity.Person;
 import vn.iotstar.entity.Role;
 import vn.iotstar.entity.User;
 import vn.iotstar.service.IAccountService;
