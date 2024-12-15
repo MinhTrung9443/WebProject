@@ -12,7 +12,11 @@ let stompClient = null;
 
 // Lấy tên người dùng từ URL path (phần cuối cùng của đường dẫn)
 const pathParts = window.location.pathname.split('/');
-let username = pathParts[pathParts.length - 2] || "Guest"; // Nếu không tìm thấy, mặc định là "Guest"
+let username = pathParts[pathParts.length - 2] || "Guest";
+const isVendor = window.location.pathname.includes('/Vendor');
+if (isVendor && username !== "Guest"){
+ username = "Staff" // Nếu không tìm thấy, mặc định là "Guest"
+}
 
 // Kiểm tra nếu URL chứa "/Vendor", thay đổi tên người dùng để thêm "Nhân viên"
 const isUser = window.location.pathname.includes('/User');
