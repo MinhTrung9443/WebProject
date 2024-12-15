@@ -65,7 +65,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/User/**").hasAnyAuthority("USER", "VENDOR")
                         .requestMatchers("/Vendor/**").hasAnyAuthority("VENDOR").requestMatchers("/Admin/**")
                         .hasAnyAuthority("ADMIN").requestMatchers("/Shipper/**").hasAnyAuthority("SHIPPER")
-                        .requestMatchers("/**").permitAll().requestMatchers("/login/oauth2/code/google").permitAll() 
+                        .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/waiting", true).permitAll())

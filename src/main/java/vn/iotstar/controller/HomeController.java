@@ -27,11 +27,6 @@ public class HomeController {
 	@GetMapping("")
 	public String showHomePage(Model model, HttpSession session) {
 		
-		Account account = (Account) session.getAttribute("account");
-		if (account != null)
-		{
-			return "redirect:/waiting";
-		}
 		// Lấy tất cả sản phẩm từ database
 		List<Product> topSellingProducts = productService.getTop10BestSellingProducts();
         model.addAttribute("products", topSellingProducts);
