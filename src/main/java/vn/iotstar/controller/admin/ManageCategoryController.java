@@ -128,16 +128,4 @@ public class ManageCategoryController {
 		return new ModelAndView("forward:/Admin/category", model);
 	}
 
-	@Transactional
-	@GetMapping("/delete/{id}")
-	public ModelAndView delete(ModelMap model, @PathVariable("id") Integer categoryId) {
-		Optional<Category> optCategory = cateService.findById(categoryId);
-		if (optCategory.isPresent()) {
-			cateService.deleteById(categoryId);
-			List<Category> list = cateService.findAll();
-			model.addAttribute("list", list);
-			return new ModelAndView("Admin/category/list", model);
-		}
-		return new ModelAndView("forward:/Admin/category", model);
-	}
 }

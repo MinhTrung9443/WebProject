@@ -72,7 +72,6 @@
 						<i class="fa fa-gift font-green-sharp"></i>
 						<span class="caption-subject font-green-sharp bold uppercase">DANH SÁCH CHƯƠNG TRÌNH KHUYẾN
 							MÃI</span>
-
 					</div>
 					<div class="actions">
 						<a href="/Admin/voucher/add" class="btn btn-default btn-circle">
@@ -83,6 +82,9 @@
 					</div>
 				</div>
 				<div class="portlet-body">
+					<div th:if="${message}" class="alert alert-info">
+							<span th:text="${message}"></span>
+						</div>
 
 					<table class="table table-striped table-bordered table-hover">
 						<thead>
@@ -106,7 +108,7 @@
 								<th width="15%">
 									Giá trị voucher
 								</th>
-								
+
 								<th width="15%">
 									Đơn hàng tối thiểu
 								</th>
@@ -135,19 +137,23 @@
 								<td th:text="${voucher.voucherType}"></td>
 
 								<td th:text="${voucher.voucherValue} + ' VND'"></td>
-								
+
 								<td th:text="${voucher.minimumCost} + ' VND'"></td>
 
 								<td>
 
 									<div>
 										<input type="text" class="form-control form-filter input-sm"
-											name="voucher.startDate" th:value="${voucher.startDate}" readonly><br>
+											name="voucher.startDate"
+											th:value="${#temporals.format(voucher.startDate, 'dd/MM/yyyy HH:mm')}"
+											/readonly><br>
 									</div>
 
 									<div>
 										<input type="text" class="form-control form-filter input-sm"
-											name="voucher.endDate" th:value="${voucher.endDate}" readonly>
+											name="voucher.endDate"
+											th:value="${#temporals.format(voucher.endDate, 'dd/MM/yyyy HH:mm')}"
+											readonly>
 									</div>
 								</td>
 

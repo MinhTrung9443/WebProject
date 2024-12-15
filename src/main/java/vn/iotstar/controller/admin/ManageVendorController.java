@@ -266,6 +266,7 @@ public class ManageVendorController {
 	@GetMapping("/delete/{id}")
 	public ModelAndView delete(ModelMap model, @PathVariable("id") int id) {
 		Optional<Vendor> optVendor = vendorService.findById(id);
+		String message = "";
 		if (optVendor.isPresent()) {
 
 			Account acc = optVendor.get().getAccount();
@@ -274,6 +275,9 @@ public class ManageVendorController {
 			vendorService.deleteByAccountId(accountid);
 
 			vendorService.deleteById(id);
+			
+			message = "Xoá thành công";
+			model.addAttribute("message", message);
 
 			List<Vendor> list = vendorService.findAll();
 			model.addAttribute("list", list);

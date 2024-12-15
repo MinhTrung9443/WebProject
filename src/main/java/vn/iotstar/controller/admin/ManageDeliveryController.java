@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.validation.Valid;
-import vn.iotstar.entity.Account;
 import vn.iotstar.entity.Delivery;
+import vn.iotstar.entity.Order;
 import vn.iotstar.entity.Shipper;
-import vn.iotstar.repository.IShipperRepository;
 import vn.iotstar.service.IDeliveryService;
+import vn.iotstar.service.IOrderService;
 import vn.iotstar.service.IShipperService;
 
 @Controller
@@ -37,9 +37,12 @@ public class ManageDeliveryController {
 
 	@Autowired
 	IDeliveryService deliveryService;
-	
+
 	@Autowired
 	IShipperService shipperService;
+
+	@Autowired
+	IOrderService orderService;
 
 	@RequestMapping("")
 	public String getdelivery(Model model, @RequestParam("page") Optional<Integer> page,
@@ -148,20 +151,32 @@ public class ManageDeliveryController {
 		deliveryService.save(entity);
 		return new ModelAndView("forward:/Admin/delivery", model);
 	}
-	
+
 	@Transactional
 	@GetMapping("/delete/{id}")
 	public ModelAndView delete(ModelMap model, @PathVariable("id") int deliveryId) {
 		Optional<Delivery> optDelivery = deliveryService.findById(deliveryId);
-		if (optDelivery.isPresent()) {			
-			
+		String message = "";
+		if (optDelivery.isPresent()) {
+
 			Delivery delivery = optDelivery.get();
-			List<Shipper> listShipper = delivery.getShipper();
-			for (Shipper sh: listShipper) {
-				 sh.setDelivery(null);
-				 shipperService.save(sh);			
+			List<Order> listOrder = orderService.findByDelivery_DeliveryId(deliveryId);
+			if (listOrder != null && !listOrder.isEmpty()) {
+				message = "Không thể xóa vì nhà vận chuyển này đang được sử dụng trong Order";
+				model.addAttribute("message", message);
+				List<Delivery> list = deliveryService.findAll();
+				model.addAttribute("list", list);
+				return new ModelAndView("Admin/delivery/list", model);
 			}
+			List<Shipper> listShipper = delivery.getShipper();
+			for (Shipper sh : listShipper) {
+				sh.setDelivery(null);
+				shipperService.save(sh);
+			}
+
 			deliveryService.deleteById(deliveryId);
+			message = "Xoá thành công";
+			model.addAttribute("message", message);
 
 			List<Delivery> list = deliveryService.findAll();
 			model.addAttribute("list", list);

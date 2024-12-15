@@ -112,8 +112,11 @@
 
 							</div>
 						</div>
+						<div th:if="${message}" class="alert alert-info">
+							<span th:text="${message}"></span>
+						</div>
 
-						<table class="table table-striped table-bordered table-hover" id="sample_1">
+						<table class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
 									<th>STT</th>
@@ -139,9 +142,7 @@
 
 									<td th:text="${vendor.email}"></td>
 
-									<td th:text="${vendor.startDate}"></td>
-
-
+									<td th:text="${#temporals.format(vendor.startDate, 'dd/MM/yyyy')}"></td>
 
 									<div th:if="${vendor.account != null}">
 										<td th:switch="${vendor.account.active}">

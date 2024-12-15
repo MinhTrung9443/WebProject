@@ -168,7 +168,15 @@ public class ManageVoucherController {
 
 			Voucher entity = optionalEntity.get();
 
-			if (existCode(model, voucherDTO, voucher.getVoucherId()) || isValidDate(model, voucherDTO)) {
+			if (existCode(model, voucherDTO, voucher.getVoucherId())) {
+				check = true;
+			}
+
+			if (isValidDate(model, voucherDTO)) {
+				check = true;
+			}
+
+			if (checkMinimumCost(model, voucherDTO)) {
 				check = true;
 			}
 
@@ -194,11 +202,21 @@ public class ManageVoucherController {
 		} else {
 			int quantity = voucherDTO.getQuantity();
 
-			if (existCode(model, voucherDTO, voucherDTO.getVoucherId()) || checkQuantity(model, voucherDTO)
-					|| isValidDate(model, voucherDTO) || checkMinimumCost(model, voucherDTO)) {
+			if (existCode(model, voucherDTO, voucherDTO.getVoucherId())) {
 				check = true;
 			}
 
+			if (checkQuantity(model, voucherDTO)) {
+				check = true;
+			}
+
+			if (isValidDate(model, voucherDTO)) {
+				check = true;
+			}
+
+			if (checkMinimumCost(model, voucherDTO)) {
+				check = true;
+			}
 			if (check) {
 				return new ModelAndView("Admin/voucher/add", model);
 			}
@@ -214,15 +232,40 @@ public class ManageVoucherController {
 
 	@Transactional
 	@GetMapping("/delete/{id}")
-	public ModelAndView delete(ModelMap model, @PathVariable("id") int voucherId) {
+	public ModelAndView delete(ModelMap model, @PathVariable("id") int voucherId,
+			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
 		Optional<Voucher> optVoucher = voucherService.findById(voucherId);
+		 String message = "";
 		if (optVoucher.isPresent()) {
 			voucherService.deleteById(voucherId);
-			List<Voucher> list = voucherService.findAll();
-			model.addAttribute("list", list);
-			return new ModelAndView("Admin/voucher/list", model);
+			message = "Xoá thành công";
+			model.addAttribute("message", message);
 		}
-		return new ModelAndView("forward:/Admin/voucher", model);
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(5);
+
+		Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
+		Page<Voucher> list = voucherService.findAll(pageable);
+		
+		int count = (int) voucherService.count();
+		int totalPages = voucherService.findAll(pageable).getTotalPages();
+		int start = Math.max(1, currentPage - 2);
+		int end = Math.min(currentPage + 2, totalPages);
+
+		if (totalPages > count) {
+			if (end == totalPages)
+				start = end - count;
+			else if (start == 1)
+				end = start + count;
+		}
+
+		List<Integer> pageNumbers = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+
+		model.addAttribute("list", list);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("pageNumbers", pageNumbers);
+		return new ModelAndView("Admin/voucher/list", model);
 	}
 
 }

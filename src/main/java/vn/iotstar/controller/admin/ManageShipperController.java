@@ -287,6 +287,7 @@ public class ManageShipperController {
 	@GetMapping("/delete/{id}")
 	public ModelAndView delete(ModelMap model, @PathVariable("id") int id) {
 		Optional<Shipper> optShipper = shipperService.findById(id);
+		String message = "";
 		if (optShipper.isPresent()) {
 
 			Account acc = optShipper.get().getAccount();
@@ -295,6 +296,9 @@ public class ManageShipperController {
 			shipperService.deleteByAccountId(accountid);
 
 			shipperService.deleteById(id);
+			
+			message = "Xoá thành công";
+			model.addAttribute("message", message);
 
 			List<Shipper> list = shipperService.findAll();
 			model.addAttribute("list", list);
