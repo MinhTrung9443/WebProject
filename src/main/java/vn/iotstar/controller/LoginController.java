@@ -6,11 +6,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +26,8 @@ import vn.iotstar.service.IAccountService;
 import vn.iotstar.service.IEmailService; // Giả sử bạn có một service gửi email
 import vn.iotstar.service.IPersonService;
 
+import vn.iotstar.service.impl.UserService;
+
 @Controller
 public class LoginController {
 
@@ -32,73 +37,74 @@ public class LoginController {
 	private IPersonService personSer;
 
 	@Autowired
-	private IEmailService emailService; 
-	
+	private IEmailService emailService;
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserService userservice;
 
 	@GetMapping("/login")
 	public String showLoginPage() {
-		return "Guest/login"; 
+		return "Guest/login";
 	}
 
-/*
-	@PostMapping("/login")
-	public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password,
-			@RequestParam(value = "remember-me", required = false) String rememberMe, HttpServletRequest request,
-			HttpServletResponse response) { 
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		System.out.println("Current User: " + SecurityContextHolder.getContext().getAuthentication().getName());
-		System.out.println("Current Role: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-		System.out.println(authentication.toString());
-		
-		Account account = accountSer.findByUsername(username);
+	
 
-		if (account != null && passwordEncoder.matches(password, account.getPassword())) {
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("account", account);
-
-			System.out.println("dang nhap dung roi");
-			
-			if ("on".equals(rememberMe)) {
-				
-				Cookie cookie = new Cookie("rememberMe", account.getUsername());
-				cookie.setMaxAge(10 * 60); 
-				cookie.setPath("/");
-				response.addCookie(cookie); 
-			}
-
-			return "redirect:/waiting"; 
-		} else {
-			return "redirect:/login?error=true"; 
-		}
-	}*/
-
+	/*
+	 * @PostMapping("/login") public String processLogin(@RequestParam("username")
+	 * String username, @RequestParam("password") String password,
+	 * 
+	 * @RequestParam(value = "remember-me", required = false) String rememberMe,
+	 * HttpServletRequest request, HttpServletResponse response) { Authentication
+	 * authentication = authenticationManager.authenticate(new
+	 * UsernamePasswordAuthenticationToken(username, password));
+	 * 
+	 * SecurityContextHolder.getContext().setAuthentication(authentication);
+	 * System.out.println("Current User: " +
+	 * SecurityContextHolder.getContext().getAuthentication().getName());
+	 * System.out.println("Current Role: " +
+	 * SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+	 * System.out.println(authentication.toString());
+	 * 
+	 * Account account = accountSer.findByUsername(username);
+	 * 
+	 * if (account != null && passwordEncoder.matches(password,
+	 * account.getPassword())) {
+	 * 
+	 * HttpSession session = request.getSession(); session.setAttribute("account",
+	 * account);
+	 * 
+	 * System.out.println("dang nhap dung roi");
+	 * 
+	 * if ("on".equals(rememberMe)) {
+	 * 
+	 * Cookie cookie = new Cookie("rememberMe", account.getUsername());
+	 * cookie.setMaxAge(10 * 60); cookie.setPath("/"); response.addCookie(cookie); }
+	 * 
+	 * return "redirect:/waiting"; } else { return "redirect:/login?error=true"; } }
+	 */
 
 	@GetMapping("/forgot-password")
 	public String showForgotPasswordPage() {
-		
-		return "Guest/forgot-password"; 
-	}
 
+		return "Guest/forgot-password";
+	}
 
 	@PostMapping("/process-forgot-password")
 	public String processForgotPassword(@RequestParam("email") String email, Model model) {
-		Person person = personSer.findByEmail(email); 
-		
+		Person person = personSer.findByEmail(email);
+
 		if (person != null) {
-			Account account = person.getAccount(); 
+			Account account = person.getAccount();
 			if (account != null) {
 				// Tạo OTP và lưu vào token
 				String otp = generateOtp();
 				account.setToken(otp);
-				
+
 				accountSer.update(account); // Lưu lại thay đổi vào cơ sở dữ liệu
 
 				// Gửi OTP qua email
@@ -134,32 +140,33 @@ public class LoginController {
 	// Xử lý form đặt lại mật khẩu
 	@PostMapping("/process-reset-password")
 	public String processResetPassword(@RequestParam("token") String token,
-	                                   @RequestParam("newPassword") String newPassword,
-	                                   @RequestParam("confirmPassword") String confirmPassword, // Thêm tham số confirmPassword
-	                                   Model model) {
-	    // Kiểm tra nếu mật khẩu mới và mật khẩu xác nhận không khớp
-	    if (!newPassword.equals(confirmPassword)) {
-	        model.addAttribute("error", "Mật khẩu xác nhận không khớp với mật khẩu mới!");
-	        return "Guest/process-reset-password";
-	    }
-	    // Kiểm tra token
-	    Account acc = accountSer.findByToken(token);
-	   
-	    if (acc == null) {
-	        model.addAttribute("error", "Không có mã otp hoặc tài khoản này!");
-	        return "Guest/process-reset-password";
-	    }
-	  
-	    // Xử lý đặt lại mật khẩu (có thể sử dụng token để xác minh)
-	    if (accountSer.resetPassword(token, passwordEncoder.encode(newPassword))) {
-	        model.addAttribute("success", "Đổi mật khẩu thành công, vui lòng đăng nhập lại!");
-	        return "redirect:/login"; // Quay lại trang đăng nhập
-	    } else {
-	        model.addAttribute("error", "Có lỗi xảy ra khi đặt lại mật khẩu!");
-	        return "Guest/process-reset-password";
-	    }
-	}
+			@RequestParam("newPassword") String newPassword, @RequestParam("confirmPassword") String confirmPassword, // Thêm
+																														// tham
+																														// số
+																														// confirmPassword
+			Model model) {
+		// Kiểm tra nếu mật khẩu mới và mật khẩu xác nhận không khớp
+		if (!newPassword.equals(confirmPassword)) {
+			model.addAttribute("error", "Mật khẩu xác nhận không khớp với mật khẩu mới!");
+			return "Guest/process-reset-password";
+		}
+		// Kiểm tra token
+		Account acc = accountSer.findByToken(token);
 
+		if (acc == null) {
+			model.addAttribute("error", "Không có mã otp hoặc tài khoản này!");
+			return "Guest/process-reset-password";
+		}
+
+		// Xử lý đặt lại mật khẩu (có thể sử dụng token để xác minh)
+		if (accountSer.resetPassword(token, passwordEncoder.encode(newPassword))) {
+			model.addAttribute("success", "Đổi mật khẩu thành công, vui lòng đăng nhập lại!");
+			return "redirect:/login"; // Quay lại trang đăng nhập
+		} else {
+			model.addAttribute("error", "Có lỗi xảy ra khi đặt lại mật khẩu!");
+			return "Guest/process-reset-password";
+		}
+	}
 
 	// Phương thức tạo mã OTP ngẫu nhiên (có thể sử dụng thư viện hoặc tự viết
 	// logic)
