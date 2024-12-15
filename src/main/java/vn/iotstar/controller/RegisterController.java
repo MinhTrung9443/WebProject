@@ -86,6 +86,7 @@ public class RegisterController {
 		account.setActive(0);
 		accountService.save(account);
 		// Gửi OTP qua email
+		System.out.println(userDTO.getUsername());
 		emailService.sendRegisterOtp(userDTO.getEmail(), otp);
 		model.addAttribute("username",userDTO.getUsername());
 		model.addAttribute("email", userDTO.getEmail()); // Truyền email vào model
