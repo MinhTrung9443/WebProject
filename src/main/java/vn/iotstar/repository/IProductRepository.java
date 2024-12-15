@@ -21,8 +21,8 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 	Page<Product> findTopProductsByAverageRating(Pageable pageable);
 	
 
-	@Query("SELECT p FROM Product p " + "LEFT JOIN p.favourite f " + "WHERE p.stock > 0 " + "GROUP BY p "
-			+ "ORDER BY COUNT(f) DESC")
+	@Query("SELECT p FROM Product p " + "LEFT JOIN p.favourite f "
+			+ "WHERE p.stock > 0 " + "GROUP BY p " + "ORDER BY COUNT(f) DESC")
 	List<Product> findTop20ByFavouriteCount(Pageable pageable);
 
 	@Query("SELECT ol.product FROM OrderLine ol " + "WHERE ol.product.stock > 0 " + "GROUP BY ol.product "

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 
   <head>
     <meta charset="UTF-8" />
@@ -29,6 +30,58 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link rel="stylesheet" href="/assets/css/plugins/nouislider/nouislider.css" />
+    <style >
+    .voucher-container {
+            display: flex;
+            width: 400px;
+            height: 120px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .voucher-left, .voucher-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .voucher-left {
+            background-color: #f0f8ff;
+            font-size: 13px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .voucher-right {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* SHIPP Type Style */
+        .voucher-right.ship {
+            background-color: #4caf50; /* Xanh lá */
+        }
+
+        /* PRODUCT Type Style */
+        .voucher-right.product {
+        	margin-bottom: -10px;
+            background-color: #ff5722; /* Cam */
+        }
+
+        .minimum-cost {
+            font-size: 13px;
+            font-weight: normal;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+    </style>
   </head>
 
   <body>
@@ -56,20 +109,49 @@
                 <div class="col-md-6">
                   <div class="product-gallery product-gallery-vertical">
                     <div class="row">
-                      <figure class="product-main-image">
-                        <img
-                          th:src="${product.images[0].imageUrl}"
-                          alt="product image"
-                        />
-                      </figure>
+					<figure class="product-main-image">
+						<img
+							th:if="${#strings.startsWith(product.images[0].imageUrl, 'http')}"
+							th:src="${product.images[0].imageUrl}" alt="Ảnh sản phẩm">
+
+						<!-- Nếu không phải URL, giả sử là file trên server -->
+						<img
+							th:if="${!#strings.startsWith(product.images[0].imageUrl, 'http')}"
+							th:src="@{'/api/images?imageName=' + ${product.images[0].imageUrl}}"
+							alt="Ảnh sản phẩm">
+					</figure>
 					<div id="product-zoom-gallery" class="product-image-gallery">
                         <a class="product-gallery-item active" th:each="image, iterStat : ${product.images.subList(1, product.images.size())}">
-                            <img th:src="${image.imageUrl}" alt="product side">
+                            <img
+							th:if="${#strings.startsWith(image.imageUrl, 'http')}"
+							th:src="${image.imageUrl}" alt="Ảnh sản phẩm">
+
+						<!-- Nếu không phải URL, giả sử là file trên server -->
+						<img
+							th:if="${!#strings.startsWith(image.imageUrl, 'http')}"
+							th:src="@{'/api/images?imageName=' + ${image.imageUrl}}"
+							alt="Ảnh sản phẩm">
                         </a>
                     </div><!-- End .product-image-gallery -->
                     </div>
                     <!-- End .row -->
                   </div>
+                  <div class="voucher-container">
+			        <!-- Phần trái: Mã code -->
+			        <div class="voucher-left">
+			            <span>Nhập mã code:</span> <br>
+			            <span th:text="${voucher.voucherCode}"></span>
+			        </div>
+			
+			        <!-- Phần phải: Thông tin loại voucher -->
+			        <div class="voucher-right" th:classappend="${voucher.voucherType == 'SHIP' ? 'ship' : 'product'}">
+			            <span th:text="${voucher.voucherType == 'SHIP' ? 'Giảm phí vận chuyển' : 'Giảm giá đơn hàng'}"></span>
+			            <div class="minimum-cost">
+			                <span>Đơn hàng tối thiểu:</span> 
+			                <span th:text="' ' + ${voucher.minimumCost} + ' VND'"></span>
+			            </div>
+			        </div>
+			    </div>
                   <!-- End .product-gallery -->
                 </div>
                 <!-- End .col-md-6 -->
@@ -341,11 +423,15 @@
               <div class="product product-7 text-center" th:each="product : ${top5}">
                 <figure class="product-media">
                   <a th:href="'/User/productDetail/' + ${product.key.productId}">
-                    <img
-                      th:src="${product.key.images[0].imageUrl}"
-                      alt="Product image"
-                      class="product-image"
-                    />
+                    <img th:if="${#strings.startsWith(product.key.images[0].imageUrl, 'http')}"
+						th:src="${product.key.images[0].imageUrl}" class="product-image"
+						>
+
+					<!-- Nếu không phải URL, giả sử là file trên server -->
+					<img th:if="${!#strings.startsWith(product.key.images[0].imageUrl, 'http')}"
+						th:src="@{'/api/images?imageName=' + ${product.key.images[0].imageUrl}}"
+						class="product-image" 
+						>
                   </a>
 
 					<div class="product-action" style="display: flex; justify-content: center">
@@ -375,17 +461,37 @@
                   <!-- End .rating-container -->
 
                   <div class="product-nav product-nav-thumbs">
-                    <a href="#" class="active">
-                      <img th:if="${product.key.images[1]}" th:src="${product.key.images[1].imageUrl}" alt="product desc" />
+                    <a href="#" class="active" th:if="${product.key.images[1]}">
+                      <img
+						
+						th:if="${#strings.startsWith(product.key.images[1].imageUrl, 'http')}"
+						th:src="${product.key.images[1].imageUrl}"
+						class="product-image" alt="Ảnh sản phẩm"> <!-- Nếu không phải URL, giả sử là file trên server -->
+						<img
+						th:if="${!#strings.startsWith(product.key.images[1].imageUrl, 'http')}"
+						th:src="@{'/api/images?imageName=' + ${product.key.images[1].imageUrl}}"
+						class="product-image" alt="Ảnh sản phẩm">
                     </a>
-                    <a href="#">
-                      <img th:if="${product.key.images[2]}" th:src="${product.key.images[2].imageUrl}" alt="product desc" />
-                    </a>
-
-                    <a href="#">
-                      <img th:if="${product.key.images[3]}" th:src="${product.key.images[3].imageUrl}" alt="product desc" />
-                    </a>
-                  </div>
+                    <a href="#" th:if="${product.key.images[2]}">
+                      <img
+						th:if="${#strings.startsWith(product.key.images[2].imageUrl, 'http')}"
+						th:src="${product.key.images[2].imageUrl}"
+						class="product-image" alt="Ảnh sản phẩm"> <!-- Nếu không phải URL, giả sử là file trên server -->
+						<img
+						th:if="${!#strings.startsWith(product.key.images[2].imageUrl, 'http')}"
+						th:src="@{'/api/images?imageName=' + ${product.key.images[2].imageUrl}}"
+						class="product-image" alt="Ảnh sản phẩm">
+                    </a> <a href="#" th:if="${product.key.images[3]}"> 
+                    <img
+						th:if="${#strings.startsWith(product.key.images[3].imageUrl, 'http')}"
+						th:src="${product.key.images[3].imageUrl}"
+						class="product-image" alt="Ảnh sản phẩm"> <!-- Nếu không phải URL, giả sử là file trên server -->
+						<img
+						th:if="${!#strings.startsWith(product.key.images[3].imageUrl, 'http')}"
+						th:src="@{'/api/images?imageName=' + ${product.key.images[3].imageUrl}}"
+						class="product-image" alt="Ảnh sản phẩm">
+					</a>
+					</div>
                   <!-- End .product-nav -->
                 </div>
                 <!-- End .product-body -->
@@ -400,6 +506,7 @@
         </div>
         <!-- End .page-content -->
       </main>
+      
       <!-- End .main -->
 	<header th:replace="~{Guest/fragments/footer::footer}"></header>
 
@@ -420,7 +527,27 @@
     <script src="/assets/js/jquery.magnific-popup.min.js"></script>
     <!-- Main JS File -->
     <script src="/assets/js/main.js"></script>
+    <script >
+//Hàm lưu thay đổi cho một địa chỉ
+function addlove(productId) {
 
+
+    // Gửi dữ liệu đến server thông qua AJAX
+    $.ajax({
+        url: '/User/addlove',
+        type: 'POST',
+        data: {
+        	productId: productId,
+        },
+        success: function (response) {
+            alert(response);
+        },
+        error: function () {
+            alert('Có lỗi xảy ra!');
+        }
+    });
+}
+</script>
   </body>
 
   <!-- molla/product.html  22 Nov 2019 09:55:05 GMT -->

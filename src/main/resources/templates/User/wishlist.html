@@ -68,7 +68,15 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 									<div class="product">
 										<figure class="product-media">
 											<a th:href="'/User/productDetail/' + ${favou.product.productId}">
-												<img th:src="${favou.product.images[0].imageUrl}" alt="Product image">
+												<img th:if="${#strings.startsWith(favou.product.images[0].imageUrl, 'http')}"
+										th:src="${favou.product.images[0].imageUrl}" class="product-image"
+										alt="Ảnh sản phẩm">
+
+									<!-- Nếu không phải URL, giả sử là file trên server -->
+									<img th:if="${!#strings.startsWith(favou.product.images[0].imageUrl, 'http')}"
+										th:src="@{'/api/images?imageName=' + ${favou.product.images[0].imageUrl}}"
+										class="product-image" 
+										alt="Ảnh sản phẩm">
 											</a>
 										</figure>
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -86,7 +87,7 @@ public class ShoppingCartController {
         }
     }
 	@PostMapping("/update-quantity")
-    public ResponseEntity<String> updateQuantity(@RequestParam int cartItemId, @RequestParam int quantity) {
+    public ResponseEntity<?> updateQuantity(@RequestParam int cartItemId, @RequestParam int quantity) {
         Optional<CartItem> cartItemOptional = cartItemService.findById(cartItemId);
         if (cartItemOptional.isPresent()) {
             CartItem cartItem = cartItemOptional.get();
@@ -94,14 +95,14 @@ public class ShoppingCartController {
             
             if (cartItem.getProduct().getStock() < quantity)
             {
-            	return ResponseEntity.badRequest().body("Số lượng hàng không đủ.");
+            	return new ResponseEntity<>("Số lượng hàng không đủ.",HttpStatus.BAD_REQUEST);
             }
             
             cartItemService.save(cartItem);
            
             return ResponseEntity.ok("Cập nhật thành công");
         } else {
-            return ResponseEntity.badRequest().body("Không tìm thấy");
+            return new ResponseEntity<>("Không tìm thấy",HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -5,7 +5,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Molla - Bootstrap eCommerce Template</title>
+    <title>Molla</title>
     <meta name="keywords" content="HTML5 Template">
     <meta name="description" content="Molla - Bootstrap eCommerce Template">
     <meta name="author" content="p-themes">
@@ -186,8 +186,19 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                             <div class="product product-11 text-center" th:each="product :${productSale}">
                                 <figure class="product-media">
                                      <a th:href="'/User/productDetail/' + ${product.productId}">
-                                        <img th:src="${product.images[0].imageUrl}" alt="Product image" class="product-image">
+                                        
+                                        <!-- Kiểm tra nếu imageUrl là URL -->
+									<img th:if="${#strings.startsWith(product.images[0].imageUrl, 'http')}"
+										th:src="${product.images[0].imageUrl}" class="product-image"
+										alt="Ảnh sản phẩm">
+
+									<!-- Nếu không phải URL, giả sử là file trên server -->
+									<img th:if="${!#strings.startsWith(product.images[0].imageUrl, 'http')}"
+										th:src="@{'/api/images?imageName=' + ${product.images[0].imageUrl}}"
+										class="product-image" 
+										alt="Ảnh sản phẩm">
                                     </a>
+
 
                                     <div class="product-action-vertical">
                                         <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
@@ -243,8 +254,19 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                            <div class="product product-11 text-center" th:each="product :${productRate}">
                                 <figure class="product-media">
                                      <a th:href="'/User/productDetail/' + ${product.productId}">
-                                        <img th:src="${product.images[0].imageUrl}" alt="Product image" class="product-image">
+                                        
+                                        <!-- Kiểm tra nếu imageUrl là URL -->
+									<img th:if="${#strings.startsWith(product.images[0].imageUrl, 'http')}"
+										th:src="${product.images[0].imageUrl}" class="product-image"
+										alt="Ảnh sản phẩm">
+
+									<!-- Nếu không phải URL, giả sử là file trên server -->
+									<img th:if="${!#strings.startsWith(product.images[0].imageUrl, 'http')}"
+										th:src="@{'/api/images?imageName=' + ${product.images[0].imageUrl}}"
+										class="product-image" 
+										alt="Ảnh sản phẩm">
                                     </a>
+
 
                                     <div class="product-action-vertical">
                                         <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
@@ -330,10 +352,11 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                         <a class="nav-link active" id="products-featured-link" data-toggle="tab" href="#products-featured-tab" role="tab" aria-controls="products-featured-tab" aria-selected="true">Sản phẩm mới</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="products-sale-link" data-toggle="tab" href="#products-sale-tab" role="tab" aria-controls="products-sale-tab" aria-selected="false">Sản phẩm được yêu thích</a>
+                        <a class="nav-link" id="products-sale-link" data-toggle="tab" href="#products-sale-tab" role="tab" aria-controls="products-sale-tab" aria-selected="false">Được yêu thích nhất</a>
                     </li>
                 </ul>
             </div><!-- End .container -->
+
 
             <div class="container-fluid">
                 <div class="tab-content tab-content-carousel">
@@ -369,8 +392,19 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                             <div class="product product-11 text-center" th:each="product :${productNew}">
                                 <figure class="product-media">
                                      <a th:href="'/User/productDetail/' + ${product.productId}">
-                                        <img th:src="${product.images[0].imageUrl}" alt="Product image" class="product-image">
+                                        
+                                        <!-- Kiểm tra nếu imageUrl là URL -->
+									<img th:if="${#strings.startsWith(product.images[0].imageUrl, 'http')}"
+										th:src="${product.images[0].imageUrl}" class="product-image"
+										alt="Ảnh sản phẩm">
+
+									<!-- Nếu không phải URL, giả sử là file trên server -->
+									<img th:if="${!#strings.startsWith(product.images[0].imageUrl, 'http')}"
+										th:src="@{'/api/images?imageName=' + ${product.images[0].imageUrl}}"
+										class="product-image" 
+										alt="Ảnh sản phẩm">
                                     </a>
+
 
                                     <div class="product-action-vertical">
                                         <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
@@ -383,7 +417,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                                         <p th:text="${product.price}"></p>
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
-                                <div class="product-action">
+                                <div class="product-action" style="display: flex; justify-content: center">
                                     <form th:action="@{/User/add-to-cart}" method="post">
 										<input type="hidden" name="productId" th:value="${product.productId}" />
 										<input type="hidden" name="quantity" th:value="1" />
@@ -425,12 +459,23 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                             }'>
                            <div class="product product-11 text-center" th:each="product :${productFavou}">
                                 <figure class="product-media">
-                                    <a th:href="'/User/productDetail/' + ${product.productId}">
-                                        <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
+                                     <a th:href="'/User/productDetail/' + ${product.productId}">
+                                        
+                                        <!-- Kiểm tra nếu imageUrl là URL -->
+									<img th:if="${#strings.startsWith(product.images[0].imageUrl, 'http')}"
+										th:src="${product.images[0].imageUrl}" class="product-image"
+										alt="Ảnh sản phẩm">
+
+									<!-- Nếu không phải URL, giả sử là file trên server -->
+									<img th:if="${!#strings.startsWith(product.images[0].imageUrl, 'http')}"
+										th:src="@{'/api/images?imageName=' + ${product.images[0].imageUrl}}"
+										class="product-image" 
+										alt="Ảnh sản phẩm">
                                     </a>
 
+
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
+                                        <a href="#" th:onclick="'addlove('+ ${product.productId} +')'" class="btn-product-icon btn-wishlist"><span>Yêu thích</span></a>
                                     </div><!-- End .product-action-vertical -->
                                 </figure><!-- End .product-media -->
 
@@ -441,12 +486,11 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
                                 <div class="product-action">
-                                   <form th:action="@{/User/add-to-cart}" method="post">
+                                    <form th:action="@{/User/add-to-cart}" method="post">
 										<input type="hidden" name="productId" th:value="${product.productId}" />
 										<input type="hidden" name="quantity" th:value="1" />
 										<button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
-									</form>
-                                </div><!-- End .product-action -->
+									</form>                                </div><!-- End .product-action -->
                             </div><!-- End .product -->
 
 

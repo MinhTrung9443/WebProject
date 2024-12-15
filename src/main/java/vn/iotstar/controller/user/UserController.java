@@ -47,13 +47,13 @@ public class UserController {
 			Vendor employee = (Vendor) userService.findByAccountUsername(account.getUsername());
 			session.setAttribute("user", employee);
 		}
-//		  danh sách sản phẩm mới
+
 		List<Product> productNew = productService.findTop20ByOrderByWarehouseDateFirstDesc();
-//		  danh sách bán chạy
+
 		  List<Product> productSale = productService.findTop20BySalesQuantity();
-//		  danh sách đánh giá cao
+
 		  Page<Product> productRate = productService.findTop20ByAverageRating();
-//		  danh sách yêu thích
+
 		  List<Product> productFavou = productService.findTop20ByFavouriteCount();
 		  List<Category> listCate = categoryService.findAll();
 	        session.setAttribute("listCate", listCate);
@@ -221,7 +221,6 @@ public class UserController {
 			Voucher voucher = voucherService.findRandomValidActiveVoucher();
 			
 			model.addAttribute("voucher", voucher);
-			System.out.println(voucher.toString());
 			return "/User/product";
 		}
 		return "redirect/User";

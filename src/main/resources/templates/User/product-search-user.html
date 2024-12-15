@@ -573,10 +573,16 @@
 							<div th:each="product : ${products}" class="col-lg-4 col-md-4 col-sm-6">
 								<div class="product product-11 text-center">
 									<figure class="product-media">
-										<a th:href="@{/product-details/{productId}(productId=${product.productId})}">
-											<!-- Hình ảnh sản phẩm -->
-											<img th:src="@{${product.images[0].imageUrl}}" alt="Product image"
-												class="product-image">
+											<a th:href="@{/product-details/{productId}(productId=${product.productId})}">
+												<img th:if="${#strings.startsWith(product.images[0].imageUrl, 'http')}"
+											th:src="${product.images[0].imageUrl}" class="product-image"
+											alt="Ảnh sản phẩm">
+	
+										<!-- Nếu không phải URL, giả sử là file trên server -->
+										<img th:if="${!#strings.startsWith(product.images[0].imageUrl, 'http')}"
+											th:src="@{'/api/images?imageName=' + ${product.images[0].imageUrl}}"
+											class="product-image" 
+											alt="Ảnh sản phẩm">
 
 										</a>
 

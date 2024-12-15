@@ -10,27 +10,29 @@
 	<meta name="description" content="Molla - Bootstrap eCommerce Template">
 	<meta name="author" content="p-themes">
 	<!-- Favicon -->
-	<link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
-	<link rel="manifest" href="assets/images/icons/site.html">
-	<link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
-	<link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+	<link th:href="@{/assets/images/icons/apple-touch-icon.png}" rel="apple-touch-icon" sizes="180x180">
+	<link th:href="@{/assets/images/icons/favicon-32x32.png}" rel="icon" type="image/png" sizes="32x32">
+	<link th:href="@{/assets/images/icons/favicon-16x16.png}" rel="icon" type="image/png" sizes="16x16">
+	<link th:href="@{/assets/images/icons/site.html}" rel="manifest">
+	<link th:href="@{/assets/images/icons/safari-pinned-tab.svg}" rel="mask-icon" color="#666666">
+	<link th:href="@{/assets/images/icons/favicon.ico}" rel="shortcut icon">
 	<meta name="apple-mobile-web-app-title" content="Molla">
 	<meta name="application-name" content="Molla">
 	<meta name="msapplication-TileColor" content="#cc9966">
-	<meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+	<meta name="msapplication-config" th:content="@{/assets/images/icons/browserconfig.xml}">
 	<meta name="theme-color" content="#ffffff">
-	<link rel="stylesheet" href="assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
+	<link th:href="@{/assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css}" rel="stylesheet">
 	<!-- Plugins CSS File -->
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
-	<link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
-	<link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
+	<link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/assets/css/plugins/owl-carousel/owl.carousel.css}" rel="stylesheet">
+	<link th:href="@{/assets/css/plugins/magnific-popup/magnific-popup.css}" rel="stylesheet">
+	<link th:href="@{/assets/css/plugins/jquery.countdown.css}" rel="stylesheet">
 	<!-- Main CSS File -->
-	<link rel="stylesheet" href="assets/css/style.css">
-	<link rel="stylesheet" href="assets/css/skins/skin-demo-2.css">
-	<link rel="stylesheet" href="assets/css/demos/demo-2.css">
+	<link th:href="@{/assets/css/style.css}" rel="stylesheet">
+	<link th:href="@{/assets/css/skins/skin-demo-2.css}" rel="stylesheet">
+	<link th:href="@{/assets/css/demos/demo-2.css}" rel="stylesheet">
+
+
 </head>
 
 <body>
@@ -264,7 +266,7 @@
 
 		<main class="main">
 			<div class="container">
-				<form action="/search" method="get">
+				<form action="/User/Search" method="get">
 					<div class="sidebar">
 						<h3>Bộ Lọc Tìm Kiếm</h3>
 
@@ -571,15 +573,21 @@
 							<div th:each="product : ${products}" class="col-lg-4 col-md-4 col-sm-6">
 								<div class="product product-11 text-center">
 									<figure class="product-media">
-										<a th:href="@{/product-details/{productId}(productId=${product.productId})}">
-											<!-- Hình ảnh sản phẩm -->
-											<img th:src="@{${product.images[0].imageUrl}}" alt="Product image"
-												class="product-image">
+											<a th:href="@{/product-details/{productId}(productId=${product.productId})}">
+												<img th:if="${#strings.startsWith(product.images[0].imageUrl, 'http')}"
+											th:src="${product.images[0].imageUrl}" class="product-image"
+											alt="Ảnh sản phẩm">
+	
+										<!-- Nếu không phải URL, giả sử là file trên server -->
+										<img th:if="${!#strings.startsWith(product.images[0].imageUrl, 'http')}"
+											th:src="@{'/api/images?imageName=' + ${product.images[0].imageUrl}}"
+											class="product-image" 
+											alt="Ảnh sản phẩm">
 
 										</a>
 
 										<div class="product-action-vertical">
-											<a href="/User/wishlist" class="btn-product-icon btn-wishlist">
+											<a href="#" class="btn-product-icon btn-wishlist">
 												<span>add to wishlist</span>
 											</a>
 										</div><!-- End .product-action-vertical -->
@@ -596,10 +604,16 @@
 									</div><!-- End .product-body -->
 
 									<div class="product-action">
-										<a th:href="@{/product-details/{productId}(productId=${product.productId})}"
-											class="btn-product btn-buy">
-											<span>Xem chi tiết</span>
-										</a>
+										<form th:action="@{/User/add-to-cart}" method="post">
+											<input type="hidden" name="productId" th:value="${product.productId}" />
+											<input type="hidden" name="quantity" th:value="1" />
+											<button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ
+													hàng</span></button>
+											<a th:href="@{/product-details/{productId}(productId=${product.productId})}"
+												class="btn-product btn-cart">
+												<span>Xem chi tiết</span>
+											</a>
+										</form>
 									</div><!-- End .product-action -->
 								</div><!-- End .product -->
 							</div><!-- End .col-lg-3 col-md-4 col-sm-6 -->
@@ -608,14 +622,14 @@
 					<!-- Phân trang -->
 					<div class="pagination">
 						<!-- Liên kết trang trước -->
-						<a th:href="@{/search(page=${currentPage - 1}, size=${size})}"
+						<a th:href="@{/User/Search(page=${currentPage - 1}, size=${size})}"
 							th:if="${currentPage > 0}">&laquo; Previous</a>
 
 						<!-- Hiển thị số trang hiện tại và tổng số trang -->
 						<span th:text="${currentPage + 1}">1</span> / <span th:text="${totalPages}">1</span>
 
 						<!-- Liên kết trang tiếp theo -->
-						<a th:href="@{/search(page=${currentPage + 1}, size=${size})}"
+						<a th:href="@{/User/Search(page=${currentPage + 1}, size=${size})}"
 							th:if="${currentPage < totalPages - 1}">Next &raquo;</a>
 					</div>
 
@@ -623,7 +637,7 @@
 			</div>
 
 		</main><!-- End .main -->
-		<footer th:replace="~{User/fragments/footer::footer}"></footer>
+		<footer th:replace="~{Guest/fragments/footer::footer}"></footer>
 
 		<!-- Plugins JS File -->
 		<script src="assets/js/jquery.min.js"></script>
@@ -799,9 +813,8 @@
 					categoryDiv.style.display = 'block';
 				}
 			}
-
-
 		</script>
+
 
 </body>
 

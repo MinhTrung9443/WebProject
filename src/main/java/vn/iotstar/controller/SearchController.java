@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
 import vn.iotstar.entity.Product;
 import vn.iotstar.entity.ProductFeedback;
+import vn.iotstar.entity.Voucher;
 import vn.iotstar.service.ICategoryService;
 import vn.iotstar.service.IProductFeedbackService;
 import vn.iotstar.service.IProductService;
+import vn.iotstar.service.IVoucherService;
 
 @Controller
 public class SearchController {
@@ -27,6 +29,8 @@ public class SearchController {
 	private IProductService productService;
 	@Autowired
 	private ICategoryService categoryService;
+	@Autowired
+	private IVoucherService voucherService;
 
 	// Lọc sản phẩm theo các điều kiện
 	@GetMapping({"/search"})
@@ -186,6 +190,9 @@ public class SearchController {
 				top5Product.put(pro, rate2);
 			}
 			model.addAttribute("top5", top5Product);
+			Voucher voucher = voucherService.findRandomValidActiveVoucher();
+			
+			model.addAttribute("voucher", voucher);
 
 			return "product-details"; // Tên của trang HTML chi tiết sản phẩm (product-details.html)
 		}

@@ -73,7 +73,15 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 												<div class="product">
 													<figure class="product-media">
 														<a th:href="'/User/productDetail/' + ${cartItem.product.productId}">
-															<img th:src="${cartItem.product.images[0].imageUrl}" alt="Product image">
+															<img th:if="${#strings.startsWith(cartItem.product.images[0].imageUrl, 'http')}"
+																th:src="${cartItem.product.images[0].imageUrl}" class="product-image"
+																alt="Ảnh sản phẩm">
+						
+															<!-- Nếu không phải URL, giả sử là file trên server -->
+															<img th:if="${!#strings.startsWith(cartItem.product.images[0].imageUrl, 'http')}"
+																th:src="@{'/api/images?imageName=' + ${cartItem.product.images[0].imageUrl}}"
+																class="product-image" 
+																alt="Ảnh sản phẩm">
 														</a>
 													</figure>
 
@@ -88,7 +96,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                                                     <input type="number" class="form-control inputquantity"  th:data-cart-item-id="${cartItem.cartItemId}" th:value="${cartItem.quantity}" value="1" min="0"  step="1" data-decimals="0" required>
                                                 </div><!-- End .cart-product-quantity -->
                                             </td>
-											<td class="total-col" id="pricePerProduct" th:text="${cartItem.product.price * cartItem.quantity}">$84.00</td>
+											<td class="total-col" id="pricePerProduct" th:text="${cartItem.product.price * cartItem.quantity} +' đ'">$84.00</td>
 											<td class="remove-col"><button class="btn-remove" th:onclick="'removeItem(' + ${cartItem.cartItemId} + ')'"><i class="icon-close"></i></button></td>
 										</tr>
 
@@ -167,8 +175,6 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
         } else {
             total += price * quantity; // Add the total for each item
         }
-        const tt = price * quantity;
-        document.getElementById('pricePerProduct').textContent = tt.toFixed(0) + ' đ';
     });
 
     // Update the subtotal and total in the summary
@@ -192,7 +198,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
             	 window.location.href = '/User/cart'; 
              },
              error: function (response) {
-                 alert(response);
+                 alert('Số lượng hàng không đủ!');
                  window.location.href = '/User/cart'; 
              }
          });
