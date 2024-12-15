@@ -1,6 +1,7 @@
 package vn.iotstar.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
+import vn.iotstar.entity.Account;
 import vn.iotstar.entity.Category;
 import vn.iotstar.entity.Product;
 import vn.iotstar.service.ICategoryService;
@@ -24,6 +26,12 @@ public class HomeController {
 
 	@GetMapping("")
 	public String showHomePage(Model model, HttpSession session) {
+		
+		Account account = (Account) session.getAttribute("account");
+		if (account != null)
+		{
+			return "redirect:/waiting";
+		}
 		// Lấy tất cả sản phẩm từ database
 		List<Product> topSellingProducts = productService.getTop10BestSellingProducts();
         model.addAttribute("products", topSellingProducts);
