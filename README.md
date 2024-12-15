@@ -13,7 +13,7 @@ Hệ thống sử dụng **JPA** và **Spring Security** để đảm bảo xác
   Các mối quan hệ giữa các thực thể và thuộc tính được xác định chính xác.  
   (Ví dụ: sản phẩm không có thuộc tính số lượng mà được quản lý qua kho).  
 - **Tính năng bảo mật tiên tiến**:
-  - Sử dụng **SecurityContextHolder** để lấy thông tin người dùng đăng nhập, độc lập với các cách khác như session.
+  - Sử dụng **Spring Security** để xác thực và phân quyền người dùng.
   - Kiểm tra trạng thái tài khoản (bị khóa hoặc không) bằng lớp tùy chỉnh khi đăng nhập.
   - Tùy chỉnh xử lý đăng nhập thành công và thất bại.
   - Gán vai trò cho người dùng khi đăng nhập bằng **OAuth2**.
