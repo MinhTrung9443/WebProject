@@ -97,7 +97,6 @@ public class UserOrderController {
                 count=orderService.countByOrderStatus(customerId, OrderStatus.PENDING);
                 break;
         }
-        System.out.println(pageNo + tab);
         model.addAttribute("orders", orders);
         model.addAttribute("tab", tab);
         model.addAttribute("currentPage", pageNo);

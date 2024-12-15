@@ -461,7 +461,7 @@
                   <!-- End .rating-container -->
 
                   <div class="product-nav product-nav-thumbs">
-                    <a href="#" class="active" th:each="image : ${product.key.images}">
+                    <a href="#" class="active" th:each="image : ${product.key.images.subList(1, product.key.images.size())}">
                       <img
 						
 						th:if="${#strings.startsWith(image.imageUrl, 'http')}"
