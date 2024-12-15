@@ -80,13 +80,18 @@ public class UserController {
 			session.setAttribute("user", employee);
 		}
 		
-		ShoppingCart cart = cartService.findByUserId(id).get();
-		if (cart == null) {
-			cart = new ShoppingCart();
+		Optional<ShoppingCart> cart = cartService.findByUserId(id);
+		ShoppingCart scart = new ShoppingCart();
+		if (!cart.isPresent()) {
+			scart = new ShoppingCart();
 			List<CartItem> cartItems = new ArrayList<>();
-			cart.setItems(cartItems);
+			scart.setItems(cartItems);
 		}
-		model.addAttribute("listCart", cart.getItems());
+		else 
+		{
+			scart = cart.get();
+		}
+		model.addAttribute("listCart", scart.getItems());
 		return "User/cart";
 	}
 

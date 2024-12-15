@@ -136,7 +136,12 @@
 
 								<td th:text="${voucher.voucherType}"></td>
 
-								<td th:text="${voucher.voucherValue} + ' VND'"></td>
+								<td>
+									<span th:if="${voucher.voucherType == 'SHIP'}"
+										th:text="${voucher.voucherValue} + ' VND'"></span>
+									<span th:if="${voucher.voucherType == 'PRODUCT'}"
+										th:text="${voucher.voucherValue} + ' %'"></span>
+								</td>
 
 								<td th:text="${voucher.minimumCost} + ' VND'"></td>
 

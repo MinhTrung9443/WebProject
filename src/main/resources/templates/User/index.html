@@ -56,29 +56,22 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 					<div class="intro-slide"
 						style="background-image: url(assets/images/demos/demo-2/slider/slide-5.jpg);">
 						<div class="container intro-content">
-							<h3 class="intro-subtitle">Deals and Promotions</h3><!-- End .h3 intro-subtitle -->
-							<h1 class="intro-title">Ypperlig <br>AHC <br><span
-									class="text-primary"><sup>$</sup>320.000</span></h1><!-- End .intro-title -->
+							<h3 class="intro-subtitle">Mỹ phẩm hàng đầu Việt Nam</h3><!-- End .h3 intro-subtitle -->
 
-							<a href="category.html" class="btn btn-primary">
+
+							<a href="/search" class="btn btn-primary">
 								<span>Shop Now</span>
 								<i class="icon-long-arrow-right"></i>
 							</a>
-						</div><!-- End .container intro-content -->
-					</div><!-- End .intro-slide -->
+						</div><!-- End .container intro-content -->					</div><!-- End .intro-slide -->
 
 					<div class="intro-slide"
 						style="background-image: url(assets/images/demos/demo-2/slider/slide_9.jpg);">
 						<div class="container intro-content">
-							<h3 class="intro-subtitle">Skin care</h3><!-- End .h3 intro-subtitle -->
-							<h1 class="intro-title">
-								Make Your Life <br>Work For You.<br>
-								<span class="text-primary">
-									<sup class="text-white font-weight-light">from</sup><sup>$</sup>1.500.000
-								</span>
-							</h1><!-- End .intro-title -->
+							<h3 class="intro-subtitle">Mỹ phẩm hàng đầu Việt Nam</h3><!-- End .h3 intro-subtitle -->
 
-							<a href="category.html" class="btn btn-primary">
+
+							<a href="/search" class="btn btn-primary">
 								<span>Shop Now</span>
 								<i class="icon-long-arrow-right"></i>
 							</a>
@@ -411,9 +404,6 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                     <li class="nav-item">
                         <a class="nav-link active" id="products-featured-link" data-toggle="tab" href="#products-featured-tab" role="tab" aria-controls="products-featured-tab" aria-selected="true">Sản phẩm mới</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="products-sale-link" data-toggle="tab" href="#products-sale-tab" role="tab" aria-controls="products-sale-tab" aria-selected="false">Được yêu thích nhất</a>
-                    </li>
                 </ul>
             </div><!-- End .container -->
 
@@ -488,7 +478,21 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 
                         </div><!-- End .owl-carousel -->
                     </div><!-- .End .tab-pane -->
-                    <div class="tab-pane p-0 fade" id="products-sale-tab" role="tabpanel" aria-labelledby="products-sale-link">
+                </div><!-- End .tab-content -->
+            </div><!-- End .container-fluid -->
+            
+            <div class="container">
+                <ul class="nav nav-pills nav-border-anim nav-big justify-content-center mb-3" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="products-featured-link" data-toggle="tab" href="#products-featured-tab" role="tab" aria-controls="products-featured-tab" aria-selected="true">Sản phẩm yêu thích</a>
+                    </li>
+                </ul>
+            </div><!-- End .container -->
+
+
+            <div class="container-fluid">
+                <div class="tab-content tab-content-carousel">
+                    <div class="tab-pane p-0 fade show active" id="products-featured-tab" role="tabpanel" aria-labelledby="products-featured-link">
                         <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
                             data-owl-options='{
                                 "nav": false, 
@@ -517,7 +521,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                                     }
                                 }
                             }'>
-                           <div class="product product-11 text-center" th:each="product :${productFavou}">
+                            <div class="product product-11 text-center" th:each="product :${productFavou}">
                                 <figure class="product-media">
                                      <a th:href="'/User/productDetail/' + ${product.productId}">
                                         
@@ -545,14 +549,14 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
                                         <p th:text="${product.price}"></p>
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
-                                <div class="product-action">
+                                <div class="product-action" style="display: flex; justify-content: center">
                                     <form th:action="@{/User/add-to-cart}" method="post">
 										<input type="hidden" name="productId" th:value="${product.productId}" />
 										<input type="hidden" name="quantity" th:value="1" />
 										<button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
-									</form>                                </div><!-- End .product-action -->
+									</form>
+                                </div><!-- End .product-action -->
                             </div><!-- End .product -->
-
 
                         </div><!-- End .owl-carousel -->
                     </div><!-- .End .tab-pane -->

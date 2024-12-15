@@ -60,14 +60,14 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 		                				<div class="row">
 		                					<div class="col">
 		                						<label>Họ tên: *</label>
-		                						<input type="text" id="fullname" class="form-control" th:value="${session.user.fullname}" required>
+		                						<input type="text" id="fullname" class="form-control" th:value="${(session.user.fullname != '') ? session.user.fullname : ''}" required>
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
 
 		                				<div class="row">
 		                					<div class="col">
 		                						<label>Số điện thoại: *</label>
-		                						<input type="tel" id="phone" class="form-control" th:value="${session.user.phone}" required>
+		                						<input type="tel" id="phone" class="form-control" th:value="${(session.user.phone != '') ? session.user.phone : ''}" required>
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
 		                				
@@ -75,7 +75,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 		                					<div class="col">
 		                						<label>Địa chỉ của bạn: *</label>
 		                						<select id="userAddress" class="form-control" >
-		                							<option th:each="address : ${session.user.address}" th:text="${address.addressType + ' _ ' + address.addressDetail }">Địa chỉ 1 của bạn</option>
+		                							<option th:if="${session.user.address.size() > 0}" th:each="address : ${session.user.address}" th:text="${address.addressType + ' _ ' + address.addressDetail }">Địa chỉ 1 của bạn</option>
 		                						</select>
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
@@ -156,7 +156,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 										            </h2>
 										        </div><!-- End .card-header -->
 										        <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
-										            <div class="card-body">Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. 
+										            <div class="card-body">Thanh toán khi nhận hàng. 
 										            </div><!-- End .card-body -->
 										        </div><!-- End .collapse -->
 										    </div><!-- End .card -->
@@ -171,7 +171,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 										        </div><!-- End .card-header -->
 										        <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
 										            <div class="card-body">
-										                Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum.
+										                Thanh toán trực tuyến, hỗ trợ ví điện tử, các loại ngân hàng.
 										            </div><!-- End .card-body -->
 										        </div><!-- End .collapse -->
 										    </div><!-- End .card -->
@@ -279,22 +279,35 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
     
     
     document.getElementById('Payment').addEventListener('click', function() {
-    	const shoppingCartId = parseInt(document.getElementById('shoppingCartId').value) || null;
-        const deliveryId = parseInt(document.getElementById('deliveryId').value) || null;
-        const voucherId = parseInt(document.getElementById('voucherIdApply').value) || null;
-        const total = parseFloat(document.querySelector('.summary-total td:nth-child(2)').textContent.trim().replace('$', '').trim()) || null;
-        const name = document.getElementById('fullname').value;
-        const phone = document.getElementById('phone').value;
-        const otherAddress = document.getElementById('otherAddress').value || null;
-        const userAddress = document.getElementById('userAddress');
-        const selectedOption = userAddress.options[userAddress.selectedIndex].value;
-        let shippingAddress = '';
-        const cards = document.querySelectorAll('#accordion-payment .card a[aria-expanded="true"]');
-        let payment = '';
-        if (cards.length <= 0) {
-            alert('Xin chon phuong thức thanh toán.');
-            return;
-        }
+    	const shoppingCartId = parseInt(document.getElementById('shoppingCartId')?.value) || null;
+    	const deliveryId = parseInt(document.getElementById('deliveryId')?.value) || null;
+    	const voucherId = parseInt(document.getElementById('voucherIdApply')?.value) || null;
+    	const total = parseFloat(
+    	    document.querySelector('.summary-total td:nth-child(2)')?.textContent?.trim()?.replace('$', '') || '0'
+    	) || null;
+
+    	const name = document.getElementById('fullname')?.value?.trim() || '';
+    	const phone = document.getElementById('phone')?.value?.trim() || '';
+    	const otherAddress = document.getElementById('otherAddress')?.value?.trim() || null;
+    	const userAddress = document.getElementById('userAddress') || null;
+    	const selectedOption = userAddress?.options[userAddress.selectedIndex] || null;
+
+    	let shippingAddress = '';
+    	if (!name || !phone) {
+    	    alert('Mời nhập đầy đủ thông tin người nhận đơn.');
+    	    return;
+    	}
+
+    	if (userAddress.length <= 0 && !shippingAddress) {
+    	    alert('Mời thêm địa chỉ nhận hàng.');
+    	    return;
+    	}
+
+    	const cards = document.querySelectorAll('#accordion-payment .card a[aria-expanded="true"]');
+    	if (cards.length <= 0) {
+    	    alert('Xin chọn phương thức thanh toán.');
+    	    return;
+    	}
         else {
         	payment = cards[0].textContent.trim();
         }
