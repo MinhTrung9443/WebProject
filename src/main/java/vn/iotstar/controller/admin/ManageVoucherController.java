@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.*;
@@ -37,7 +38,7 @@ public class ManageVoucherController {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
 
-		Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
+		Pageable pageable = PageRequest.of(currentPage - 1, pageSize,Sort.by(Order.desc("active")));
 
 		int totalPages = voucherService.findAll(pageable).getTotalPages();
 		Page<Voucher> list = voucherService.findAll(pageable);

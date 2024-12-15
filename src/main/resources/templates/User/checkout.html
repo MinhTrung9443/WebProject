@@ -71,7 +71,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
 		                				
-										<div class="row" id="your-address-row">
+										<div class="row" id="your-address-row" th:hidden="${session.user.address.size() == 0}">
 		                					<div class="col">
 		                						<label>Địa chỉ của bạn: *</label>
 		                						<select id="userAddress" class="form-control" >
