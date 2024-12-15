@@ -25,9 +25,24 @@ public class ProductService implements IProductService {
 	@Autowired
     private ICategoryRepository categoryRepository;
 	@Override
+	public List<String>findByCategoryName()
+	{
+		return productRepository.findDistinctCategoryNamesFromProducts();
+	}
+	@Override
+	public List<String>findByOriginBrand()
+	{
+		return productRepository.findDistinctOrigins();
+	}
+	
+	@Override
 	public List<Product> findTop20ByOrderByWarehouseDateFirstDesc() {
 		Pageable page = PageRequest.of(0, 20);
 		return productRepository.findTop20ByOrderByWarehouseDateFirstDescWithStock(page);
+	}
+	@Override
+	public List<String> findByBrand(){
+		return productRepository.findDistinctBrands();
 	}
 
 	@Override

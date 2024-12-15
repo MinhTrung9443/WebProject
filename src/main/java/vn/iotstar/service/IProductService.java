@@ -11,7 +11,9 @@ import vn.iotstar.entity.Product;
 
 @Service
 public interface IProductService {
-
+	List<String>findByCategoryName();
+	List<String>findByOriginBrand();
+	List<String> findByBrand();
 	List<Product> findTop20BySalesQuantity();
 
 	List<Product> findTop20ByFavouriteCount();

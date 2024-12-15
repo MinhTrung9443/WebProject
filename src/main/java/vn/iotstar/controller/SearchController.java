@@ -79,6 +79,12 @@ public class SearchController {
 				}
 			}
 		}
+		List<String> brands = productService.findByBrand(); // Phương thức để lấy danh sách từ DB
+		model.addAttribute("brands", brands);
+		List<String> originBrand = productService.findByOriginBrand(); // Phương thức để lấy danh sách từ DB
+		model.addAttribute("brandOrigins", originBrand);
+		List<String> categoryname1 = productService.findByCategoryName(); // Phương thức để lấy danh sách từ DB
+		model.addAttribute("category_names", categoryname1);
 
 		// Thêm dữ liệu vào model để hiển thị trong view
 		model.addAttribute("products", productPage.getContent());
@@ -143,6 +149,12 @@ public class SearchController {
 				}
 			}
 		}
+		List<String> brands = productService.findByBrand(); // Phương thức để lấy danh sách từ DB
+		model.addAttribute("brands", brands);
+		List<String> originBrand = productService.findByOriginBrand(); // Phương thức để lấy danh sách từ DB
+		model.addAttribute("brandOrigins", originBrand);
+		List<String> categoryname1 = productService.findByCategoryName(); // Phương thức để lấy danh sách từ DB
+		model.addAttribute("category_names", categoryname1);
 
 		// Thêm dữ liệu vào model để hiển thị trong view
 		model.addAttribute("products", productPage.getContent());
