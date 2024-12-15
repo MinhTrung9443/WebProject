@@ -1,5 +1,7 @@
 package vn.iotstar.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.mail.Session;
+import jakarta.servlet.http.HttpSession;
 import vn.iotstar.dto.UserRegistrationDTO;
 import vn.iotstar.entity.Account;
 import vn.iotstar.entity.Address;
@@ -48,26 +52,20 @@ public class RegisterController {
 	}
 
 	@PostMapping("/process-register")
-	public String processRegister(@ModelAttribute UserRegistrationDTO userDTO, Model model) {
+	public String processRegister(@ModelAttribute UserRegistrationDTO userDTO, Model model,HttpSession session) {
 		boolean check = false;
-		System.out.println("userDTO: " + userDTO.toString());
-		System.out.println("account : "+accountService.findByUsername(userDTO.getUsername()));
 		if(accountService.findByUsername(userDTO.getUsername())!= null)
 		{
-			System.out.println(userDTO.getUsername());
-			System.out.println(accountService.findByUsername(userDTO.getUsername()).toString());
 			model.addAttribute("errorUsername", "Tên đăng nhập đã tồn tại!");
 			return "Guest/register"; 
 		}
 		if (personService.findByEmail(userDTO.getEmail())!= null) {
 			model.addAttribute("errorMail", "Email đã tồn tại!");
-			System.out.println(personService.findByEmail(userDTO.getEmail()));
 			return "Guest/register"; 
 		}
 		if (personService.findByPhone(userDTO.getPhone()) != null)
 		{
 			model.addAttribute("errorPhone", "Số điện thoại đã tồn tại!");
-			System.out.println(personService.findByPhone(userDTO.getPhone()).toString());
 			return "Guest/register"; 
 		}
 		String phoneRegex = "^\\d{10}$";
@@ -75,6 +73,9 @@ public class RegisterController {
 			model.addAttribute("errorPhone", "Số điện thoại không hợp lệ");
 			return "Guest/register"; 
 		}
+		Address add = new Address();
+		add.setAddressDetail(userDTO.getAddress_detail());
+		add.setAddressType(userDTO.getAddress_type());
 		Account account = new Account();
 		account.setUsername(userDTO.getUsername());
 		account.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -91,14 +92,14 @@ public class RegisterController {
 		model.addAttribute("email", userDTO.getEmail()); // Truyền email vào model
 		model.addAttribute("fullname",userDTO.getFullname());
 		model.addAttribute("phone",userDTO.getPhone());
+		session.setAttribute("add", add);
 		return "Guest/register-verify-otp"; // Chuyển đến trang xác minh OTP
 		
 	}
 		// Xử lý form xác minh OTP
 		@PostMapping("/register-verify-otp")
-		public String processForgotPassword(@RequestParam("email") String email,@RequestParam("otp") String otp,@RequestParam("username") String username,@RequestParam("fullname") String fullname,@RequestParam("phone") String phone, @ModelAttribute UserRegistrationDTO userDTO , Model model) {
+		public String processForgotPassword(HttpSession session,@RequestParam("email") String email,@RequestParam("otp") String otp,@RequestParam("username") String username,@RequestParam("fullname") String fullname,@RequestParam("phone") String phone, @ModelAttribute UserRegistrationDTO userDTO , Model model) {
 			Account account = accountService.findByUsername(username);
-			System.out.println(account+"username ne111");
 
 			try {
 			if (isOtpValid(otp, account)) {
@@ -107,7 +108,6 @@ public class RegisterController {
 			accountService.update(account); 
 			User user = new User();
 			user.setFullname(fullname);
-			System.out.println(fullname);
 			user.setEmail(userDTO.getEmail());
 			user.setPhone(phone);
 			if ("Male".equals(userDTO.getGender())) {
@@ -118,8 +118,10 @@ public class RegisterController {
 			
 			user.setBirthday(userDTO.getBirthday());
 			user.setAccount(account); 
-			
-			
+			Address add = (Address)session.getAttribute("add");
+			List<Address> list = new ArrayList<>();
+			list.add(add);
+			user.setAddress(list);
 			userService.save(user); 
 			
 

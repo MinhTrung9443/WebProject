@@ -136,7 +136,7 @@
                     </div>
                     <!-- End .row -->
                   </div>
-                  <div class="voucher-container">
+                  <div class="voucher-container" th:if="${voucher != null}">
 			        <!-- Phần trái: Mã code -->
 			        <div class="voucher-left">
 			            <span>Nhập mã code:</span> <br>
@@ -461,36 +461,17 @@
                   <!-- End .rating-container -->
 
                   <div class="product-nav product-nav-thumbs">
-                    <a href="#" class="active" th:if="${product.key.images[1]}">
+                    <a href="#" class="active" th:each="image : ${product.key.images}">
                       <img
 						
-						th:if="${#strings.startsWith(product.key.images[1].imageUrl, 'http')}"
-						th:src="${product.key.images[1].imageUrl}"
+						th:if="${#strings.startsWith(image.imageUrl, 'http')}"
+						th:src="${image.imageUrl}"
 						class="product-image" alt="Ảnh sản phẩm"> <!-- Nếu không phải URL, giả sử là file trên server -->
 						<img
-						th:if="${!#strings.startsWith(product.key.images[1].imageUrl, 'http')}"
-						th:src="@{'/api/images?imageName=' + ${product.key.images[1].imageUrl}}"
+						th:if="${!#strings.startsWith(image.imageUrl, 'http')}"
+						th:src="@{'/api/images?imageName=' + ${image.imageUrl}}"
 						class="product-image" alt="Ảnh sản phẩm">
                     </a>
-                    <a href="#" th:if="${product.key.images[2]}">
-                      <img
-						th:if="${#strings.startsWith(product.key.images[2].imageUrl, 'http')}"
-						th:src="${product.key.images[2].imageUrl}"
-						class="product-image" alt="Ảnh sản phẩm"> <!-- Nếu không phải URL, giả sử là file trên server -->
-						<img
-						th:if="${!#strings.startsWith(product.key.images[2].imageUrl, 'http')}"
-						th:src="@{'/api/images?imageName=' + ${product.key.images[2].imageUrl}}"
-						class="product-image" alt="Ảnh sản phẩm">
-                    </a> <a href="#" th:if="${product.key.images[3]}"> 
-                    <img
-						th:if="${#strings.startsWith(product.key.images[3].imageUrl, 'http')}"
-						th:src="${product.key.images[3].imageUrl}"
-						class="product-image" alt="Ảnh sản phẩm"> <!-- Nếu không phải URL, giả sử là file trên server -->
-						<img
-						th:if="${!#strings.startsWith(product.key.images[3].imageUrl, 'http')}"
-						th:src="@{'/api/images?imageName=' + ${product.key.images[3].imageUrl}}"
-						class="product-image" alt="Ảnh sản phẩm">
-					</a>
 					</div>
                   <!-- End .product-nav -->
                 </div>

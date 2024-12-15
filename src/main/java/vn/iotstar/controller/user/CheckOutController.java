@@ -77,6 +77,8 @@ public class CheckOutController {
 			session.setAttribute("user", employee);
 		}
 		
+		
+		
 		ShoppingCart cart = cartService.findByUserId(id).get();
 		
 		List<Delivery> listDeli = deliveryService.findAll();

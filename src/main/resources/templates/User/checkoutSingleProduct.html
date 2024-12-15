@@ -280,7 +280,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
     
     
     document.getElementById('Payment').addEventListener('click', function() {
-    	const shoppingCartId = parseInt(document.getElementById('shoppingCartId')?.value) || null;
+    	const productId = parseInt(document.getElementById('productId').value) || null;
     	const deliveryId = parseInt(document.getElementById('deliveryId')?.value) || null;
     	const voucherId = parseInt(document.getElementById('voucherIdApply')?.value) || null;
     	const total = parseFloat(
@@ -290,8 +290,8 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
     	const name = document.getElementById('fullname')?.value?.trim() || '';
     	const phone = document.getElementById('phone')?.value?.trim() || '';
     	const otherAddress = document.getElementById('otherAddress')?.value?.trim() || null;
-    	const userAddress = document.getElementById('userAddress') || null;
-    	const selectedOption = userAddress?.options[userAddress.selectedIndex] || null;
+    	const userAddress = document.getElementById('userAddress');
+    	const selectedOption = userAddress?.options[userAddress.selectedIndex].value || null;
 
     	let shippingAddress = '';
     	if (!name || !phone) {
@@ -319,12 +319,11 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
         else{
         	shippingAddress = name + ' ' + phone + ' ' + otherAddress;
         	}
-
         $.ajax({
-            url: '/User/checkout-by-'+payment, // URL để xử lý yêu cầu
+            url: '/User/singleCheckout-by-'+payment, // URL để xử lý yêu cầu
             type: 'POST',
             data: {
-            	shoppingCartId : shoppingCartId,
+            	productId : productId,
             	deliveryId : deliveryId,
             	voucherId : voucherId,
             	shippingAddress : shippingAddress,
