@@ -1,14 +1,17 @@
 package vn.iotstar.controller.vendor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import vn.iotstar.dto.RevenueByMonthDTO;
 import vn.iotstar.entity.Order;
 import vn.iotstar.enums.OrderStatus;
 import vn.iotstar.service.IRevenueService;
@@ -55,5 +58,16 @@ public class RevenueController {
 	    model.addAttribute("categoryStatsList", categoryStatsList);  
 	    return "/Vendor/revenue/revenue";
 	}
+	
+	
+	@GetMapping("/revenue-by-month")
+	public String getRevenueByMonth(Model model) {
+	    List<RevenueByMonthDTO> revenueList = revenueService.getRevenueByMonth();
+
+	    model.addAttribute("data", revenueList); // Truyền toàn bộ danh sách sang frontend
+
+	    return "/Vendor/revenue/revenue_month"; // Trang hiển thị biểu đồ
+	}
+
 
 }

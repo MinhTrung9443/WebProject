@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import vn.iotstar.entity.Order;
@@ -33,6 +33,12 @@ public interface IOrderRepository extends JpaRepository<Order, Integer>  {
 	
 	List<Order> findByDelivery_DeliveryId(int deliveryId);
 
+	@Query(value = "SELECT FORMAT(o.completion_time, 'yyyy-MM') AS month, SUM(p.total) AS revenue " +
+	        "FROM [Order] o JOIN Payment p ON o.payment_id = p.payment_id " +
+	        "WHERE o.order_status = 'COMPLETED' " +
+	        "GROUP BY FORMAT(o.completion_time, 'yyyy-MM') " +
+	        "ORDER BY month", nativeQuery = true)
+	List<Object[]> getRevenueByMonth();
 
 
 }
