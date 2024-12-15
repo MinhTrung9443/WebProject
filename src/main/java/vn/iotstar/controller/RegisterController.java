@@ -90,12 +90,14 @@ public class RegisterController {
 		emailService.sendRegisterOtp(userDTO.getEmail(), otp);
 		model.addAttribute("username",userDTO.getUsername());
 		model.addAttribute("email", userDTO.getEmail()); // Truyền email vào model
+		model.addAttribute("fullname",userDTO.getFullname());
+		model.addAttribute("phone",userDTO.getPhone());
 		return "Guest/register-verify-otp"; // Chuyển đến trang xác minh OTP
 		
 	}
 		// Xử lý form xác minh OTP
 		@PostMapping("/register-verify-otp")
-		public String processForgotPassword(@RequestParam("email") String email,@RequestParam("otp") String otp,@RequestParam("username") String username,@ModelAttribute UserRegistrationDTO userDTO , Model model) {
+		public String processForgotPassword(@RequestParam("email") String email,@RequestParam("otp") String otp,@RequestParam("username") String username,@RequestParam("fullname") String fullname,@RequestParam("phone") String phone, @ModelAttribute UserRegistrationDTO userDTO , Model model) {
 			Account account = accountService.findByUsername(username);
 			System.out.println(account+"username ne111");
 
@@ -105,10 +107,10 @@ public class RegisterController {
 			account.setToken(null);
 			accountService.update(account); 
 			User user = new User();
-			user.setFullname(userDTO.getFullname());
-			System.out.println(userDTO.getFullname());
+			user.setFullname(fullname);
+			System.out.println(fullname);
 			user.setEmail(userDTO.getEmail());
-			user.setPhone(userDTO.getPhone());
+			user.setPhone(phone);
 			if ("Male".equals(userDTO.getGender())) {
 				user.setGender(1); 
 			} else if ("Female".equals(userDTO.getGender())) {

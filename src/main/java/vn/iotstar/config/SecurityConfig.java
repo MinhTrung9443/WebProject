@@ -19,71 +19,60 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
+import org.springframework.security.web.SecurityFilterChain;
 
 import vn.iotstar.service.impl.CustomerUserDetailsService;
 import vn.iotstar.service.impl.UserServiceImpl;
 
-
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig{
-	@Autowired
-	
-	private CustomerUserDetailsService userDetailsService;
-	@Bean
-	public UserDetailsService userDetailsService() {
-		return new UserServiceImpl();
-	}
+public class SecurityConfig {
+    @Autowired
+    private CustomerUserDetailsService userDetailsService;
 
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	@Bean
-	DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(userDetailsService());
-		authProvider.setPasswordEncoder(passwordEncoder());
-		return authProvider;
-	}
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception
-	{
-		auth.userDetailsService(userDetailsService)
-		.passwordEncoder(passwordEncoder());
-	}
-	@Bean
-	AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception
-	{
-		final List<GlobalAuthenticationConfigurerAdapter> configurers = new ArrayList<>();
-		configurers.add(new GlobalAuthenticationConfigurerAdapter() {
-			@Override
-			public void configure(AuthenticationManagerBuilder auth) throws Exception
-			{
-				//
-			}
-		});
-		return authConfig.getAuthenticationManager();
-	}
-	@Bean
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserServiceImpl();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
-        		.authorizeHttpRequests(auth -> auth
-        		.requestMatchers("/User/**").hasAnyAuthority("USER","VENDOR")
-        		.requestMatchers("/Vendor/**").hasAnyAuthority("VENDOR")
-        		.requestMatchers("/Admin/**").hasAnyAuthority("ADMIN")
-        		.requestMatchers("/Shipper/**").hasAnyAuthority("SHIPPER")
-        		.requestMatchers("/**").permitAll()
-        		.anyRequest().authenticated())
-        	.httpBasic(Customizer.withDefaults())
-        	.formLogin(login -> login.loginPage("/login")
-        			.defaultSuccessUrl("/waiting", true)
-        			.permitAll())
-        	.logout(logout -> logout.permitAll())
-        	.exceptionHandling(handling -> handling.accessDeniedPage("/login"))
-        	.build();
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/User/**").hasAnyAuthority("USER", "VENDOR")
+                        .requestMatchers("/Vendor/**").hasAnyAuthority("VENDOR").requestMatchers("/Admin/**")
+                        .hasAnyAuthority("ADMIN").requestMatchers("/Shipper/**").hasAnyAuthority("SHIPPER")
+                        .requestMatchers("/**").permitAll().requestMatchers("/login/oauth2/code/google").permitAll() 
+                        .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/waiting", true).permitAll())
+                .logout(logout -> logout.permitAll()).exceptionHandling(handling -> handling.accessDeniedPage("/login"))
+              
+                .build();
     }
+
+
 }
