@@ -266,7 +266,7 @@
 
 		<main class="main">
 			<div class="container">
-				<form action="/User/Search" method="get">
+				<form action="/search" method="get">
 					<div class="sidebar">
 						<h3>Bộ Lọc Tìm Kiếm</h3>
 
@@ -414,14 +414,14 @@
 					<!-- Phân trang -->
 					<div class="pagination">
 						<!-- Liên kết trang trước -->
-						<a th:href="@{/User/Search(page=${currentPage - 1}, size=${size})}"
+						<a th:href="@{/search(page=${currentPage - 1}, size=${size})}"
 							th:if="${currentPage > 0}">&laquo; Previous</a>
 
 						<!-- Hiển thị số trang hiện tại và tổng số trang -->
 						<span th:text="${currentPage + 1}">1</span> / <span th:text="${totalPages}">1</span>
 
 						<!-- Liên kết trang tiếp theo -->
-						<a th:href="@{/User/Search(page=${currentPage + 1}, size=${size})}"
+						<a th:href="@{/search(page=${currentPage + 1}, size=${size})}"
 							th:if="${currentPage < totalPages - 1}">Next &raquo;</a>
 					</div>
 

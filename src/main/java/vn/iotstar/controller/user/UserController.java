@@ -36,6 +36,7 @@ public class UserController {
 	@Autowired
 	private IVoucherService voucherService;
 
+
 	@GetMapping("")
 	public String home(HttpSession session, ModelMap model) {
 		Account account = (Account) session.getAttribute("account");
@@ -208,7 +209,11 @@ public class UserController {
 			model.addAttribute("product", product);
 			model.addAttribute("feedback", feedback);
 
-
+			ViewHistory view = viewService.findByUserIdAndProduct_ProductId(Id, productId);
+			if (view != null)
+			{
+				viewService.deleteById(view.getViewHistoryId().intValue());
+			}
 			ViewHistory newView = new ViewHistory();
 			newView.setProduct(product);
 			newView.setUser(person);
