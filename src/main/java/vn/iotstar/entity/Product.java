@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringExclude;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -47,6 +49,7 @@ public class Product implements Serializable{
 
 	@ManyToOne()
 	@JsonBackReference
+	@ToStringExclude
 	@JoinColumn(name = "categoryId")
 	private Category category;
 

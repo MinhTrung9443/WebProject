@@ -61,6 +61,7 @@ public class UserController {
 		  model.addAttribute("productSale",productSale);
 		  model.addAttribute("productRate",productRate);
 		  model.addAttribute("productFavou",productFavou);
+
 		return "User/index";
 	}
 
