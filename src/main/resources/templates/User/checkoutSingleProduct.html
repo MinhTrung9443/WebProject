@@ -71,7 +71,7 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
 		                				
-										<div class="row" id="your-address-row">
+										<div class="row" id="your-address-row" th:hidden="${session.user.address.size() == 0}">
 		                					<div class="col">
 		                						<label>Địa chỉ của bạn: *</label>
 		                						<select id="userAddress" class="form-control" >
@@ -280,65 +280,64 @@ xmlns:sec="https//www.thymeleaf.org/thymeleaf-extra-springsecurity6">
     
     
     document.getElementById('Payment').addEventListener('click', function() {
-    	const productId = parseInt(document.getElementById('productId').value) || null;
-    	const deliveryId = parseInt(document.getElementById('deliveryId')?.value) || null;
-    	const voucherId = parseInt(document.getElementById('voucherIdApply')?.value) || null;
-    	const total = parseFloat(
-    	    document.querySelector('.summary-total td:nth-child(2)')?.textContent?.trim()?.replace('$', '') || '0'
-    	) || null;
+        const shoppingCartId = parseInt(document.getElementById('shoppingCartId')?.value) || null;
+        const deliveryId = parseInt(document.getElementById('deliveryId')?.value) || null;
+        const voucherId = parseInt(document.getElementById('voucherIdApply')?.value) || null;
+        const total = parseFloat(
+            document.querySelector('.summary-total td:nth-child(2)')?.textContent?.trim()?.replace('$', '') || '0'
+        ) || null;
 
-    	const name = document.getElementById('fullname')?.value?.trim() || '';
-    	const phone = document.getElementById('phone')?.value?.trim() || '';
-    	const otherAddress = document.getElementById('otherAddress')?.value?.trim() || null;
-    	const userAddress = document.getElementById('userAddress');
-    	const selectedOption = userAddress?.options[userAddress.selectedIndex].value || null;
+        const name = document.getElementById('fullname')?.value?.trim() || '';
+        const phone = document.getElementById('phone')?.value?.trim() || '';
+        const otherAddress = document.getElementById('otherAddress')?.value?.trim() || null;
+        const userAddress = document.getElementById('userAddress');
+        const selectedOption = userAddress?.options?.[userAddress.selectedIndex]?.value || null;
 
-    	let shippingAddress = '';
-    	if (!name || !phone) {
-    	    alert('Mời nhập đầy đủ thông tin người nhận đơn.');
-    	    return;
-    	}
-
-    	if (userAddress.length <= 0 && !otherAddress) {
-    	    alert('Mời thêm địa chỉ nhận hàng.');
-    	    return;
-    	}
-
-    	const cards = document.querySelectorAll('#accordion-payment .card a[aria-expanded="true"]');
-    	if (cards.length <= 0) {
-    	    alert('Xin chọn phương thức thanh toán.');
-    	    return;
-    	}
-        else {
-        	payment = cards[0].textContent.trim();
+        let shippingAddress = '';
+        if (!name || !phone) {
+            alert('Mời nhập đầy đủ thông tin người nhận đơn.');
+            return;
         }
-        if (otherAddress == null)
-        	{
-        		shippingAddress = name + ' ' + phone + ' ' + selectedOption;
-        	}
-        else{
-        	shippingAddress = name + ' ' + phone + ' ' + otherAddress;
-        	}
+
+        if ((!userAddress || userAddress.options.length === 0) && !otherAddress) {
+            alert('Mời thêm địa chỉ nhận hàng.');
+            return;
+        }
+
+        const cards = document.querySelectorAll('#accordion-payment .card a[aria-expanded="true"]');
+        if (cards.length <= 0) {
+            alert('Xin chọn phương thức thanh toán.');
+            return;
+        } else {
+            payment = cards[0].textContent.trim();
+        }
+
+        if (!otherAddress) {
+            shippingAddress = `${name} ${phone} ${selectedOption || ''}`.trim();
+        } else {
+            shippingAddress = `${name} ${phone} ${otherAddress}`;
+        }
+
         $.ajax({
-            url: '/User/singleCheckout-by-'+payment, // URL để xử lý yêu cầu
+            url: '/User/checkout-by-' + payment,
             type: 'POST',
             data: {
-            	productId : productId,
-            	deliveryId : deliveryId,
-            	voucherId : voucherId,
-            	shippingAddress : shippingAddress,
-            	total : total,
+                shoppingCartId: shoppingCartId,
+                deliveryId: deliveryId,
+                voucherId: voucherId,
+                shippingAddress: shippingAddress,
+                total: total,
             },
-            success: function (response) {
-            	alert('Tạo đơn hàng thành công');
-            	window.location.href = response;
+            success: function(response) {
+                alert('Tạo đơn hàng thành công');
+                window.location.href = response;
             },
-            error: function (response) {
+            error: function(response) {
                 alert('Có lỗi xảy ra. Mời quý khách quay lại vào hôm sau.');
             }
         });
-
     });
+
     </script>
 </body>
 </html>
