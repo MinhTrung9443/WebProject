@@ -16,7 +16,7 @@ public class EmailServiceImpl  implements IEmailService {
 	    public void sendOtp(String email, String otp) {
 	        SimpleMailMessage message = new SimpleMailMessage();
 	        message.setTo(email);
-	        message.setSubject("Lấy lại mật khẩu của website bán mỹ phẩm MOLLA");
+	        message.setSubject("Lấy lại mật khẩu của website bán mỹ phẩm ONESHOP");
 	        message.setText("Your OTP code is: " + otp);
 	        
 	        // Gửi email
@@ -26,7 +26,7 @@ public class EmailServiceImpl  implements IEmailService {
 	    public void sendRegisterOtp(String email, String otp) {
 	        SimpleMailMessage message = new SimpleMailMessage();
 	        message.setTo(email);
-	        message.setSubject("Xác nhận đăng kí tài khoản của website bán mỹ phẩm MOLLA");
+	        message.setSubject("Xác nhận đăng kí tài khoản của website bán mỹ phẩm ONESHOP");
 	        message.setText("Your OTP code is: " + otp);
 	        
 	        // Gửi email
