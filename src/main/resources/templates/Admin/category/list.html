@@ -106,7 +106,6 @@
 								<th>Tên danh mục</th>
 								<th>Trạng thái</th>
 								<th>Edit</th>
-								<th>Delete</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -126,12 +125,7 @@
 									<a class="edit" th:href="@{/Admin/category/edit/{id}(id=${cate.categoryId})}">
 										Sửa </a>
 								</td>
-								<td>
-									<a class="delete" th:href="@{/Admin/category/delete/{id}(id=${cate.categoryId})}"
-										onclick="return confirmDelete();">
-										Xoá </a>
-								</td>
-
+							
 							</tr>
 						</tbody>
 					</table>

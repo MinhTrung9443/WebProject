@@ -119,7 +119,7 @@
 
 									<td th:text="${vendor.email}"></td>
 
-									<td th:text="${#dates.format(vendor.startDate, 'dd/MM/yyyy')}"></td>
+									<td th:text="${#temporals.format(vendor.startDate, 'dd/MM/yyyy')}"></td>
 
 									<div th:if="${vendor.account != null}">
 										<td th:switch="${vendor.account.active}">

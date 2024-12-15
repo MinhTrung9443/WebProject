@@ -130,6 +130,10 @@ public class OrderService implements IOrderService{
 	public Page<Order> findByUserIdAndOrderStatusIn(int id, List<OrderStatus> statuses, Pageable page) {
 		return orderRepository.findByUserIdAndOrderStatusIn(id, statuses, page);
 	}
-
+	
+	@Override
+	public List<Order> findByDelivery_DeliveryId(int deliveryId) {
+		return orderRepository.findByDelivery_DeliveryId(deliveryId);
+	}
 	
 }
