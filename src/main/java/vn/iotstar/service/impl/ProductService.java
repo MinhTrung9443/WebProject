@@ -27,8 +27,23 @@ public class ProductService implements IProductService {
 	@Autowired
     private ICategoryRepository categoryRepository;
 	@Override
+	public List<String>findByCategoryName()
+	{
+		return productRepository.findDistinctCategoryNamesFromProducts();
+	}
+	@Override
+	public List<String>findByOriginBrand()
+	{
+		return productRepository.findDistinctOrigins();
+	}
+	
+	@Override
 	public List<Product> findTop20ByOrderByWarehouseDateFirstDesc() {
 		return productRepository.findTop20ByOrderByWarehouseDateFirstDesc();
+	}
+	@Override
+	public List<String> findByBrand(){
+		return productRepository.findDistinctBrands();
 	}
 
 	@Override

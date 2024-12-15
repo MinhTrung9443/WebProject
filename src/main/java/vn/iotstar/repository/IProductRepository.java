@@ -17,6 +17,14 @@ import vn.iotstar.entity.Product;
 
 @Repository
 public interface IProductRepository extends JpaRepository<Product, Integer> {
+	// Lấy danh sách categoryName của tất cả sản phẩm
+    @Query("SELECT DISTINCT p.category.categoryName FROM Product p WHERE p.category.categoryName IS NOT NULL")
+    List<String> findDistinctCategoryNamesFromProducts();
+	@Query("SELECT DISTINCT p.brandOrigin FROM Product p WHERE p.brandOrigin IS NOT NULL")
+	List<String> findDistinctOrigins();
+
+	@Query("SELECT DISTINCT p.brand FROM Product p WHERE p.brand IS NOT NULL")
+    List<String> findDistinctBrands();
 	List<Product> findTop20ByOrderByWarehouseDateFirstDesc();
 
 	@Query("SELECT p FROM Product p " +
