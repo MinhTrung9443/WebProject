@@ -171,6 +171,74 @@ public class SearchController {
 
 		return "User/product-search-user"; // Trả về trang HTML với các sản phẩm đã phân trang
 	}
+	@GetMapping({ "/Shipper/Search","/Admin/Search","/Vendor/Search" })
+	public String vendorlistProducts(@RequestParam(value = "keyword", required = false) String keyword,
+			@RequestParam(value = "minPrice", required = false) Integer minPrice,
+			@RequestParam(value = "maxPrice", required = false) Integer maxPrice,
+			@RequestParam(value = "brand", required = false) String brand,
+			@RequestParam(value = "category_name", required = false) String categoryName,
+			@RequestParam(value = "brandOrigin", required = false) String brandOrigin,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "21") int size, Model model) {
+
+		// Đảm bảo rằng các giá trị phân trang hợp lệ
+		Pageable pageable = PageRequest.of(page, size);
+
+		// Xử lý tìm kiếm và phân trang
+		Page<Product> productPage = Page.empty();
+		;
+		if (keyword != null && !keyword.isEmpty()) {
+			// Nếu có keyword, tìm kiếm sản phẩm theo tên
+			productPage = productService.getProductsByName(keyword, pageable);
+		} else {
+			// Trường hợp không có bộ lọc nào
+			if (minPrice == null && maxPrice == null && (brand == null || brand.isEmpty())
+					&& (brandOrigin == null || brandOrigin.isEmpty())
+					&& (categoryName == null || categoryName.isEmpty())) {
+				productPage = productService.getAllProducts(pageable); // Lấy tất cả sản phẩm nếu không có bộ lọc
+			} else {
+				// Trường hợp có bộ lọc
+				if (minPrice != null && maxPrice == null) {
+					productPage = productService.getProductsByPriceRange(minPrice, Integer.MAX_VALUE, pageable);
+					System.out.println("Filtered by min price: " + minPrice);
+				} else if (minPrice == null && maxPrice != null) {
+					productPage = productService.getProductsByPriceRange(0, maxPrice, pageable);
+				} else if (minPrice != null && maxPrice != null) {
+					productPage = productService.getProductsByPriceRange(minPrice, maxPrice, pageable); // Bộ lọc theo
+																										// giá
+				} else if ((brand != null && !brand.isEmpty())) {
+					productPage = productService.getProductsByBrand(brand, pageable); // Bộ lọc theo thương hiệu
+				} else if (brandOrigin != null && !brandOrigin.isEmpty()) {
+					productPage = productService.getProductsByBrandOrigin(brandOrigin, pageable); // Bộ lọc theo nguồn
+																									// gốc thương hiệu
+				} else if (categoryName != null && !categoryName.isEmpty()) {
+					productPage = productService.getProductsByCategoryName(categoryName, pageable); // Bộ lọc theo danh
+																									// mục
+				}
+			}
+		}
+		List<String> brands = productService.findByBrand(); // Phương thức để lấy danh sách từ DB
+		model.addAttribute("brands", brands);
+		List<String> originBrand = productService.findByOriginBrand(); // Phương thức để lấy danh sách từ DB
+		model.addAttribute("brandOrigins", originBrand);
+		List<String> categoryname1 = productService.findByCategoryName(); // Phương thức để lấy danh sách từ DB
+		model.addAttribute("category_names", categoryname1);
+
+		// Thêm dữ liệu vào model để hiển thị trong view
+		model.addAttribute("products", productPage.getContent());
+		model.addAttribute("minPrice", minPrice);
+		model.addAttribute("maxPrice", maxPrice);
+		model.addAttribute("brand", brand);
+		model.addAttribute("category_name", categoryName);
+		model.addAttribute("brandOrigin", brandOrigin);
+
+		// Thêm phân trang vào model
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", productPage.getTotalPages());
+		model.addAttribute("totalItems", productPage.getTotalElements());
+
+		return "/product-search"; // Trả về trang HTML với các sản phẩm đã phân trang
+	}
 
 	@Autowired
 	private IProductFeedbackService feedbackService;
