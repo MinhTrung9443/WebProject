@@ -1,5 +1,6 @@
 package vn.iotstar.controller.user;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -141,7 +142,7 @@ public class UserOrderController {
 			Order order = orderService.findById(orderId).get();
 			
 			order.setOrderStatus(OrderStatus.COMPLETED);
-			
+			order.setCompletionTime(LocalDateTime.now());
 			orderService.save(order);
 			
 			return new ResponseEntity<>("Cảm ơn quý khách đã sử dụng dịch vụ",HttpStatus.OK);
