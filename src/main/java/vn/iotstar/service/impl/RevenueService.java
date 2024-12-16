@@ -12,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import vn.iotstar.dto.RevenueByMonthDTO;
 import vn.iotstar.entity.Category;
 import vn.iotstar.entity.Order;
 import vn.iotstar.entity.OrderLine;
@@ -111,5 +112,19 @@ public class RevenueService implements IRevenueService{
 	        return null;
 	    }
 	    
+
+	    public List<RevenueByMonthDTO> getRevenueByMonth() {
+	        List<Object[]> results = orderRepository.getRevenueByMonth();
+	        List<RevenueByMonthDTO> revenueList = new ArrayList<>();
+	        System.out.println(revenueList);
+
+	        for (Object[] result : results) {
+	            String month = (String) result[0];
+	            int revenue = ((Number) result[1]).intValue(); // Đảm bảo đúng kiểu dữ liệu
+	            revenueList.add(new RevenueByMonthDTO(month, revenue));
+	        }
+
+	        return revenueList;
+	    }
 
 }
